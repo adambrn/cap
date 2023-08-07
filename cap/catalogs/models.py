@@ -27,6 +27,7 @@ class Equipment(models.Model):
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)
     model = models.CharField(max_length=100)
     serial_number = models.CharField(max_length=100)
+    inventory_number = models.CharField(max_length=100)
     cost = models.DecimalField(max_digits=10, decimal_places=2)
     purchase_date = models.DateField()
     status = models.ForeignKey(EquipmentStatus, on_delete=models.CASCADE)
@@ -48,6 +49,8 @@ class BaseComponent(models.Model):
         #abstract = True
 
     name = models.CharField(max_length=100)
+    serial_number = models.CharField(max_length=100) 
+    inventory_number = models.CharField(max_length=100)
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)
     model = models.CharField(max_length=100)
     cost = models.DecimalField(max_digits=10, decimal_places=2)
