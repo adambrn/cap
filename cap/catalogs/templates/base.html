@@ -13,7 +13,7 @@
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-      <a class="navbar-brand" href="#">Мой проект</a>
+      <a class="navbar-brand" href="#">Computer Accounting Program</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainMenu" aria-controls="mainMenu" aria-expanded="false" aria-label="Переключатель навигации">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -24,10 +24,10 @@
             <a class="nav-link active" aria-current="page" href="#">Главная</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">О нас</a>
+            <a class="nav-link" href={% url 'catalogs:equipment_catalog' %}>Компьютеры</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Контакты</a>
+            <a class="nav-link" href={% url 'catalogs:components' %}>Компоненты</a>
           </li>
         </ul>
 
@@ -37,11 +37,11 @@
               <a class="nav-link" href="#">{{ user.username }}</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href=#>Выйти</a>
+              <a class="nav-link" href="{% url 'logout' %}">Выйти</a>
             </li>  
           {% else %}
             <li class="nav-item">
-              <a class="nav-link" href=#>Войти</a>
+              <a class="nav-link" href="{% url 'login' %}">Войти</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href=#>Регистрация</a>

@@ -59,6 +59,9 @@ class BaseComponent(models.Model):
     status = models.ForeignKey(EquipmentStatus, on_delete=models.CASCADE)
     in_equipment = models.OneToOneField(Equipment, on_delete=models.CASCADE,blank=True, null=True, related_name='equipment_relay')
 
+    def get_fields(self):
+        return [(field.verbose_name, field.value_from_object(self)) for field in self.__class__._meta.fields]
+    
     def __str__(self) -> str:
         return str(self.name)
 
