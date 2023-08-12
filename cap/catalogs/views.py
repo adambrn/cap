@@ -1,19 +1,21 @@
 from django.views import View
 from django.views.generic import ListView, DetailView
 from django.shortcuts import render
-
 from django.contrib.auth.views import LoginView, LogoutView
+from cap.mixins import BaseContextMixin
 from django_tables2 import SingleTableView
-
-from .tables import BaseComponentTable
+from .tables import BaseComponentTable, EquipmentTable
 from .models import BaseComponent, Equipment, Motherboard, Processor, RAM, GraphicsCard, Storage, PowerSupply, Cooler, Case, NetworkCard
 from django.contrib.auth.mixins import LoginRequiredMixin
+
 components_name = [Motherboard, Processor, RAM, GraphicsCard, Storage, PowerSupply, Cooler, Case, NetworkCard]
-class EquipmentCatalogView(LoginRequiredMixin, ListView):
+
+class EquipmentCatalogView(BaseContextMixin, LoginRequiredMixin, SingleTableView):
     template_name = 'catalog.html'
+    table_class = EquipmentTable
     model = Equipment
 
-class EquipmentComponentsView(LoginRequiredMixin, View):
+class EquipmentComponentsView(BaseContextMixin, LoginRequiredMixin, View):
     template_name = 'equipment_components.html'
 
     def get(self, request, equipment_id, *args, **kwargs):
@@ -31,16 +33,16 @@ class EquipmentComponentsView(LoginRequiredMixin, View):
             pass
 
 
-class ComponentListView(SingleTableView):
+class ComponentListView(BaseContextMixin, LoginRequiredMixin, SingleTableView):
   model = BaseComponent
   table_class = BaseComponentTable
   template_name = 'components.html'
 
-class ComponentDetailView(DetailView):
+class ComponentDetailView(BaseContextMixin, LoginRequiredMixin, DetailView):
   model = BaseComponent
   template_name = 'component_detail.html'
 
-class MyLoginView(LoginView):
+class BaseLoginView(BaseContextMixin, LoginView):
     template_name = 'accounts/login.html'
     
     def get_context_data(self, **kwargs):
@@ -48,8 +50,7 @@ class MyLoginView(LoginView):
         context['title'] = 'Вход'
         return context
 
-
-class MyLogoutView(LogoutView):
+class BaseLogoutView(BaseContextMixin, LogoutView):
     template_name = 'accounts/logout.html'
     
     def get_context_data(self, **kwargs):
