@@ -1,46 +1,101 @@
-from django.views import View
-from django.views.generic import ListView, DetailView
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.views import LoginView, LogoutView
 from cap.mixins import BaseContextMixin
 from django_tables2 import SingleTableView
-from .tables import BaseComponentTable, EquipmentTable
-from .models import BaseComponent, Equipment, Motherboard, Processor, RAM, GraphicsCard, Storage, PowerSupply, Cooler, Case, NetworkCard
+from .tables import ComputerComponentsTable, ComputerTable
+from .models import BaseComponent, Computer, Motherboard, Processor, RAM, GraphicsCard, Storage, PowerSupply, Cooler, Case, NetworkCard
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import DetailView
+from django_tables2 import SingleTableView
 
-components_name = [Motherboard, Processor, RAM, GraphicsCard, Storage, PowerSupply, Cooler, Case, NetworkCard]
+
+COMPONENTS_NAME = ['Motherboard', 'Processor', 'RAM', 'GraphicsCard', 'Storage', 'PowerSupply', 'Cooler', 'Case', 'NetworkCard']
 
 class EquipmentCatalogView(BaseContextMixin, LoginRequiredMixin, SingleTableView):
     template_name = 'catalog.html'
-    table_class = EquipmentTable
-    model = Equipment
+    table_class = ComputerTable
+    model = Computer
 
-class EquipmentComponentsView(BaseContextMixin, LoginRequiredMixin, View):
+from django.views.generic import DetailView
+from django_tables2 import SingleTableView
+from .models import Computer
+from .tables import ComputerComponentsTable
+
+COMPONENTS_NAME = {
+    'motherboard': Motherboard,
+    'processor': Processor,
+    'ram': RAM,
+    'graphicscard': GraphicsCard,
+    'storage': Storage,
+    'powersupply': PowerSupply,
+    'cooler': Cooler,
+    'case': Case,
+    'networkcard': NetworkCard,
+}
+
+class ComputerComponentsView(BaseContextMixin, SingleTableView):
+    
+    model = Computer
     template_name = 'equipment_components.html'
+    context_object_name = 'computer'  # Указываем имя переменной в контексте
+    table_class = ComputerComponentsTable
 
-    def get(self, request, equipment_id, *args, **kwargs):
-        try:
-            equipment = Equipment.objects.get(id=equipment_id)
-            components = components = BaseComponent.objects.filter(in_equipment=equipment)
-
-            context = {
-                'equipment': equipment,
-                'components': components,
-            }
-            return render(request, self.template_name, context)
-        except Equipment.DoesNotExist:
-            # Оборудование не найдено, обработайте эту ситуацию по вашему усмотрению
-            pass
-
+    def get_queryset(self):
+        computer_id = self.kwargs.get('pk')
+        components = []
+        computer = Computer.objects.get(pk=computer_id)
+        
+        for component_name in COMPONENTS_NAME.keys():
+            component_set_name = component_name.lower() + "_set"
+            if hasattr(computer, component_set_name):
+                components.extend(getattr(computer, component_set_name).all())
+        
+        return components
 
 class ComponentListView(BaseContextMixin, LoginRequiredMixin, SingleTableView):
-  model = BaseComponent
-  table_class = BaseComponentTable
+
+  table_class = ComputerComponentsTable
   template_name = 'components.html'
+    
+  def get_queryset(self):
+      components = []
+      
+      for component_name in COMPONENTS_NAME.values():
+   
+          components.extend(component_name.objects.all())
+      
+      return components
 
 class ComponentDetailView(BaseContextMixin, LoginRequiredMixin, DetailView):
-  model = BaseComponent
-  template_name = 'component_detail.html'
+    
+    template_name = 'component_detail.html'
+    def get_queryset(self):
+        model_name = self.kwargs['model']
+        model = COMPONENTS_NAME.get(model_name)
+        if model:
+            return model.objects.filter(pk=self.kwargs['pk'])
+        return super().get_queryset()
+      
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        model_name = self.kwargs['model']
+        model = COMPONENTS_NAME.get(model_name)
+        if model:
+            instance = get_object_or_404(model, pk=self.kwargs['pk'])
+            context['instance'] = instance
+        
+        fields_data = []
+        m2m_fields = ['supported_memory_types']
+        for field in instance._meta.get_fields():
+            field_name = field.verbose_name
+            field_value = getattr(instance, field.name)
+            if field.name in m2m_fields:
+                field_value = ", ".join(str(item) for item in field_value.all())
+            fields_data.append((field_name, field_value))
+
+        context['fields_data'] = fields_data
+        
+        return context
 
 class BaseLoginView(BaseContextMixin, LoginView):
     template_name = 'accounts/login.html'
