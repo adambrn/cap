@@ -48,8 +48,7 @@ class Equipment(models.Model):
 
     def __str__(self) -> str:
         return str(self.name)
-
-    
+   
 class Employee(BaseCommonInfo):
     position = models.CharField(max_length=100)
 
@@ -62,6 +61,9 @@ class ComputerMovementHistory(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True)
     issue_date = models.DateField()
     return_date = models.DateField(null=True, blank=True)
+
+class Computer(Equipment):
+    pass
 
 class BaseComponent(models.Model):
 
@@ -82,10 +84,6 @@ class BaseComponent(models.Model):
     
     def __str__(self) -> str:
         return str(self.name)
-
-class Computer(Equipment):
-    
-    pass
 
 class Motherboard(BaseComponent):
     socket_type = models.CharField(max_length=50)

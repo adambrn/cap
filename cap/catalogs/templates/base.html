@@ -21,14 +21,9 @@
       <div class="collapse navbar-collapse" id="mainMenu">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Главная</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href={% url 'catalogs:equipment_catalog' %}>Компьютеры</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href={% url 'catalogs:components' %}>Компоненты</a>
-          </li>
+            {% for item in top_menu %}
+            <li class="nav-item"><a class="nav-link" href="{% url item.url %}">{{ item.title }}</a></li>            
+           {% endfor %}
         </ul>
 
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">

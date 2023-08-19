@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <br>
+    <div class="row">
+        <div class="col-md-6">
+            {% for component_type, component_name in component_list %}
+                <a href="{% url 'catalogs:create-component' component_type %}" class="btn btn-primary btn-block mb-3">Добавить {{ component_name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
