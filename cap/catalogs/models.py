@@ -6,7 +6,7 @@ class BaseCommonInfo(models.Model):
 
     class Meta:
         abstract = True
-
+        
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, verbose_name='Название')
 
@@ -56,6 +56,9 @@ class Equipment(models.Model):
     purchase_date = models.DateField(verbose_name='Дата приобретения')
     equipment_status = models.ForeignKey(EquipmentStatus, on_delete=models.CASCADE, verbose_name='Статус')
     
+    class Meta:
+        verbose_name = 'Оборудование'
+        verbose_name_plural = 'Оборудование'
 
     def __str__(self) -> str:
         return str(self.name)
@@ -64,11 +67,17 @@ class Computer(Equipment):
     class Meta:
         verbose_name = 'Компьютер'
         verbose_name_plural = 'Компьютеры'
+    
+    def get_absolute_url(self):
+        return reverse('catalogs:computer_detail', args=[str(self.id)])
 
 class Printer(Equipment):
     class Meta:
         verbose_name = 'Принтер'
         verbose_name_plural = 'Принтеры'
+    
+    def get_absolute_url(self):
+        return reverse('catalogs:printer_detail', args=[str(self.id)])
 
 class NetworkDevice(Equipment):
     class Meta:
@@ -103,6 +112,8 @@ class BaseComponent(models.Model):
 
     class Meta:
         abstract = True
+        verbose_name = 'Компоненты оборудования'
+        verbose_name_plural = 'Компоненты оборудования'
 
     name = models.CharField(max_length=100, verbose_name='Название')
     serial_number = models.CharField(max_length=100, verbose_name='Серийный номер') 

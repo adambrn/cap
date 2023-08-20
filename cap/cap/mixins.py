@@ -22,9 +22,9 @@ class BaseContextMixin(ContextMixin):
   {'title': 'Каталог', 'url': '#'}
 ]
   top_menu = [
-  {'title': 'Главная', 'url': 'catalogs:equipment_catalog'},
-  {'title': 'Компьютеры', 'url': 'catalogs:equipment_catalog'},
-  {'title': 'Принтеры', 'url': 'catalogs:components'},
+  {'title': 'Главная', 'url': 'catalogs:index'},
+  {'title': 'Компьютеры', 'url': 'catalogs:computer_list'},
+  {'title': 'Принтеры', 'url': 'catalogs:printer_list'},
   {'title': 'Компоненты', 'url': 'catalogs:components'},
 
   ]

@@ -4,25 +4,46 @@ from django.urls import reverse, reverse_lazy
 from django.views import View
 from .form import BaseComponentForm, COMPONENT_FORMS
 from cap.mixins import BaseContextMixin, COMPONENTS_LIST
-from .tables import ComputerComponentsTable, ComputerTable
-from .models import RAM, BaseComponent, Computer
+from .tables import ComputerComponentsTable, ComputerTable, EquipmentTable
+from .models import RAM, BaseComponent, Computer, Equipment, Printer
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import DetailView, CreateView, ListView
 from django_tables2 import SingleTableView
 from django.views.generic.base import TemplateView
-from view_breadcrumbs import DetailBreadcrumbMixin,BaseBreadcrumbMixin
+from view_breadcrumbs import DetailBreadcrumbMixin, BaseBreadcrumbMixin
+from view_breadcrumbs.generic.base import BaseModelBreadcrumbMixin
+from django.utils.functional import cached_property
 
 from django.views.generic import DetailView
 
-class EquipmentCatalogView(BaseContextMixin, LoginRequiredMixin, SingleTableView):
-    template_name = 'catalog.html'
-    table_class = ComputerTable
+class EquipmentCatalogView(BaseModelBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, SingleTableView):
+    template_name = 'index.html'
+    table_class = EquipmentTable
+    model = Equipment
+
+    @cached_property
+    def crumbs(self):
+        return [(self.model_name_title_plural, "/")]
+
+#Компьютеры
+class ComputersView(BaseModelBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, SingleTableView):
     model = Computer
+    template_name = 'computers.html'
+    table_class = ComputerTable
+
+    @cached_property
+    def crumbs(self):
+        return [(self.model_name_title_plural, "/")]
+
+class ComputerDetailView(DetailBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, DetailView):
     
+    model = Computer
+    template_name = 'computer_detail.html'
+
 class ComputerComponentsView(BaseContextMixin, SingleTableView):
     
     model = Computer
-    template_name = 'equipment_components.html'
+    template_name = 'computer_components.html'
     context_object_name = 'computer'  # Указываем имя переменной в контексте
     table_class = ComputerComponentsTable
 
@@ -38,16 +59,20 @@ class ComputerComponentsView(BaseContextMixin, SingleTableView):
         
         return components
 #Component
-class ComponentListView(BaseContextMixin, LoginRequiredMixin, SingleTableView):
-
-  table_class = ComputerComponentsTable
-  template_name = 'components.html'
+class ComponentListView(BaseModelBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, SingleTableView):
+    model = BaseComponent
+    table_class = ComputerComponentsTable
+    template_name = 'components.html'
+        
+    def get_queryset(self):
+        components = []     
+        for component_name in COMPONENTS_LIST.values():
+            components.extend(component_name.objects.all())   
+        return components
     
-  def get_queryset(self):
-      components = []     
-      for component_name in COMPONENTS_LIST.values():
-          components.extend(component_name.objects.all())   
-      return components
+    @cached_property
+    def crumbs(self):
+        return [(self.model_name_title_plural, "/")]
 
 class ComponentDetailView(BaseContextMixin, LoginRequiredMixin, DetailBreadcrumbMixin, DetailView):
 
@@ -110,6 +135,21 @@ class CreateComponentView(BaseContextMixin, LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse('catalogs:components')
+#Принтеры
+class PrintersView(BaseModelBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, SingleTableView):
+    model = Printer
+    template_name = 'printers.html'
+    table_class = ComputerTable
+
+    @cached_property
+    def crumbs(self):
+        return [(self.model_name_title_plural, "/")]
+
+class PrinterDetailView(DetailBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, DetailView):
+    
+    model = Printer
+    template_name = 'printer_detail.html'
+
 
 #LOGIN
 class BaseLoginView(BaseContextMixin, LoginView):

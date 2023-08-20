@@ -3,7 +3,7 @@
 {% block content %}
 
 <h1>Компоненты</h1>
-<a href="{% url 'catalogs:select-component' %}" class="btn btn-primary btn-block mb-3">Добавить компонент</a>
+<a href="{% url 'catalogs:select_component' %}" class="btn btn-primary btn-block mb-3">Добавить компонент</a>
 {% load render_table from django_tables2 %}
 
 {% render_table table %}
