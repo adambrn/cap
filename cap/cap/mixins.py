@@ -34,6 +34,5 @@ class BaseContextMixin(ContextMixin):
     context = super().get_context_data(**kwargs)
     context['top_menu'] = self.top_menu
     context['menu'] = self.menu
-    print('2')
     return context
   

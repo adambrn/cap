@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 
+#Общие справочники
 class BaseCommonInfo(models.Model):
 
     class Meta:
@@ -30,10 +31,8 @@ class MemoryType(BaseCommonInfo):
 class StorageType(BaseCommonInfo):
     pass
 
+#Техника
 class Equipment(models.Model):
-
-    class Meta:
-        abstract = True
 
     name = models.CharField(max_length=100)
     category = models.ForeignKey(EquipmentCategory, on_delete=models.CASCADE)
@@ -48,23 +47,38 @@ class Equipment(models.Model):
 
     def __str__(self) -> str:
         return str(self.name)
-   
+
+class Computer(Equipment):
+    pass 
+
+class Printer(Equipment):
+    pass
+
+class NetworkDevice(Equipment):
+    pass
+
+class Phone(Equipment):
+    pass
+
+class OtherEquipment():
+    pass
+
+#Принадлежность техники
 class Employee(BaseCommonInfo):
     position = models.CharField(max_length=100)
 
 class Location(BaseCommonInfo):
     address = models.CharField(max_length=500)
 
+#Движение техники
 class ComputerMovementHistory(models.Model):
-    equipment = models.ForeignKey('Computer', on_delete=models.CASCADE)
+    equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE)
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True)
     issue_date = models.DateField()
     return_date = models.DateField(null=True, blank=True)
 
-class Computer(Equipment):
-    pass
-
+#Компоненты компьютера
 class BaseComponent(models.Model):
 
     class Meta:
@@ -131,3 +145,13 @@ class NetworkCard(BaseComponent):
     card_type = models.CharField(max_length=50)
     in_computer = models.ForeignKey(Computer, on_delete=models.SET_NULL,blank=True, null=True)
 
+class OtherComponent(BaseComponent):
+    pass
+
+#Перефирия
+class Peripherals():
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100)
+    serial_number = models.CharField(max_length=100) 
+    inventory_number = models.CharField(max_length=100)
+    manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)

@@ -1,15 +1,16 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.views import LoginView, LogoutView
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views import View
 from .form import BaseComponentForm, COMPONENT_FORMS
 from cap.mixins import BaseContextMixin, COMPONENTS_LIST
 from .tables import ComputerComponentsTable, ComputerTable
-from .models import BaseComponent, Computer
+from .models import RAM, BaseComponent, Computer
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import DetailView, CreateView
+from django.views.generic import DetailView, CreateView, ListView
 from django_tables2 import SingleTableView
 from django.views.generic.base import TemplateView
+from view_breadcrumbs import DetailBreadcrumbMixin,BaseBreadcrumbMixin
 
 from django.views.generic import DetailView
 
@@ -48,12 +49,15 @@ class ComponentListView(BaseContextMixin, LoginRequiredMixin, SingleTableView):
           components.extend(component_name.objects.all())   
       return components
 
-class ComponentDetailView(BaseContextMixin, LoginRequiredMixin, DetailView):
-    
+class ComponentDetailView(BaseContextMixin, LoginRequiredMixin, DetailBreadcrumbMixin, DetailView):
+
     template_name = 'component_detail.html'
+    #crumbs = [("My Test Breadcrumb", reverse_lazy("/"))]
+   
     def get_queryset(self):
         model_name = self.kwargs['model']
         model = COMPONENTS_LIST.get(model_name)
+        self.model = model
         if model:
             return model.objects.filter(pk=self.kwargs['pk'])
         return super().get_queryset()
@@ -79,6 +83,10 @@ class ComponentDetailView(BaseContextMixin, LoginRequiredMixin, DetailView):
         
         return context
 
+class RamListView(ListView):
+    model = RAM
+    template_name = 'ram_list.html'
+
 class SelectComponentView(BaseContextMixin, LoginRequiredMixin, TemplateView):
     template_name = 'select_component.html'
     
@@ -100,18 +108,8 @@ class CreateComponentView(BaseContextMixin, LoginRequiredMixin, CreateView):
         context['component_type'] = self.kwargs['component_type']
         return context
 
-    def form_valid(self, form):
-        component_type = self.kwargs['component_type']
-        model = COMPONENTS_LIST.get(component_type)
-        if model:
-            component = form.save(commit=False)
-            component_instance = model.objects.create(**form.cleaned_data)
-            return super().form_valid(form)
-
-        return super().form_invalid(form)
-
     def get_success_url(self):
-        return reverse('component-list')  # Замените на свой URL   
+        return reverse('catalogs:components')
 
 #LOGIN
 class BaseLoginView(BaseContextMixin, LoginView):
