@@ -4,11 +4,11 @@ from django.urls import reverse, reverse_lazy
 from django.views import View
 from .form import BaseComponentForm, COMPONENT_FORMS
 from cap.mixins import BaseContextMixin, COMPONENTS_LIST
-from .tables import ComputerComponentsTable, ComputerTable, EquipmentTable
+from .tables import ComputerComponentsTable, ComputerTable, EquipmentTable, PrinterTable
 from .models import RAM, BaseComponent, Computer, Equipment, Printer
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import DetailView, CreateView, ListView
-from django_tables2 import SingleTableView
+from django_tables2 import MultiTableMixin, SingleTableView
 from django.views.generic.base import TemplateView
 from view_breadcrumbs import DetailBreadcrumbMixin, BaseBreadcrumbMixin
 from view_breadcrumbs.generic.base import BaseModelBreadcrumbMixin
@@ -16,14 +16,19 @@ from django.utils.functional import cached_property
 
 from django.views.generic import DetailView
 
-class EquipmentCatalogView(BaseModelBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, SingleTableView):
+class EquipmentCatalogView(BaseBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, MultiTableMixin, TemplateView):
+    
     template_name = 'index.html'
-    table_class = EquipmentTable
-    model = Equipment
-
+    def get_tables(self):
+        tables = [
+            ComputerTable(Computer.objects.all()),
+            PrinterTable(Printer.objects.all()),
+        ]
+        return tables
+    
     @cached_property
     def crumbs(self):
-        return [(self.model_name_title_plural, "/")]
+        return [("Обрудование", "/")]
 
 #Компьютеры
 class ComputersView(BaseModelBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, SingleTableView):
@@ -139,7 +144,7 @@ class CreateComponentView(BaseContextMixin, LoginRequiredMixin, CreateView):
 class PrintersView(BaseModelBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, SingleTableView):
     model = Printer
     template_name = 'printers.html'
-    table_class = ComputerTable
+    table_class = PrinterTable
 
     @cached_property
     def crumbs(self):
