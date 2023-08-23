@@ -7,7 +7,9 @@ _TEMPLATE_CMPONENT_LINK = '''<a href="{{ record.get_absolute_url }}">Подро�
 class EquipmentTable(tables.Table):
     row_number = tables.Column(empty_values=(), verbose_name='No.')
     view_details = tables.TemplateColumn('''<a href="{{ record.get_absolute_url }}">Подробнее</a>''', verbose_name='Детали')
-
+    
+    
+    
     def render_row_number(self):
         self.row_counter = getattr(self, 'row_counter', itertools.count())
         return next(self.row_counter)
@@ -16,12 +18,14 @@ class ComputerTable(EquipmentTable):
 
     class Meta:
         model = Computer
-
+        verbose_name = "Компьютеры"
+      
+        attrs = {'class': 'table table-striped table-hover',"thead": {"class":"table-primary"}}
 class PrinterTable(EquipmentTable):
 
     class Meta:
         model = Printer
-
+        verbose_name = "Принтеры"
 
 class ComputerComponentsTable(tables.Table):
     row_number = tables.Column(empty_values=(), verbose_name='No.')

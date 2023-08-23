@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     "crispy_bootstrap5",
     "view_breadcrumbs",
+    'django_filters',
     "catalogs",
 ]
 
@@ -139,6 +140,7 @@ LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap5.html"
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 BREADCRUMBS_HOME_LABEL = "Главная"

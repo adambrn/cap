@@ -1,14 +1,16 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse, reverse_lazy
-from django.views import View
+from django_filters.views import FilterView
+
+from .filters import ComputerFilter
 from .form import BaseComponentForm, COMPONENT_FORMS
 from cap.mixins import BaseContextMixin, COMPONENTS_LIST
 from .tables import ComputerComponentsTable, ComputerTable, EquipmentTable, PrinterTable
 from .models import RAM, BaseComponent, Computer, Equipment, Printer
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import DetailView, CreateView, ListView
-from django_tables2 import MultiTableMixin, SingleTableView
+from django_tables2 import MultiTableMixin, SingleTableMixin, SingleTableView
 from django.views.generic.base import TemplateView
 from view_breadcrumbs import DetailBreadcrumbMixin, BaseBreadcrumbMixin
 from view_breadcrumbs.generic.base import BaseModelBreadcrumbMixin
@@ -31,11 +33,12 @@ class EquipmentCatalogView(BaseBreadcrumbMixin, BaseContextMixin, LoginRequiredM
         return [("Обрудование", "/")]
 
 #Компьютеры
-class ComputersView(BaseModelBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, SingleTableView):
+class ComputersView(BaseModelBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, SingleTableMixin, FilterView):
     model = Computer
     template_name = 'computers.html'
     table_class = ComputerTable
-
+    filterset_class = ComputerFilter
+    
     @cached_property
     def crumbs(self):
         return [(self.model_name_title_plural, "/")]
@@ -63,6 +66,24 @@ class ComputerComponentsView(BaseContextMixin, SingleTableView):
                 components.extend(getattr(computer, component_set_name).all())
         
         return components
+
+#Принтеры
+class PrintersView(BaseModelBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, SingleTableMixin, FilterView):
+    model = Printer
+    template_name = 'computers.html'
+    table_class = PrinterTable
+    filterset_class = ComputerFilter
+    
+    @cached_property
+    def crumbs(self):
+        return [(self.model_name_title_plural, "/")]
+
+class PrinterDetailView(DetailBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, DetailView):
+    
+    model = Printer
+    template_name = 'printer_detail.html'
+
+
 #Component
 class ComponentListView(BaseModelBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, SingleTableView):
     model = BaseComponent
@@ -140,21 +161,6 @@ class CreateComponentView(BaseContextMixin, LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse('catalogs:components')
-#Принтеры
-class PrintersView(BaseModelBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, SingleTableView):
-    model = Printer
-    template_name = 'printers.html'
-    table_class = PrinterTable
-
-    @cached_property
-    def crumbs(self):
-        return [(self.model_name_title_plural, "/")]
-
-class PrinterDetailView(DetailBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, DetailView):
-    
-    model = Printer
-    template_name = 'printer_detail.html'
-
 
 #LOGIN
 class BaseLoginView(BaseContextMixin, LoginView):
