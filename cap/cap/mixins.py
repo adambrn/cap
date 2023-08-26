@@ -16,15 +16,12 @@ COMPONENTS_LIST = {
 
 class BaseContextMixin(ContextMixin):
   menu = [
-  {'title': 'Главная', 'url': '#'},
-  {'title': 'О компании', 'url': '#'},
-  {'title': 'Контакты', 'url': '#'},
-  {'title': 'Каталог', 'url': '#'}
+  
 ]
   top_menu = [
-  {'title': 'Главная', 'url': 'catalogs:index'},
-  {'title': 'Компьютеры', 'url': 'catalogs:computer_list'},
-  {'title': 'Принтеры', 'url': 'catalogs:printer_list'},
+    
+  {'title': 'Главная', 'url': 'index'},
+  {'title': 'Оборудование', 'url': 'catalogs:equipments'},
   {'title': 'Компоненты', 'url': 'catalogs:components'},
 
   ]

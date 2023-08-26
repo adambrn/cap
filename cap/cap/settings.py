@@ -140,7 +140,6 @@ LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
-DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap5.html"
-
+DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap5-responsive.html"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 BREADCRUMBS_HOME_LABEL = "Главная"

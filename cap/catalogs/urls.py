@@ -16,7 +16,7 @@ from django.conf import settings
 app_name = 'catalogs'
 
 urlpatterns = [
-    path('', EquipmentCatalogView.as_view(), name='index'),
+    path('', EquipmentCatalogView.as_view(), name='equipments'),
     path('computers/', ComputersView.as_view(), name='computer_list'),
     path('computers/<int:pk>', ComputerDetailView.as_view(), name='computer_detail'),
     path('computers/<int:pk>/components/', ComputerComponentsView.as_view(), name='computers_components'),

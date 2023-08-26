@@ -18,15 +18,32 @@ from django.utils.functional import cached_property
 
 from django.views.generic import DetailView
 
+class Index(BaseContextMixin, LoginView):
+    template_name = 'index.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Главная'
+        return context
+
 class EquipmentCatalogView(BaseBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, MultiTableMixin, TemplateView):
     
-    template_name = 'index.html'
+    template_name = 'equipments.html'
     def get_tables(self):
         tables = [
             ComputerTable(Computer.objects.all()),
             PrinterTable(Printer.objects.all()),
         ]
         return tables
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] =  [
+            {'title': 'Компьютеры', 'url': 'catalogs:computer_list'},
+            {'title': 'Принтеры', 'url': 'catalogs:printer_list'},
+            ]
+     
+        return context
     
     @cached_property
     def crumbs(self):
@@ -38,6 +55,15 @@ class ComputersView(BaseModelBreadcrumbMixin, BaseContextMixin, LoginRequiredMix
     template_name = 'computers.html'
     table_class = ComputerTable
     filterset_class = ComputerFilter
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] =  [
+            {'title': 'Компьютеры', 'url': 'catalogs:computer_list'},
+            {'title': 'Принтеры', 'url': 'catalogs:printer_list'},
+            ]
+     
+        return context
     
     @cached_property
     def crumbs(self):
@@ -47,6 +73,15 @@ class ComputerDetailView(DetailBreadcrumbMixin, BaseContextMixin, LoginRequiredM
     
     model = Computer
     template_name = 'computer_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] =  [
+            {'title': 'Компьютеры', 'url': 'catalogs:computer_list'},
+            {'title': 'Принтеры', 'url': 'catalogs:printer_list'},
+            ]
+     
+        return context
 
 class ComputerComponentsView(BaseContextMixin, SingleTableView):
     
@@ -66,6 +101,15 @@ class ComputerComponentsView(BaseContextMixin, SingleTableView):
                 components.extend(getattr(computer, component_set_name).all())
         
         return components
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] =  [
+            {'title': 'Компьютеры', 'url': 'catalogs:computer_list'},
+            {'title': 'Принтеры', 'url': 'catalogs:printer_list'},
+            ]
+     
+        return context
 
 #Принтеры
 class PrintersView(BaseModelBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, SingleTableMixin, FilterView):
@@ -78,12 +122,28 @@ class PrintersView(BaseModelBreadcrumbMixin, BaseContextMixin, LoginRequiredMixi
     def crumbs(self):
         return [(self.model_name_title_plural, "/")]
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] =  [
+            {'title': 'Компьютеры', 'url': 'catalogs:computer_list'},
+            {'title': 'Принтеры', 'url': 'catalogs:printer_list'},
+            ]
+     
+        return context
+
 class PrinterDetailView(DetailBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, DetailView):
     
     model = Printer
     template_name = 'printer_detail.html'
 
-
+    def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            context['menu'] =  [
+                {'title': 'Компьютеры', 'url': 'catalogs:computer_list'},
+                {'title': 'Принтеры', 'url': 'catalogs:printer_list'},
+                ]
+        
+            return context
 #Component
 class ComponentListView(BaseModelBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, SingleTableView):
     model = BaseComponent

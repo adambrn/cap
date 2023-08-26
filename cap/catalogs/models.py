@@ -45,6 +45,9 @@ class StorageType(BaseCommonInfo):
 
 # Техника
 class Equipment(models.Model):
+    
+    class Meta:
+        abstract = True
 
     name = models.CharField(max_length=100, verbose_name='Название')
     category = models.ForeignKey(EquipmentCategory, on_delete=models.CASCADE, verbose_name='Категория')
@@ -135,7 +138,10 @@ class Motherboard(BaseComponent):
     supported_memory_types = models.ManyToManyField(MemoryType, verbose_name='Поддерживаемые типы памяти')
     in_computer = models.OneToOneField(Computer, on_delete=models.SET_NULL,blank=True, null=True, verbose_name='Компьютер')
 
-# Компоненты компьютера (продолжение)
+    class Meta:
+        verbose_name = 'Материнская плата'
+        verbose_name_plural = 'Материнские платы'
+
 class Processor(BaseComponent):
     num_cores = models.IntegerField(verbose_name='Количество ядер')
     frequency = models.IntegerField(verbose_name='Частота')
@@ -146,6 +152,7 @@ class RAM(BaseComponent):
     capacity = models.IntegerField(verbose_name='Объем')
     frequency = models.IntegerField(verbose_name='Частота')
     in_computer = models.ForeignKey(Computer, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Компьютер')
+    
 
 class GraphicsCard(BaseComponent):
     memory = models.CharField(max_length=20, verbose_name='Объем памяти')
