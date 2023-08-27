@@ -4,8 +4,7 @@ from .models import (
     MemoryType, StorageType, Computer, Printer, NetworkDevice, Phone, 
     Motherboard, Processor, RAM, GraphicsCard, Storage, 
     PowerSupply, Cooler, Case, NetworkCard, 
-    Employee, Location, ComputerMovementHistory,
-    Peripherals
+    Employee, Location, Peripherals
 )
 
 class ManufacturerAdmin(admin.ModelAdmin):
@@ -71,9 +70,6 @@ class EmployeeAdmin(admin.ModelAdmin):
 class LocationAdmin(admin.ModelAdmin):
     pass
 
-class ComputerMovementHistoryAdmin(admin.ModelAdmin):
-    pass
-
 class PeripheralsAdmin(admin.ModelAdmin):
     pass
 
@@ -99,5 +95,4 @@ admin.site.register(Case, CaseAdmin)
 admin.site.register(NetworkCard, NetworkCardAdmin)
 admin.site.register(Employee, EmployeeAdmin)
 admin.site.register(Location, LocationAdmin)
-admin.site.register(ComputerMovementHistory, ComputerMovementHistoryAdmin)  
 admin.site.register(Peripherals, PeripheralsAdmin)
