@@ -102,13 +102,6 @@ class Employee(BaseCommonInfo):
 class Location(BaseCommonInfo):
     address = models.CharField(max_length=500, verbose_name='Адрес')
 
-# Движение техники
-class ComputerMovementHistory(models.Model):
-    equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE, verbose_name='Оборудование')
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='Сотрудник')
-    location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Местоположение')
-    issue_date = models.DateField(verbose_name='Дата выдачи')
-    return_date = models.DateField(null=True, blank=True, verbose_name='Дата возврата')
 
 # Компоненты компьютера
 class BaseComponent(models.Model):

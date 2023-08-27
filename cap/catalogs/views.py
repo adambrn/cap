@@ -67,7 +67,7 @@ class ComputersView(BaseModelBreadcrumbMixin, BaseContextMixin, LoginRequiredMix
     
     @cached_property
     def crumbs(self):
-        return [(self.model_name_title_plural, "/")]
+        return [("Обрудование", "/catalogs/"), (self.model_name_title_plural, "/")]
 
 class ComputerDetailView(DetailBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, DetailView):
     
