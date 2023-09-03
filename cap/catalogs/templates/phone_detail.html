@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mx-auto mt-5">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Детали телефона: {{ phone.name }}</h3>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-6">Название</dt>
+                        <dd class="col-sm-6">{{ phone.name }}</dd>
+
+                        <dt class="col-sm-6">Категория</dt>
+                        <dd class="col-sm-6">{{ phone.category }}</dd>
+
+                        <dt class="col-sm-6">Производитель</dt>
+                        <dd class="col-sm-6">{{ phone.manufacturer }}</dd>
+
+                        <dt class="col-sm-6">Модель</dt>
+                        <dd class="col-sm-6">{{ phone.model }}</dd>
+
+                        <dt class="col-sm-6">Серийный номер</dt>
+                        <dd class="col-sm-6">{{ phone.serial_number }}</dd>
+
+                        <dt class="col-sm-6">Инвентарный номер</dt>
+                        <dd class="col-sm-6">{{ phone.inventory_number }}</dd>
+
+                        <dt class="col-sm-6">Стоимость</dt>
+                        <dd class="col-sm-6">{{ phone.cost }}</dd>
+
+                        <dt class="col-sm-6">Дата покупки</dt>
+                        <dd class="col-sm-6">{{ phone.purchase_date }}</dd>
+
+                        <dt class="col-sm-6">Состояние</dt>
+                        <dd class="col-sm-6">{{ phone.equipment_status }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

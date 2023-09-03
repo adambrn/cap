@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load django_tables2 %}
 {% block content %}
 <div class="container">
     <div class="row">
@@ -40,6 +40,15 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<div class="container">
+    <h3 class="card-title">Компоненты компьютера: {{ computer.name }}</h3>
+    <div class="row">
+        {% for table in tables %}
+        <h2>{{table.Meta.verbose_name}}</h2>
+            <div class="col-lg-12">{% render_table table %}</div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

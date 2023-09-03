@@ -65,22 +65,19 @@ class Equipment(models.Model):
 
     def __str__(self) -> str:
         return str(self.name)
+    
+    def get_absolute_url(self):
+        return reverse(f'catalogs:{self._meta.model_name}_detail', args=[str(self.id)])
 
 class Computer(Equipment):
     class Meta:
         verbose_name = 'Компьютер'
         verbose_name_plural = 'Компьютеры'
     
-    def get_absolute_url(self):
-        return reverse('catalogs:computer_detail', args=[str(self.id)])
-
 class Printer(Equipment):
     class Meta:
         verbose_name = 'Принтер'
         verbose_name_plural = 'Принтеры'
-    
-    def get_absolute_url(self):
-        return reverse('catalogs:printer_detail', args=[str(self.id)])
 
 class NetworkDevice(Equipment):
     class Meta:
@@ -92,8 +89,11 @@ class Phone(Equipment):
         verbose_name = 'Телефон'
         verbose_name_plural = 'Телефоны'
 
-class OtherEquipment():
-    pass
+class OtherEquipment(Equipment):
+    
+    class Meta:
+        verbose_name = 'Другое оборудование'
+        verbose_name_plural = 'Другое оборудование'
 
 # Принадлежность техники
 class Employee(BaseCommonInfo):
@@ -121,7 +121,7 @@ class BaseComponent(models.Model):
     component_status = models.ForeignKey(ComponentStatus, on_delete=models.CASCADE, verbose_name='Статус')
     
     def get_absolute_url(self):
-        return reverse('catalogs:component_detail', args=[self._meta.model_name, str(self.id)])
+        return reverse(f'catalogs:{self._meta.model_name}_detail', args=[str(self.id)])
     
     def __str__(self) -> str:
         return str(self.name)
@@ -140,47 +140,78 @@ class Processor(BaseComponent):
     frequency = models.IntegerField(verbose_name='Частота')
     in_computer = models.ForeignKey(Computer, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Компьютер')
 
+    class Meta:
+        verbose_name = 'Процессор'
+        verbose_name_plural = 'Процессоры'
+
 class RAM(BaseComponent):
     memory_type = models.ForeignKey(MemoryType, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Тип памяти')
     capacity = models.IntegerField(verbose_name='Объем')
     frequency = models.IntegerField(verbose_name='Частота')
     in_computer = models.ForeignKey(Computer, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Компьютер')
     
+    class Meta:
+        verbose_name = 'Оперативная память'
+        verbose_name_plural = 'Оперативная память'
 
 class GraphicsCard(BaseComponent):
     memory = models.CharField(max_length=20, verbose_name='Объем памяти')
     frequency = models.IntegerField(verbose_name='Частота')
     in_computer = models.ForeignKey(Computer, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Компьютер')
 
+    class Meta:
+        verbose_name = 'Видеокарта'
+        verbose_name_plural = 'Видеокарты'
+
 class Storage(BaseComponent):
     storage_type = models.ForeignKey(StorageType, on_delete=models.DO_NOTHING, verbose_name='Тип хранения')
     capacity = models.IntegerField(verbose_name='Объем')
     interface = models.CharField(max_length=50, verbose_name='Интерфейс')
     in_computer = models.ForeignKey(Computer, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Компьютер')
+    class Meta:
+        verbose_name = 'Накопитель'
+        verbose_name_plural = 'Накопители'
 
 class PowerSupply(BaseComponent):
     power = models.IntegerField(verbose_name='Мощность')
     in_computer = models.ForeignKey(Computer, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Компьютер')
+
+    class Meta:
+        verbose_name = 'Блок питания'
+        verbose_name_plural = 'Блоки питания'
 
 class Cooler(BaseComponent):
     cooler_type = models.CharField(max_length=50, verbose_name='Тип кулера')
     size = models.CharField(max_length=20, verbose_name='Размер')
     in_computer = models.ForeignKey(Computer, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Компьютер')
 
+    class Meta:
+        verbose_name = 'Система охлаждения'
+        verbose_name_plural = 'Системы охлаждения'
+
 class Case(BaseComponent):
     case_type = models.CharField(max_length=50, verbose_name='Тип корпуса')
     num_bays = models.IntegerField(verbose_name='Количество отсеков')
     in_computer = models.ForeignKey(Computer, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Компьютер')
+
+    class Meta:
+        verbose_name = 'Корпус'
+        verbose_name_plural = 'Корпуса'
 
 class NetworkCard(BaseComponent):
     speed = models.CharField(max_length=20, verbose_name='Скорость')
     card_type = models.CharField(max_length=50, verbose_name='Тип сетевой карты')
     in_computer = models.ForeignKey(Computer, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Компьютер')
 
+    class Meta:
+        verbose_name = 'Сетевая карта'
+        verbose_name_plural = 'Сетевые карты'
+
 class OtherComponent(BaseComponent):
     class Meta:
         verbose_name = 'Другой компонент'
         verbose_name_plural = 'Другие компоненты'
+
 
 # Периферия
 class Peripherals(models.Model):
