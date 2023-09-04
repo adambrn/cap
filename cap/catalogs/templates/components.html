@@ -4,6 +4,7 @@
 {% block content %}
 <div class="container">
     <h1>Все компоненты</h1>
+    <a href="{% url 'catalogs:select_component' %}" class="btn btn-primary">Добавить компонент</a>
     <div class="row">
         {% for table in tables %}
         <h2>{{table.Meta.verbose_name}}</h2>

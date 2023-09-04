@@ -2,17 +2,16 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse, reverse_lazy
 from django_filters.views import FilterView
-
 from .filters import *
-from .form import BaseComponentForm, COMPONENT_FORMS
-from cap.mixins import BaseContextMixin, COMPONENTS_LIST
+from .form import *
+from cap.mixins import *
 from .tables import *
 from .models import *
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import DetailView, CreateView, ListView
+from django.views.generic import DetailView, CreateView, ListView, DeleteView, UpdateView
 from django_tables2 import MultiTableMixin, SingleTableMixin, SingleTableView
 from django.views.generic.base import TemplateView
-from view_breadcrumbs import DetailBreadcrumbMixin, BaseBreadcrumbMixin
+from view_breadcrumbs import DetailBreadcrumbMixin, BaseBreadcrumbMixin, CreateBreadcrumbMixin, DeleteBreadcrumbMixin, UpdateBreadcrumbMixin
 from view_breadcrumbs.generic.base import BaseModelBreadcrumbMixin
 from django.utils.functional import cached_property
 
@@ -165,47 +164,26 @@ class OtherEquipmentDetailView(EquipmentDetailView):
 
 
 #Базовые классы компонентов
-class BaseComponentView(BaseModelBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, SingleTableMixin, FilterView):
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['menu'] =  [
-            {'title': 'Процессоры', 'url': 'catalogs:processor_list'},
-            {'title': 'Оперативная память', 'url': 'catalogs:ram_list'},
-            {'title': 'Материнские платы', 'url': 'catalogs:motherboard_list'},
-            {'title': 'Видеокарты', 'url': 'catalogs:graphicscard_list'},
-            {'title': 'Накопители', 'url': 'catalogs:storage_list'},
-            {'title': 'Блоки питания', 'url': 'catalogs:powersupply_list'},
-            {'title': 'Охлаждение', 'url': 'catalogs:cooler_list'}, 
-            {'title': 'Корпуса', 'url': 'catalogs:case_list'},
-            {'title': 'Сетевые карты', 'url': 'catalogs:networkcard_list'},
-            ]
-     
-        return context
-    
+class BaseComponentView(BaseModelBreadcrumbMixin, BaseComponentMixin, SingleTableMixin, FilterView):
+ 
     @cached_property
     def crumbs(self):
         return [("Компоненты", reverse_lazy("catalogs:components")), (self.model_name_title_plural, "/")]
 
-class BaseComponentDetailView(DetailBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, DetailView):
+class BaseComponentDetailView(DetailBreadcrumbMixin, BaseComponentMixin, DetailView):
+    pass
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['menu'] =  [
-            {'title': 'Процессоры', 'url': 'catalogs:processor_list'},
-            {'title': 'Оперативная память', 'url': 'catalogs:ram_list'},
-            {'title': 'Материнские платы', 'url': 'catalogs:motherboard_list'},
-            {'title': 'Видеокарты', 'url': 'catalogs:graphicscard_list'},
-            {'title': 'Накопители', 'url': 'catalogs:storage_list'},
-            {'title': 'Блоки питания', 'url': 'catalogs:powersupply_list'},
-            {'title': 'Охлаждение', 'url': 'catalogs:cooler_list'}, 
-            {'title': 'Корпуса', 'url': 'catalogs:case_list'},
-            {'title': 'Сетевые карты', 'url': 'catalogs:networkcard_list'},
-            ]
-     
-        return context
+class BaseComponentDeleteView(DeleteBreadcrumbMixin, BaseComponentMixin, DeleteView):
+    pass
+
+class BaseComponentUpdateView(UpdateBreadcrumbMixin, BaseComponentMixin, UpdateView):
+    pass
+
+class BaseComponentCreateView(CreateBreadcrumbMixin, BaseComponentMixin, CreateView):
+    pass
 
 #Component
+#Поцессоры
 class ProcessorListView(BaseComponentView):
     model = Processor
     template_name = 'components/processor_list.html'
@@ -215,6 +193,11 @@ class ProcessorListView(BaseComponentView):
 class ProcessorDetailView(BaseComponentDetailView):
     model = Processor
     template_name = 'components/processor_detail.html'
+
+class ProcessorCreateView(BaseComponentCreateView):
+    model = Processor
+    form_class = ProcessorForm
+    template_name = 'components/create_component.html'
 
 class MotherboardListView(BaseComponentView):
     model = Motherboard  
@@ -368,16 +351,28 @@ class ComponentDetailView(BaseContextMixin, LoginRequiredMixin, DetailBreadcrumb
         
         return context
 
-class SelectComponentView(BaseContextMixin, LoginRequiredMixin, TemplateView):
+class SelectComponentView(BaseBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, TemplateView):
     template_name = 'select_component.html'
+    crumbs = [("Компоненты", reverse_lazy("catalogs:components"))]
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         component_list = [(component_type, model._meta.verbose_name) for component_type, model in COMPONENTS_LIST.items()]
         context['component_list'] = component_list
+        context['menu'] =  [
+            {'title': 'Процессоры', 'url': 'catalogs:processor_list'},
+            {'title': 'Оперативная память', 'url': 'catalogs:ram_list'},
+            {'title': 'Материнские платы', 'url': 'catalogs:motherboard_list'},
+            {'title': 'Видеокарты', 'url': 'catalogs:graphicscard_list'},
+            {'title': 'Накопители', 'url': 'catalogs:storage_list'},
+            {'title': 'Блоки питания', 'url': 'catalogs:powersupply_list'},
+            {'title': 'Охлаждение', 'url': 'catalogs:cooler_list'}, 
+            {'title': 'Корпуса', 'url': 'catalogs:case_list'},
+            {'title': 'Сетевые карты', 'url': 'catalogs:networkcard_list'},
+            ]
         return context
 
-class CreateComponentView(BaseContextMixin, LoginRequiredMixin, CreateView):
+class CreateComponentView(CreateBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, CreateView):
     template_name = 'create_component.html'
 
     def get_form_class(self):
@@ -387,6 +382,17 @@ class CreateComponentView(BaseContextMixin, LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['component_type'] = self.kwargs['component_type']
+        context['menu'] =  [
+            {'title': 'Процессоры', 'url': 'catalogs:processor_list'},
+            {'title': 'Оперативная память', 'url': 'catalogs:ram_list'},
+            {'title': 'Материнские платы', 'url': 'catalogs:motherboard_list'},
+            {'title': 'Видеокарты', 'url': 'catalogs:graphicscard_list'},
+            {'title': 'Накопители', 'url': 'catalogs:storage_list'},
+            {'title': 'Блоки питания', 'url': 'catalogs:powersupply_list'},
+            {'title': 'Охлаждение', 'url': 'catalogs:cooler_list'}, 
+            {'title': 'Корпуса', 'url': 'catalogs:case_list'},
+            {'title': 'Сетевые карты', 'url': 'catalogs:networkcard_list'},
+            ]
         return context
 
     def get_success_url(self):
