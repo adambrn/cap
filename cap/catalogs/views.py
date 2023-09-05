@@ -199,6 +199,17 @@ class ProcessorCreateView(BaseComponentCreateView):
     form_class = ProcessorForm
     template_name = 'components/create_component.html'
 
+class ProcessorUpdateView(BaseComponentUpdateView):
+    model = Processor
+    form_class = ProcessorForm
+    template_name = 'components/create_component.html'
+
+class ProcessorDeleteView(BaseComponentDeleteView):
+    model = Processor
+    success_url = reverse_lazy("catalogs:processor_list")
+    template_name = 'components/processor_delete.html'
+
+#Материнские платы
 class MotherboardListView(BaseComponentView):
     model = Motherboard  
     template_name = 'components/motherboard_list.html'

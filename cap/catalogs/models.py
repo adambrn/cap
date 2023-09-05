@@ -43,6 +43,11 @@ class StorageType(BaseCommonInfo):
         verbose_name = 'Тип хранения'
         verbose_name_plural = 'Типы хранения'
 
+class SocketType(BaseCommonInfo):
+    class Meta:
+        verbose_name = 'Тип сокета'
+        verbose_name_plural = 'Типы сокетов'
+
 # Техника
 class Equipment(models.Model):
     
@@ -114,28 +119,29 @@ class BaseComponent(models.Model):
     name = models.CharField(max_length=100, verbose_name='Название')
     serial_number = models.CharField(max_length=100, verbose_name='Серийный номер') 
     inventory_number = models.CharField(max_length=100, verbose_name='Инвентарный номер')
-    manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, verbose_name='Производитель')
+    manufacturer = models.ForeignKey(Manufacturer, on_delete=models.SET_NULL, null=True, verbose_name='Производитель')
     cost = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Стоимость')
     start_date = models.DateField(verbose_name='Дата начала использования')
     end_date = models.DateField(blank=True, null=True, verbose_name='Дата окончания использования')
-    component_status = models.ForeignKey(ComponentStatus, on_delete=models.CASCADE, verbose_name='Статус')
+    component_status = models.ForeignKey(ComponentStatus, on_delete=models.SET_NULL, null=True, verbose_name='Статус')
     
     def get_absolute_url(self):
-        return reverse(f'catalogs:{self._meta.model_name}_detail', args=[str(self.id)])
+        return reverse(f'catalogs:{self._meta.model_name}_detail', kwargs={"pk": self.pk})
     
     def __str__(self) -> str:
         return str(self.name)
 
 class Motherboard(BaseComponent):
-    socket_type = models.CharField(max_length=50, verbose_name='Тип сокета')
+    socket_type = models.ForeignKey(SocketType, on_delete=models.SET_NULL, null=True, verbose_name='Сокет')
     supported_memory_types = models.ManyToManyField(MemoryType, verbose_name='Поддерживаемые типы памяти')
-    in_computer = models.OneToOneField(Computer, on_delete=models.SET_NULL,blank=True, null=True, verbose_name='Компьютер')
+    in_computer = models.OneToOneField(Computer, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Компьютер')
 
     class Meta:
         verbose_name = 'Материнская плата'
         verbose_name_plural = 'Материнские платы'
 
 class Processor(BaseComponent):
+    socket_type = models.ForeignKey(SocketType, on_delete=models.SET_NULL, null=True, verbose_name='Сокет')
     num_cores = models.IntegerField(verbose_name='Количество ядер')
     frequency = models.IntegerField(verbose_name='Частота')
     in_computer = models.ForeignKey(Computer, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Компьютер')

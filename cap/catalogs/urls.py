@@ -13,9 +13,15 @@ urlpatterns = [
     path('components/', ComponentListView.as_view(), name='components'),
     #path('components/<str:model>/<int:pk>/', ComponentDetailView.as_view(), name='component_detail'),
     #path('components/create/<str:component_type>/', CreateComponentView.as_view(), name='create_component'),
-    path('components/create/processor/', ProcessorCreateView.as_view(), name='processor_create'),
+    
     path('components/create/', SelectComponentView.as_view(), name='select_component'),
+    
     path('components/processor_list/', ProcessorListView.as_view(), name='processor_list'), 
+    path('components/processor/create', ProcessorCreateView.as_view(), name='processor_create'),
+    path('components/processor/<int:pk>/update', ProcessorUpdateView.as_view(), name='processor_update'),
+    path('components/processor/<int:pk>/delete', ProcessorDeleteView.as_view(), name='processor_delete'),
+    path('components/processor/<int:pk>/detail', ProcessorDetailView.as_view(), name='processor_detail'), 
+    
     path('components/motherboard_list/', MotherboardListView.as_view(), name='motherboard_list'),
     path('components/motherboard_detail/<int:pk>/', MotherboardDetailView.as_view(), name='motherboard_detail'),
 
@@ -39,7 +45,7 @@ urlpatterns = [
 
     path('components/networkcard_list/', NetworkCardListView.as_view(), name='networkcard_list'),
     path('components/networkcard_detail/<int:pk>/', NetworkCardDetailView.as_view(), name='networkcard_detail'),
-    path('components/processor_detail/<int:pk>/', ProcessorDetailView.as_view(), name='processor_detail'), 
+    #path('components/processor_detail/<int:pk>/', ProcessorDetailView.as_view(), name='processor_detail'), 
     path('printers/', PrintersView.as_view(), name='printer_list'),
     path('printers/<int:pk>', PrinterDetailView.as_view(), name='printer_detail'),
     path('network_device/', NetworkDeviceView.as_view(), name='network_device_list'),
