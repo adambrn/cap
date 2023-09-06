@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load custom_tags %} 
 {% block content %}
-  <h2>Create Component</h2>
+  <h2>{{model_verbose_name}}</h2>
       <form method="post">
         {% csrf_token %}
         {{ form|crispy }}

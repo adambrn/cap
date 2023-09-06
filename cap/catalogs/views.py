@@ -177,10 +177,20 @@ class BaseComponentDeleteView(DeleteBreadcrumbMixin, BaseComponentMixin, DeleteV
     pass
 
 class BaseComponentUpdateView(UpdateBreadcrumbMixin, BaseComponentMixin, UpdateView):
-    pass
+    def get_context_data(self, **kwargs):
+        """Add the models verbose name to the context dictionary."""
+
+        kwargs.update({
+            "model_verbose_name": self.form_class._meta.model._meta.verbose_name,})
+        return super().get_context_data(**kwargs)
 
 class BaseComponentCreateView(CreateBreadcrumbMixin, BaseComponentMixin, CreateView):
-    pass
+    def get_context_data(self, **kwargs):
+        """Add the models verbose name to the context dictionary."""
+
+        kwargs.update({
+            "model_verbose_name": self.form_class._meta.model._meta.verbose_name,})
+        return super().get_context_data(**kwargs)
 
 #Component
 #Поцессоры
@@ -220,6 +230,22 @@ class MotherboardDetailView(BaseComponentDetailView):
     model = Motherboard
     template_name = 'components/motherboard_detail.html'
 
+class MotherboardCreateView(BaseComponentCreateView):
+    model = Motherboard
+    form_class = MotherboardForm
+    template_name = 'components/create_component.html'
+
+class MotherboardUpdateView(BaseComponentUpdateView):
+    model = Motherboard
+    form_class = MotherboardForm
+    template_name = 'components/create_component.html'
+
+class MotherboardDeleteView(BaseComponentDeleteView):
+    model = Motherboard
+    success_url = reverse_lazy("catalogs:motherboard_list")
+    template_name = 'components/motherboard_delete.html'
+
+#Память
 class RAMListView(BaseComponentView):
     model = RAM
     template_name = 'components/ram_list.html'

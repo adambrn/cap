@@ -15,16 +15,19 @@ urlpatterns = [
     #path('components/create/<str:component_type>/', CreateComponentView.as_view(), name='create_component'),
     
     path('components/create/', SelectComponentView.as_view(), name='select_component'),
-    
+    #Процессор
     path('components/processor_list/', ProcessorListView.as_view(), name='processor_list'), 
     path('components/processor/create', ProcessorCreateView.as_view(), name='processor_create'),
     path('components/processor/<int:pk>/update', ProcessorUpdateView.as_view(), name='processor_update'),
     path('components/processor/<int:pk>/delete', ProcessorDeleteView.as_view(), name='processor_delete'),
     path('components/processor/<int:pk>/detail', ProcessorDetailView.as_view(), name='processor_detail'), 
-    
+    #Материнская плата
     path('components/motherboard_list/', MotherboardListView.as_view(), name='motherboard_list'),
-    path('components/motherboard_detail/<int:pk>/', MotherboardDetailView.as_view(), name='motherboard_detail'),
-
+    path('components/motherboard/create', MotherboardCreateView.as_view(), name='motherboard_create'),
+    path('components/motherboard/<int:pk>/update', MotherboardUpdateView.as_view(), name='motherboard_update'),
+    path('components/motherboard/<int:pk>/delete', MotherboardDeleteView.as_view(), name='motherboard_delete'),
+    path('components/motherboard/<int:pk>/detail', MotherboardDetailView.as_view(), name='motherboard_detail'), 
+    #Память
     path('components/ram_list/', RAMListView.as_view(), name='ram_list'),
     path('components/ram_detail/<int:pk>/', RAMDetailView.as_view(), name='ram_detail'),
 

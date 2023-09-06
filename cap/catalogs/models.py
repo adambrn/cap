@@ -128,6 +128,10 @@ class BaseComponent(models.Model):
     def get_absolute_url(self):
         return reverse(f'catalogs:{self._meta.model_name}_detail', kwargs={"pk": self.pk})
     
+    def get_model_fields(self):
+        return [{"label": field.verbose_name, "value": getattr(self, field.name)} for field in self._meta.get_fields()]
+              
+    
     def __str__(self) -> str:
         return str(self.name)
 
