@@ -27,7 +27,7 @@ class Index(BaseContextMixin, LoginView):
 
 class EquipmentCatalogView(BaseBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, MultiTableMixin, TemplateView):
     
-    template_name = 'equipments.html'
+    template_name = 'catalogs/equipments/equipments.html'
     def get_tables(self):
         tables = [
             ComputerTable(Computer.objects.all()),
@@ -90,14 +90,14 @@ class EquipmentDetailView(DetailBreadcrumbMixin, BaseContextMixin, LoginRequired
 #Компьютеры
 class ComputersView(EquipmentView):
     model = Computer
-    template_name = 'computers.html'
+    template_name = 'catalogs/equipments/computers.html'
     table_class = ComputerTable
     filterset_class = ComputerFilter
 
 class ComputerDetailView(MultiTableMixin,EquipmentDetailView):
     
     model = Computer
-    template_name = 'computer_detail.html'
+    template_name = 'catalogs/equipments/computer_detail.html'
 
     def get_tables(self):
         computer_id = self.kwargs.get('pk')
@@ -120,47 +120,47 @@ class ComputerDetailView(MultiTableMixin,EquipmentDetailView):
 #Принтеры
 class PrintersView(EquipmentView):
     model = Printer
-    template_name = 'computers.html'
+    template_name = 'catalogs/equipments/computers.html'
     table_class = PrinterTable
     filterset_class = ComputerFilter  
 
 class PrinterDetailView(EquipmentDetailView):
     
     model = Printer
-    template_name = 'printer_detail.html'
+    template_name = 'catalogs/equipments/printer_detail.html'
 
 #Сетевое оборудование
 class NetworkDeviceView(EquipmentView):
     model = NetworkDevice
-    template_name = 'network_device.html'
+    template_name = 'catalogs/equipments/network_device.html'
     table_class = NetworkDeviceTable
     filterset_class = ComputerFilter
 
 class NetworkDeviceDetailView(EquipmentDetailView): 
     model = NetworkDevice
-    template_name = 'network_device_detail.html'
+    template_name = 'catalogs/equipments/network_device_detail.html'
 
 #Телефоны
 class PhoneView(EquipmentView):
     model = Phone
-    template_name = 'phone.html'
+    template_name = 'catalogs/equipments/phone.html'
     table_class = PhoneTable
     filterset_class = ComputerFilter
 
 class PhoneDetailView(EquipmentDetailView): 
     model = Phone
-    template_name = 'phone_detail.html'
+    template_name = 'catalogs/equipments/phone_detail.html'
 
 #Другое оборудование
 class OtherEquipmentView(EquipmentView):
     model = OtherEquipment
-    template_name = 'other_equipment.html'
+    template_name = 'catalogs/equipments/other_equipment.html'
     table_class = OtherEquipmentTable
     filterset_class = ComputerFilter
 
 class OtherEquipmentDetailView(EquipmentDetailView): 
     model = OtherEquipment
-    template_name = 'other_equipment_detail.html'
+    template_name = 'catalogs/equipments/other_equipment_detail.html'
 
 
 #Базовые классы компонентов
@@ -196,69 +196,69 @@ class BaseComponentCreateView(CreateBreadcrumbMixin, BaseComponentMixin, CreateV
 #Поцессоры
 class ProcessorListView(BaseComponentView):
     model = Processor
-    template_name = 'components/processor_list.html'
+    template_name = 'catalogs/components/processor_list.html'
     table_class = ProcessorTable
     filterset_class = ComponentFilter
 
 class ProcessorDetailView(BaseComponentDetailView):
     model = Processor
-    template_name = 'components/processor_detail.html'
+    template_name = 'catalogs/components/processor_detail.html'
 
 class ProcessorCreateView(BaseComponentCreateView):
     model = Processor
     form_class = ProcessorForm
-    template_name = 'components/create_component.html'
+    template_name = 'catalogs/components/create_component.html'
 
 class ProcessorUpdateView(BaseComponentUpdateView):
     model = Processor
     form_class = ProcessorForm
-    template_name = 'components/create_component.html'
+    template_name = 'catalogs/components/create_component.html'
 
 class ProcessorDeleteView(BaseComponentDeleteView):
     model = Processor
     success_url = reverse_lazy("catalogs:processor_list")
-    template_name = 'components/processor_delete.html'
+    template_name = 'catalogs/components/processor_delete.html'
 
 #Материнские платы
 class MotherboardListView(BaseComponentView):
     model = Motherboard  
-    template_name = 'components/motherboard_list.html'
+    template_name = 'catalogs/components/motherboard_list.html'
     table_class = MotherboardTable
     filterset_class = ComponentFilter
 
 class MotherboardDetailView(BaseComponentDetailView):
     model = Motherboard
-    template_name = 'components/motherboard_detail.html'
+    template_name = 'catalogs/components/motherboard_detail.html'
 
 class MotherboardCreateView(BaseComponentCreateView):
     model = Motherboard
     form_class = MotherboardForm
-    template_name = 'components/create_component.html'
+    template_name = 'catalogs/components/create_component.html'
 
 class MotherboardUpdateView(BaseComponentUpdateView):
     model = Motherboard
     form_class = MotherboardForm
-    template_name = 'components/create_component.html'
+    template_name = 'catalogs/components/create_component.html'
 
 class MotherboardDeleteView(BaseComponentDeleteView):
     model = Motherboard
     success_url = reverse_lazy("catalogs:motherboard_list")
-    template_name = 'components/motherboard_delete.html'
+    template_name = 'catalogs/components/motherboard_delete.html'
 
 #Память
 class RAMListView(BaseComponentView):
     model = RAM
-    template_name = 'components/ram_list.html'
+    template_name = 'catalogs/components/ram_list.html'
     table_class = RAMTable
     filterset_class = ComponentFilter
 
 class RAMDetailView(BaseComponentDetailView):
     model = RAM
-    template_name = 'components/ram_detail.html'
+    template_name = 'catalogs/components/ram_detail.html'
 
 class GraphicsCardListView(BaseComponentView):
     model = GraphicsCard
-    template_name = 'components/graphicscard_list.html'
+    template_name = 'catalogs/components/graphicscard_list.html'
     table_class = GraphicsCardTable
     filterset_class = ComponentFilter
 
@@ -274,31 +274,31 @@ class StorageListView(BaseComponentView):
 
 class StorageDetailView(BaseComponentDetailView):
     model = Storage 
-    template_name = 'components/storage_detail.html'
+    template_name = 'catalogs/components/storage_detail.html'
 
 class PowerSupplyListView(BaseComponentView):
     model = PowerSupply
-    template_name = 'components/powersupply_list.html'
+    template_name = 'catalogs/components/powersupply_list.html'
     table_class = PowerSupplyTable
     filterset_class = ComponentFilter
 
 class PowerSupplyDetailView(BaseComponentDetailView):
     model = PowerSupply
-    template_name = 'components/powersupply_detail.html'
+    template_name = 'catalogs/components/powersupply_detail.html'
 
 class CoolerListView(BaseComponentView):
     model = Cooler
-    template_name = 'components/cooler_list.html'
+    template_name = 'catalogs/components/cooler_list.html'
     table_class = CoolerTable
     filterset_class = ComponentFilter
 
 class CoolerDetailView(BaseComponentDetailView):
     model = Cooler
-    template_name = 'components/cooler_detail.html'
+    template_name = 'catalogs/components/cooler_detail.html'
 
 class CaseListView(BaseComponentView):
     model = Case  
-    template_name = 'components/case_list.html'
+    template_name = 'catalogs/components/case_list.html'
     table_class = CaseTable
     filterset_class = ComponentFilter
 
@@ -308,17 +308,17 @@ class CaseDetailView(BaseComponentDetailView):
 
 class NetworkCardListView(BaseComponentView):
     model = NetworkCard
-    template_name = 'components/networkcard_list.html'
+    template_name = 'catalogs/components/networkcard_list.html'
     table_class = NetworkCardTable 
     filterset_class = ComponentFilter
 
 class NetworkCardDetailView(BaseComponentDetailView):
     model = NetworkCard
-    template_name = 'components/networkcard_detail.html'
+    template_name = 'catalogs/components/networkcard_detail.html'
 
 
 class ComponentListView(BaseBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, MultiTableMixin, TemplateView):
-    template_name = 'components.html'
+    template_name = 'catalogs/components/components.html'
     
     def get_tables(self):
         tables = [
@@ -356,7 +356,7 @@ class ComponentListView(BaseBreadcrumbMixin, BaseContextMixin, LoginRequiredMixi
     
 class ComponentDetailView(BaseContextMixin, LoginRequiredMixin, DetailBreadcrumbMixin, DetailView):
 
-    template_name = 'component_detail.html'
+    template_name = 'catalogs/components/component_detail.html'
     #crumbs = [("My Test Breadcrumb", reverse_lazy("/"))]
    
     def get_queryset(self):
@@ -389,7 +389,7 @@ class ComponentDetailView(BaseContextMixin, LoginRequiredMixin, DetailBreadcrumb
         return context
 
 class SelectComponentView(BaseBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, TemplateView):
-    template_name = 'select_component.html'
+    template_name = 'catalogs/components/select_component.html'
     crumbs = [("Компоненты", reverse_lazy("catalogs:components"))]
     
     def get_context_data(self, **kwargs):
@@ -410,7 +410,7 @@ class SelectComponentView(BaseBreadcrumbMixin, BaseContextMixin, LoginRequiredMi
         return context
 
 class CreateComponentView(CreateBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, CreateView):
-    template_name = 'create_component.html'
+    template_name = 'catalogs/components/create_component.html'
 
     def get_form_class(self):
         component_type = self.kwargs['component_type']
