@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load django_tables2 %}
+
+{% block content %}
+<div class="container">
+    <h1>Все компоненты</h1>
+    <a href="{% url 'components:select_component' %}" class="btn btn-primary">Добавить компонент</a>
+    <div class="row">
+        {% for table in tables %}
+        <h2>{{table.Meta.verbose_name}}</h2>
+            <div class="col-lg-12">{% render_table table %}</div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

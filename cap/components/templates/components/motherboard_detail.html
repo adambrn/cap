@@ -3,14 +3,14 @@
 {% block content %}
 <div class="container">
   <a
-    href="{% url 'catalogs:processor_update' object.pk %}"
+    href="{% url 'components:motherboard_update' object.pk %}"
     class="btn btn-primary"
-    >Редактировать процессор</a
+    >Редактировать материнскую плату</a
   >
   <a
-    href="{% url 'catalogs:processor_delete' object.pk %}"
+    href="{% url 'components:motherboard_delete' object.pk %}"
     class="btn btn-danger"
-    >Удалить процессор</a
+    >Удалить материнскую плату</a
   >
   <div class="row">
     <div class="col-md-8 mx-auto mt-5">

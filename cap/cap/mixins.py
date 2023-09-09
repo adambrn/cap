@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.views.generic.base import ContextMixin
 from catalogs.models import *
+from components.models import *
+from equipments.models import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 COMPONENTS_LIST = {
@@ -22,8 +24,9 @@ class BaseContextMixin(ContextMixin):
   top_menu = [
     
   {'title': 'Главная', 'url': 'index'},
-  {'title': 'Оборудование', 'url': 'catalogs:equipments'},
-  {'title': 'Компоненты', 'url': 'catalogs:components'},
+  {'title': 'Оборудование', 'url': 'equipments:equipments'},
+  {'title': 'Компоненты', 'url': 'components:components'},
+  {'title': 'Справочники', 'url': 'catalogs:catalogs'},
 
   ]
 
@@ -38,15 +41,24 @@ class BaseComponentMixin(BaseContextMixin, LoginRequiredMixin):
   def get_context_data(self, **kwargs):
       context = super().get_context_data(**kwargs)
       context['menu'] =  [
-          {'title': 'Процессоры', 'url': 'catalogs:processor_list'},
-          {'title': 'Оперативная память', 'url': 'catalogs:ram_list'},
-          {'title': 'Материнские платы', 'url': 'catalogs:motherboard_list'},
-          {'title': 'Видеокарты', 'url': 'catalogs:graphicscard_list'},
-          {'title': 'Накопители', 'url': 'catalogs:storage_list'},
-          {'title': 'Блоки питания', 'url': 'catalogs:powersupply_list'},
-          {'title': 'Охлаждение', 'url': 'catalogs:cooler_list'}, 
-          {'title': 'Корпуса', 'url': 'catalogs:case_list'},
-          {'title': 'Сетевые карты', 'url': 'catalogs:networkcard_list'},
+          {'title': 'Процессоры', 'url': 'components:processor_list'},
+          {'title': 'Оперативная память', 'url': 'components:ram_list'},
+          {'title': 'Материнские платы', 'url': 'components:motherboard_list'},
+          {'title': 'Видеокарты', 'url': 'components:graphicscard_list'},
+          {'title': 'Накопители', 'url': 'components:storage_list'},
+          {'title': 'Блоки питания', 'url': 'components:powersupply_list'},
+          {'title': 'Охлаждение', 'url': 'components:cooler_list'}, 
+          {'title': 'Корпуса', 'url': 'components:case_list'},
+          {'title': 'Сетевые карты', 'url': 'components:networkcard_list'},
+          ]
+    
+      return context
+  
+class BaseCatalogMixin(BaseContextMixin, LoginRequiredMixin):
+  def get_context_data(self, **kwargs):
+      context = super().get_context_data(**kwargs)
+      context['menu'] =  [
+          {'title': 'Производители', 'url': 'catalogs:manufacturer_list'},
           ]
     
       return context

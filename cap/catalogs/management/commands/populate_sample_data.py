@@ -3,6 +3,8 @@ import random
 from django.core.management.base import BaseCommand
 from faker import Faker
 from catalogs.models import *
+from components.models import *
+from equipments.models import *
 
 fake = Faker('ru_RU')
 

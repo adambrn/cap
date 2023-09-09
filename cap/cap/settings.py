@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     "view_breadcrumbs",
     'django_filters',
     "catalogs",
+    'components',
+    'equipments',
     "history",
 ]
 

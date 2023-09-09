@@ -1,6 +1,5 @@
 from django import forms
-from catalogs.models import Motherboard, Processor, RAM, GraphicsCard, Storage, PowerSupply, Cooler, Case, NetworkCard
-
+from .models import *
 
 class BaseComponentForm(forms.ModelForm):
 

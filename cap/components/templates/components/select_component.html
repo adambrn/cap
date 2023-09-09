@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-6">
             {% for component_type, component_name in component_list %}
-                <a href="{% url 'catalogs:create_component' component_type %}" class="btn btn-primary btn-block mb-3">Добавить {{ component_name }}</a>
+                <a href="/components/components/{{component_type}}/create" class="btn btn-primary btn-block mb-3">Добавить {{ component_name }}</a>
             {% endfor %}
         </div>
     </div>

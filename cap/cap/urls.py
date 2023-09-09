@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from catalogs.views import BaseLoginView, BaseLogoutView, Index
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('', Index.as_view(), name='index'),
@@ -24,4 +26,9 @@ urlpatterns = [
     path('login/', BaseLoginView.as_view(), name='login'),
     path('logout/', BaseLogoutView.as_view(), name='logout'), 
     path('catalogs/', include('catalogs.urls')),
+    path('components/', include('components.urls')),
+    path('equipments/', include('equipments.urls')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL , document_root = settings.STATIC_ROOT)

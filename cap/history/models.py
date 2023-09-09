@@ -1,6 +1,6 @@
 from django.db import models
-from catalogs.models import Computer, Printer, Employee, Location
-
+from catalogs.models import Employee, Location
+from equipments.models import Computer, Printer
 # Create your models here.
 # Движение техники
 class EquipmentHistory(models.Model):
