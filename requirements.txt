@@ -3,6 +3,7 @@ crispy-bootstrap5==0.7
 Django==4.2.4
 django-crispy-forms==2.0
 django-extensions==3.2.3
+django-filter==23.2
 django-tables2==2.6.0
 django-view-breadcrumbs==2.4.1
 Faker==19.3.0
