@@ -1,3 +1,4 @@
+from django.urls import reverse_lazy
 from django_filters.views import FilterView
 from .filters import *
 from cap.mixins import *
@@ -97,49 +98,113 @@ class ComputerUpdateView(BaseEquipmentUpdateView):
 
 class ComputerDeleteView(BaseEquipmentDeleteView):
     model = Computer
+    success_url = reverse_lazy('equipments:computer_list')
+
 #Принтеры
-class PrintersView(BaseEquipmentListView):
+class PrinterListView(BaseEquipmentListView):
     model = Printer
-    template_name = 'equipments/computers.html'
+    template_name = 'equipments/printer_list.html'
     table_class = PrinterTable
     filterset_class = ComputerFilter  
 
 class PrinterDetailView(BaseEquipmentDetailView):
-    
     model = Printer
-    template_name = 'equipments/printer_detail.html'
 
+class PrinterCreateView(BaseEquipmentCreateView):
+    model = Printer
+    form_class = PrinterForm
+
+class PrinterUpdateView(BaseEquipmentUpdateView):
+    model = Printer
+    form_class = PrinterForm
+
+class PrinterDeleteView(BaseEquipmentDeleteView):
+    model = Printer
+    success_url = reverse_lazy('equipments:printer_list')
 #Сетевое оборудование
-class NetworkDeviceView(BaseEquipmentListView):
+class NetworkDeviceListView(BaseEquipmentListView):
     model = NetworkDevice
-    template_name = 'equipments/network_device.html'
+    template_name = 'equipments/networkdevice_list.html'
     table_class = NetworkDeviceTable
-    filterset_class = ComputerFilter
+    filterset_class = ComputerFilter  
 
-class NetworkDeviceDetailView(BaseEquipmentDetailView): 
+class NetworkDeviceDetailView(BaseEquipmentDetailView):
     model = NetworkDevice
-    template_name = 'equipments/network_device_detail.html'
+
+class NetworkDeviceCreateView(BaseEquipmentCreateView):
+    model = NetworkDevice
+    form_class = NetworkDeviceForm
+
+class NetworkDeviceUpdateView(BaseEquipmentUpdateView):
+    model = NetworkDevice
+    form_class = NetworkDeviceForm
+
+class NetworkDeviceDeleteView(BaseEquipmentDeleteView):
+    model = NetworkDevice
+    success_url = reverse_lazy('equipments:networkdevice_list')
 
 #Телефоны
-class PhoneView(BaseEquipmentListView):
+class PhoneListView(BaseEquipmentListView):
     model = Phone
-    template_name = 'equipments/phone.html'
+    template_name = 'equipments/phone_list.html'
     table_class = PhoneTable
     filterset_class = ComputerFilter
 
 class PhoneDetailView(BaseEquipmentDetailView): 
     model = Phone
-    template_name = 'equipments/phone_detail.html'
+
+class PhoneCreateView(BaseEquipmentCreateView):
+    model = Phone
+    form_class = PhoneForm
+
+class PhoneUpdateView(BaseEquipmentUpdateView):
+    model = Phone
+    form_class = PhoneForm
+
+class PhoneDeleteView(BaseEquipmentDeleteView):
+    model = Phone
+    success_url = reverse_lazy('equipments:phone_list')
+
 
 #Другое оборудование
-class OtherEquipmentView(BaseEquipmentListView):
+class OtherEquipmentListView(BaseEquipmentListView):
     model = OtherEquipment
-    template_name = 'equipments/other_equipment.html'
+    template_name = 'equipments/otherequipment_list.html'
     table_class = OtherEquipmentTable
     filterset_class = ComputerFilter
 
 class OtherEquipmentDetailView(BaseEquipmentDetailView): 
     model = OtherEquipment
-    template_name = 'equipments/other_equipment_detail.html'
 
+class OtherEquipmentCreateView(BaseEquipmentCreateView):
+    model = OtherEquipment
+    form_class = OtherEquipmentForm
 
+class OtherEquipmentUpdateView(BaseEquipmentUpdateView):
+    model = OtherEquipment
+    form_class = OtherEquipmentForm
+
+class OtherEquipmentDeleteView(BaseEquipmentDeleteView):
+    model = OtherEquipment
+    success_url = reverse_lazy('equipments:otherequipment_list')
+#Мониторы
+class MonitorListView(BaseEquipmentListView):
+    model = Monitor
+    template_name = 'equipments/monitor_list.html'
+    table_class = MonitorTable
+    filterset_class = ComputerFilter
+
+class MonitorDetailView(BaseEquipmentDetailView): 
+    model = Monitor
+
+class MonitorCreateView(BaseEquipmentCreateView):
+    model = Monitor
+    form_class = MonitorForm
+
+class MonitorUpdateView(BaseEquipmentUpdateView):
+    model = Monitor
+    form_class = MonitorForm
+
+class MonitorDeleteView(BaseEquipmentDeleteView):
+    model = Monitor
+    success_url = reverse_lazy('equipments:monitor_list')

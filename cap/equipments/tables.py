@@ -31,6 +31,13 @@ class PrinterTable(EquipmentTable):
         model = Printer
         verbose_name = "Принтеры"
 
+class MonitorTable(EquipmentTable):
+
+    class Meta(EquipmentTable.Meta):
+        model = Monitor
+        verbose_name = "Мониторы"
+
+
 class NetworkDeviceTable(EquipmentTable):
 
     class Meta(EquipmentTable.Meta):

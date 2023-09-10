@@ -68,10 +68,11 @@ class BaseEquipmentMixin(BaseContextMixin, LoginRequiredMixin):
           context = super().get_context_data(**kwargs)
           context['menu'] =  [
               {'title': 'Компьютеры', 'url': 'equipments:computer_list'},
+              {'title': 'Мониторы', 'url': 'equipments:monitor_list'},
               {'title': 'Принтеры', 'url': 'equipments:printer_list'},
-              {'title': 'Сетевые устройства', 'url': 'equipments:network_device_list'},
+              {'title': 'Сетевые устройства', 'url': 'equipments:networkdevice_list'},
               {'title': 'Телефоны', 'url': 'equipments:phone_list'},
-              {'title': 'Другие устройства', 'url': 'equipments:other_equipment_list'},
+              {'title': 'Другие устройства', 'url': 'equipments:otherequipment_list'},
               ]
       
           return context
