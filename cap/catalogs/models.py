@@ -9,6 +9,15 @@ class BaseCommonInfo(models.Model):
         
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, verbose_name='Название')
+    
+    def get_absolute_url(self):
+        return reverse(f'catalogs:{self._meta.model_name}_detail', args=[str(self.id)])
+    
+    def get_update_url(self):
+        return reverse(f'catalogs:{self._meta.model_name}_update', args=[str(self.id)])
+    
+    def get_delete_url(self):
+        return reverse(f'catalogs:{self._meta.model_name}_delete', args=[str(self.id)])
 
     def __str__(self) -> str:
         return str(self.name)

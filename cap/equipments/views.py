@@ -4,7 +4,7 @@ from cap.mixins import *
 from .tables import *
 from components.tables import *
 from .models import *
-from django.contrib.auth.mixins import LoginRequiredMixin
+from equipments.forms import *
 from django.views.generic import DetailView, CreateView, ListView, DeleteView, UpdateView
 from django_tables2 import MultiTableMixin, SingleTableMixin, SingleTableView
 from django.views.generic.base import TemplateView
@@ -13,7 +13,7 @@ from view_breadcrumbs.generic.base import BaseModelBreadcrumbMixin
 from django.utils.functional import cached_property
 from django.views.generic import DetailView
 
-class EquipmentCatalogView(BaseBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, MultiTableMixin, TemplateView):
+class EquipmentCatalogView(BaseBreadcrumbMixin, BaseEquipmentMixin, MultiTableMixin, TemplateView):
     
     template_name = 'equipments/equipments.html'
     def get_tables(self):
@@ -26,63 +26,48 @@ class EquipmentCatalogView(BaseBreadcrumbMixin, BaseContextMixin, LoginRequiredM
         ]
         return tables
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['menu'] =  [
-            {'title': 'Компьютеры', 'url': 'equipments:computer_list'},
-            {'title': 'Принтеры', 'url': 'equipments:printer_list'},
-            {'title': 'Сетевые устройства', 'url': 'equipments:network_device_list'},
-            {'title': 'Телефоны', 'url': 'equipments:phone_list'},
-            {'title': 'Другие устройства', 'url': 'equipments:other_equipment_list'},
-            ]
-     
-        return context
     
     @cached_property
     def crumbs(self):
         return [("Обрудование", "/")]
 
 #Базовые классы оборудования
-class EquipmentView(BaseModelBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, SingleTableMixin, FilterView):
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['menu'] =  [
-            {'title': 'Компьютеры', 'url': 'equipments:computer_list'},
-            {'title': 'Принтеры', 'url': 'equipments:printer_list'},
-            {'title': 'Сетевые устройства', 'url': 'equipments:network_device_list'},
-            {'title': 'Телефоны', 'url': 'equipments:phone_list'},
-            {'title': 'Другие устройства', 'url': 'equipments:other_equipment_list'},
-            ]
-     
-        return context
+class BaseEquipmentListView(BaseModelBreadcrumbMixin, BaseEquipmentMixin, SingleTableMixin, FilterView):
     
     @cached_property
     def crumbs(self):
         return [("Обрудование", "/"), (self.model_name_title_plural, "/")]
 
-class EquipmentDetailView(DetailBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, DetailView):
+class BaseEquipmentDetailView(DetailBreadcrumbMixin, BaseEquipmentMixin, DetailView):
+    pass
 
+class BaseEquipmentDeleteView(DeleteBreadcrumbMixin, BaseEquipmentMixin, DeleteView):
+    pass
+
+class BaseEquipmentUpdateView(UpdateBreadcrumbMixin, BaseEquipmentMixin, UpdateView):
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['menu'] =  [
-            {'title': 'Компьютеры', 'url': 'equipments:computer_list'},
-            {'title': 'Принтеры', 'url': 'equipments:printer_list'},
-            {'title': 'Сетевые устройства', 'url': 'equipments:network_device_list'},
-            {'title': 'Телефоны', 'url': 'equipments:phone_list'},
-            {'title': 'Другие устройства', 'url': 'equipments:other_equipment_list'},
-            ]
-     
-        return context
+        """Add the models verbose name to the context dictionary."""
+
+        kwargs.update({
+            "model_verbose_name": self.form_class._meta.model._meta.verbose_name,})
+        return super().get_context_data(**kwargs)
+
+class BaseEquipmentCreateView(CreateBreadcrumbMixin, BaseEquipmentMixin, CreateView):
+    def get_context_data(self, **kwargs):
+        """Add the models verbose name to the context dictionary."""
+
+        kwargs.update({
+            "model_verbose_name": self.form_class._meta.model._meta.verbose_name,})
+        return super().get_context_data(**kwargs)
 
 #Компьютеры
-class ComputersView(EquipmentView):
+class ComputersView(BaseEquipmentListView):
     model = Computer
     template_name = 'equipments/computers.html'
     table_class = ComputerTable
     filterset_class = ComputerFilter
 
-class ComputerDetailView(MultiTableMixin,EquipmentDetailView):
+class ComputerDetailView(MultiTableMixin, BaseEquipmentDetailView):
     
     model = Computer
     template_name = 'equipments/computer_detail.html'
@@ -104,49 +89,53 @@ class ComputerDetailView(MultiTableMixin,EquipmentDetailView):
         ]
         return tables
 
+class ComputerCreateView(BaseEquipmentCreateView):
+    model = Computer
+    form_class = ComputerForm
+    template_name = 'equipments/computer_create.html'
 
 #Принтеры
-class PrintersView(EquipmentView):
+class PrintersView(BaseEquipmentListView):
     model = Printer
     template_name = 'equipments/computers.html'
     table_class = PrinterTable
     filterset_class = ComputerFilter  
 
-class PrinterDetailView(EquipmentDetailView):
+class PrinterDetailView(BaseEquipmentDetailView):
     
     model = Printer
     template_name = 'equipments/printer_detail.html'
 
 #Сетевое оборудование
-class NetworkDeviceView(EquipmentView):
+class NetworkDeviceView(BaseEquipmentListView):
     model = NetworkDevice
     template_name = 'equipments/network_device.html'
     table_class = NetworkDeviceTable
     filterset_class = ComputerFilter
 
-class NetworkDeviceDetailView(EquipmentDetailView): 
+class NetworkDeviceDetailView(BaseEquipmentDetailView): 
     model = NetworkDevice
     template_name = 'equipments/network_device_detail.html'
 
 #Телефоны
-class PhoneView(EquipmentView):
+class PhoneView(BaseEquipmentListView):
     model = Phone
     template_name = 'equipments/phone.html'
     table_class = PhoneTable
     filterset_class = ComputerFilter
 
-class PhoneDetailView(EquipmentDetailView): 
+class PhoneDetailView(BaseEquipmentDetailView): 
     model = Phone
     template_name = 'equipments/phone_detail.html'
 
 #Другое оборудование
-class OtherEquipmentView(EquipmentView):
+class OtherEquipmentView(BaseEquipmentListView):
     model = OtherEquipment
     template_name = 'equipments/other_equipment.html'
     table_class = OtherEquipmentTable
     filterset_class = ComputerFilter
 
-class OtherEquipmentDetailView(EquipmentDetailView): 
+class OtherEquipmentDetailView(BaseEquipmentDetailView): 
     model = OtherEquipment
     template_name = 'equipments/other_equipment_detail.html'
 

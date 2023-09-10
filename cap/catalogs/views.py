@@ -5,6 +5,7 @@ from .filters import *
 from cap.mixins import *
 from .tables import *
 from .models import *
+from .forms import *
 from view_breadcrumbs import DetailBreadcrumbMixin, BaseBreadcrumbMixin, CreateBreadcrumbMixin, DeleteBreadcrumbMixin, UpdateBreadcrumbMixin
 from view_breadcrumbs.generic.base import BaseModelBreadcrumbMixin
 from django.views.generic import DetailView, CreateView, ListView, DeleteView, UpdateView
@@ -35,6 +36,7 @@ class BaseCatalogDeleteView(DeleteBreadcrumbMixin, BaseCatalogMixin, DeleteView)
     pass
 
 class BaseCatalogUpdateView(UpdateBreadcrumbMixin, BaseCatalogMixin, UpdateView):
+    success_url = reverse_lazy()
     def get_context_data(self, **kwargs):
         """Add the models verbose name to the context dictionary."""
 
@@ -71,6 +73,20 @@ class ManufacturerListView(BaseCatalogView):
     template_name = 'catalogs/manufacturer_list.html'
     table_class = ManufacturerTable
     filterset_class = CatalogsFilter
+
+class ManufacturerDetailView(BaseCatalogDetailView):
+    model = Manufacturer
+
+class ManufacturerDeleteView(BaseCatalogDeleteView):
+    model = Manufacturer
+
+class ManufacturerCreateView(BaseCatalogCreateView):
+    model = Manufacturer
+    form_class = ManufacturerForm
+
+class ManufacturerUpdateView(BaseCatalogUpdateView):
+    model = Manufacturer
+    form_class = ManufacturerForm
 
 #LOGIN
 class BaseLoginView(BaseContextMixin, LoginView):

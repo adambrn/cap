@@ -25,11 +25,22 @@ class Equipment(models.Model):
     
     def get_absolute_url(self):
         return reverse(f'equipments:{self._meta.model_name}_detail', args=[str(self.id)])
+    
+    def get_update_url(self):
+        return reverse(f'equipments:{self._meta.model_name}_update', args=[str(self.id)])
+    
+    def get_delete_url(self):
+        return reverse(f'equipments:{self._meta.model_name}_delete', args=[str(self.id)])
 
 class Computer(Equipment):
     class Meta:
         verbose_name = 'Компьютер'
         verbose_name_plural = 'Компьютеры'
+
+class Monitor(Equipment):
+    class Meta:
+        verbose_name = 'Монитор'
+        verbose_name_plural = 'Мониторы'
     
 class Printer(Equipment):
     class Meta:

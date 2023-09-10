@@ -7,6 +7,7 @@ urlpatterns = [
     path('', EquipmentCatalogView.as_view(), name='equipments'),
     path('computers/', ComputersView.as_view(), name='computer_list'),
     path('computers/<int:pk>', ComputerDetailView.as_view(), name='computer_detail'),
+    path('computers/create', ComputerCreateView.as_view(), name='computer_create'),
     
     path('printers/', PrintersView.as_view(), name='printer_list'),
     path('printers/<int:pk>', PrinterDetailView.as_view(), name='printer_detail'),

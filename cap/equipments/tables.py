@@ -2,45 +2,50 @@ import itertools
 import django_tables2 as tables
 from .models import *
 
-_TEMPLATE_CMPONENT_LINK = '''<a href="{{ record.get_absolute_url }}">Подробнее</a>'''
+_TEMPLATE_CMPONENT_LINK = '<a href="{{ record.get_absolute_url }}" class="btn btn-link"><i class="fas fa-eye">'
 # Оборудование
 class EquipmentTable(tables.Table):
     row_number = tables.Column(empty_values=(), verbose_name='No.')
-    view_details = tables.TemplateColumn('''<a href="{{ record.get_absolute_url }}">Подробнее</a>''', verbose_name='Детали')
+    view_details = tables.TemplateColumn(_TEMPLATE_CMPONENT_LINK, verbose_name='Детали')
     
-    
+    class Meta:
+        fields = ('row_number',
+                    'name',
+                    'category',
+                    'equipment_status', 
+                    'view_details',)
     
     def render_row_number(self):
-        self.row_counter = getattr(self, 'row_counter', itertools.count())
+        self.row_counter = getattr(self, 'row_counter', itertools.count(1))
         return next(self.row_counter)
 
 class ComputerTable(EquipmentTable):
 
-    class Meta:
+    class Meta(EquipmentTable.Meta):
         model = Computer
         verbose_name = "Компьютеры"
-      
+
 class PrinterTable(EquipmentTable):
 
-    class Meta:
+    class Meta(EquipmentTable.Meta):
         model = Printer
         verbose_name = "Принтеры"
 
 class NetworkDeviceTable(EquipmentTable):
 
-    class Meta:
+    class Meta(EquipmentTable.Meta):
         model = NetworkDevice
         verbose_name = "Сетевое борудование"
 
 class PhoneTable(EquipmentTable):
 
-    class Meta:
+    class Meta(EquipmentTable.Meta):
         model = Phone
         verbose_name = "Телефоны"
 
 class OtherEquipmentTable(EquipmentTable):
 
-    class Meta:
+    class Meta(EquipmentTable.Meta):
         model = OtherEquipment
         verbose_name = "Другое оборудование"
 
@@ -51,8 +56,14 @@ class PeripheralsTable(tables.Table):
 
     class Meta:
         model = Peripherals
+        fields = ('row_number',
+                    'name',
+                    'category',
+                    'equipment_status', 
+                    'view_details',)
+        
         verbose_name = "Периферийные устройства"
-        def render_row_number(self):
-            self.row_counter = getattr(self, 'row_counter', itertools.count())
-            return next(self.row_counter)
+    def render_row_number(self):
+        self.row_counter = getattr(self, 'row_counter', itertools.count())
+        return next(self.row_counter)
 

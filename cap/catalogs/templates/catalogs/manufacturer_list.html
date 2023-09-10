@@ -3,6 +3,7 @@
 {% block content %}
 
 <h1>{{table.Meta.verbose_name}}</h1>
+<a href="{% url 'catalogs:manufacturer_create' %}" class="btn btn-success">Добавить компьютер</a>
 {% if filter %}
     <form action="" method="get" class="form form-inline">
             {{ filter.form }}
