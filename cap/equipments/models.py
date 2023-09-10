@@ -32,6 +32,15 @@ class Equipment(models.Model):
     def get_delete_url(self):
         return reverse(f'equipments:{self._meta.model_name}_delete', args=[str(self.id)])
 
+    def get_model_fields(self):
+        fields = []
+        for field in self._meta.get_fields():
+            if "ptr" not in field.name:
+                if hasattr(field, 'verbose_name'):
+                    fields.append({"label": field.verbose_name, "value": getattr(self, field.name)})
+        return fields
+
+
 class Computer(Equipment):
     class Meta:
         verbose_name = 'Компьютер'

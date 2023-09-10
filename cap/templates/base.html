@@ -1,5 +1,6 @@
 {% load static %}
 {% load view_breadcrumbs %} 
+{% load custom_tags %} 
 <!DOCTYPE html>
 <html>
   <head>
@@ -75,13 +76,23 @@
         </div>
 
         <div class="col-md-10">
+          
 
           {% block breadcrumbs %} 
-            {%render_breadcrumbs %} 
+            {%render_breadcrumbs %}          
+          {% endblock breadcrumbs%} 
+
+          {% block page_header %}
+          {% endblock page_header %}
+
+          {% block buttons %}
+          {% endblock buttons %}
           
-          {% endblock %} 
           {% block content %} 
-          {% endblock %}
+          {% endblock content %}
+
+          {% block extra_content %} 
+          {% endblock extra_content %}
         </div>
       </div>
     </div>

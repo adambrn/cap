@@ -24,4 +24,4 @@ class ManufacturerTable(CatalogsTable):
 
     class Meta(CatalogsTable.Meta):
         model = Manufacturer
-        verbose_name = "Поизводитель"
+        verbose_name = "Производители"

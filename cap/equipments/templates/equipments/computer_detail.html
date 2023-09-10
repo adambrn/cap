@@ -1,48 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'equipments/equipment_detail.html' %}
 {% load django_tables2 %}
-{% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 mx-auto mt-5">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Детали компьютера: {{ computer.name }}</h3>
-                </div>
-                <div class="card-body">
-                    <dl class="row">
-                        <dt class="col-sm-6">Название</dt>
-                        <dd class="col-sm-6">{{ computer.name }}</dd>
 
-                        <dt class="col-sm-6">Категория</dt>
-                        <dd class="col-sm-6">{{ computer.category }}</dd>
-
-                        <dt class="col-sm-6">Производитель</dt>
-                        <dd class="col-sm-6">{{ computer.manufacturer }}</dd>
-
-                        <dt class="col-sm-6">Модель</dt>
-                        <dd class="col-sm-6">{{ computer.model }}</dd>
-
-                        <dt class="col-sm-6">Серийный номер</dt>
-                        <dd class="col-sm-6">{{ computer.serial_number }}</dd>
-
-                        <dt class="col-sm-6">Инвентарный номер</dt>
-                        <dd class="col-sm-6">{{ computer.inventory_number }}</dd>
-
-                        <dt class="col-sm-6">Стоимость</dt>
-                        <dd class="col-sm-6">{{ computer.cost }}</dd>
-
-                        <dt class="col-sm-6">Дата покупки</dt>
-                        <dd class="col-sm-6">{{ computer.purchase_date }}</dd>
-
-                        <dt class="col-sm-6">Состояние</dt>
-                        <dd class="col-sm-6">{{ computer.equipment_status }}</dd>
-                    </dl>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="container">
+{% block extra_content %}
+<div>
     <h3>Компоненты компьютера: {{ computer.name }}</h3>
     <div class="row">
         {% for table in tables %}
@@ -51,4 +11,4 @@
         {% endfor %}
     </div>
 </div>
-{% endblock %}
+{% endblock extra_content %}

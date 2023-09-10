@@ -36,10 +36,8 @@ class BaseCatalogDeleteView(DeleteBreadcrumbMixin, BaseCatalogMixin, DeleteView)
     pass
 
 class BaseCatalogUpdateView(UpdateBreadcrumbMixin, BaseCatalogMixin, UpdateView):
-    success_url = reverse_lazy()
     def get_context_data(self, **kwargs):
         """Add the models verbose name to the context dictionary."""
-
         kwargs.update({
             "model_verbose_name": self.form_class._meta.model._meta.verbose_name,})
         return super().get_context_data(**kwargs)
@@ -87,7 +85,7 @@ class ManufacturerCreateView(BaseCatalogCreateView):
 class ManufacturerUpdateView(BaseCatalogUpdateView):
     model = Manufacturer
     form_class = ManufacturerForm
-
+#Статусы оборудования
 #LOGIN
 class BaseLoginView(BaseContextMixin, LoginView):
     template_name = 'accounts/login.html'

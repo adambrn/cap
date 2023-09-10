@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
-{% block content %}
+{% load custom_tags %}
 
-<h1>{{table.Meta.verbose_name}}</h1>
-<a href="{% url 'equipments:computer_create' %}" class="btn btn-success">Добавить компьютер</a>
+{% block page_header %}
+    <h1>{{table.Meta.verbose_name}}</h1>
+{% endblock page_header %}
+
+{% block content %}
 {% if filter %}
     <form action="" method="get" class="form form-inline">
             {{ filter.form }}

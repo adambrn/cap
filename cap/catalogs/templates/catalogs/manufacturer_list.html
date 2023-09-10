@@ -1,17 +1,6 @@
-{% extends 'base.html' %}
-{% load crispy_forms_tags %}
-{% block content %}
+{% extends 'catalogs/catalog_list.html' %}
+{% load custom_tags %}
 
-<h1>{{table.Meta.verbose_name}}</h1>
-<a href="{% url 'catalogs:manufacturer_create' %}" class="btn btn-success">Добавить компьютер</a>
-{% if filter %}
-    <form action="" method="get" class="form form-inline">
-            {{ filter.form }}
-            <button class="btn btn-primary" type="submit">Применить фильтр</button>
-        </form>
-{% endif %}
-    {% load render_table from django_tables2 %}
-
-{% render_table table %}
-
-{% endblock %}
+{% block buttons %}
+    <a href="{% url 'catalogs:manufacturer_create' %}" class="btn btn-success">Добавить {{model_verbose_name}}</a>
+{% endblock buttons %}

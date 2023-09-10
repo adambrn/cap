@@ -5,9 +5,11 @@ app_name = 'equipments'
 
 urlpatterns = [
     path('', EquipmentCatalogView.as_view(), name='equipments'),
-    path('computers/', ComputersView.as_view(), name='computer_list'),
-    path('computers/<int:pk>', ComputerDetailView.as_view(), name='computer_detail'),
-    path('computers/create', ComputerCreateView.as_view(), name='computer_create'),
+    path('computer/list/', ComputersView.as_view(), name='computer_list'),
+    path('computer/<int:pk>/', ComputerDetailView.as_view(), name='computer_detail'),
+    path('computer/create/', ComputerCreateView.as_view(), name='computer_create'),
+    path('computer/<int:pk>/update/', ComputerUpdateView.as_view(), name='computer_update'),
+    path('computer/<int:pk>/delete/', ComputerDeleteView.as_view(), name='computer_delete'),
     
     path('printers/', PrintersView.as_view(), name='printer_list'),
     path('printers/<int:pk>', PrinterDetailView.as_view(), name='printer_detail'),

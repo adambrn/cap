@@ -63,14 +63,12 @@ class BaseEquipmentCreateView(CreateBreadcrumbMixin, BaseEquipmentMixin, CreateV
 #Компьютеры
 class ComputersView(BaseEquipmentListView):
     model = Computer
-    template_name = 'equipments/computers.html'
+    template_name = 'equipments/computer_list.html'
     table_class = ComputerTable
     filterset_class = ComputerFilter
 
 class ComputerDetailView(MultiTableMixin, BaseEquipmentDetailView):
-    
     model = Computer
-    template_name = 'equipments/computer_detail.html'
 
     def get_tables(self):
         computer_id = self.kwargs.get('pk')
@@ -92,8 +90,13 @@ class ComputerDetailView(MultiTableMixin, BaseEquipmentDetailView):
 class ComputerCreateView(BaseEquipmentCreateView):
     model = Computer
     form_class = ComputerForm
-    template_name = 'equipments/computer_create.html'
 
+class ComputerUpdateView(BaseEquipmentUpdateView):
+    model = Computer
+    form_class = ComputerForm
+
+class ComputerDeleteView(BaseEquipmentDeleteView):
+    model = Computer
 #Принтеры
 class PrintersView(BaseEquipmentListView):
     model = Printer

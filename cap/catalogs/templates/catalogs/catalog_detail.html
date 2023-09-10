@@ -1,0 +1,18 @@
+{% extends 'base.html' %} 
+{% load custom_tags %} 
+
+{% block page_header %} 
+<p><h2>Справочник:{% model_verbose_name object %}</h2></p>  
+{% endblock page_header %}
+
+{% block buttons %}
+<a href="{{object.get_update_url}}" class="btn btn-primary">Редактировать</a>
+<a href="{{object.get_delete_url}}" class="btn btn-danger"> Удалить</a> 
+{% endblock buttons %}
+
+{% block content %}
+<div class="container">
+    <p><h3><strong>ID:</strong> {{ object.pk }}</h3></p>
+    <p><h3><strong>Наименование:</strong> {{ object.name }}</h3></p>
+</div>
+{% endblock content %}
