@@ -76,3 +76,14 @@ class BaseEquipmentMixin(BaseContextMixin, LoginRequiredMixin):
               ]
       
           return context
+  
+
+class BaseHistoryMixin(BaseContextMixin, LoginRequiredMixin):
+  def get_context_data(self, **kwargs):
+          context = super().get_context_data(**kwargs)
+          context['menu'] =  [
+              {'title': 'Компьютеров', 'url': 'history:history'},
+              
+              ]
+      
+          return context

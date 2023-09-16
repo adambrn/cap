@@ -2,6 +2,45 @@
 {% load django_tables2 %}
 
 {% block extra_content %}
+<div class="row">
+    <div class="col-md-8 mx-auto mt-5">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
+            Расположение компьютера
+            <a class="no-underline" href="{% url 'history:computer_history_list' computer_pk=computer.pk %}">
+                <i class="fas fa-eye"></i>
+            </a>
+          </h4>
+        </div>
+        <div class="card-body">
+          <dl class="row">
+            <dt class="col-sm-4">Местоположение:</dt>
+            <dd class="col-sm-6">{{current_history.location}}</dd>
+            <dd class="col-sm-2">
+                <a class="no-underline" href="{% url 'history:computer_history_location_update' computer_pk=computer.pk pk=current_history.pk %}">
+                    <i class="fas fa-pencil-alt"></i>
+                </a>
+                <a class="no-underline" href="">
+                    <i class="fas fa-trash"></i>
+                </a>
+            </dd>
+            <dt class="col-sm-4">Сотрудник:</dt>
+            <dd class="col-sm-6">{{current_history.employee}}</dd>
+            <dd class="col-sm-2">
+
+                <a class="no-underline" href="{% url 'history:computer_history_employee_update' computer_pk=computer.pk pk=current_history.pk %}">
+                    <i class="fas fa-pencil-alt"></i>
+                </a>
+                <a class="no-underline" href="">
+                    <i class="fas fa-trash"></i>
+                </a>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
 <div>
     <h3>Компоненты компьютера: {{ computer.name }}</h3>
     <div class="row">

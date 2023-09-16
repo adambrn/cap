@@ -16,7 +16,7 @@ class EquipmentHistory(models.Model):
     start_date = models.DateField(null=True, blank=True, verbose_name='Дата выдачи')
     end_date = models.DateField(null=True, blank=True, verbose_name='Дата возврата')
 
-class ComputersHistory(EquipmentHistory):
+class ComputerHistory(EquipmentHistory):
     computer = models.ForeignKey(Computer, on_delete=models.CASCADE, verbose_name='Компьютер')
 
 class MonitorHistory(EquipmentHistory):

@@ -28,6 +28,7 @@ urlpatterns = [
     path('catalogs/', include('catalogs.urls')),
     path('components/', include('components.urls')),
     path('equipments/', include('equipments.urls')),
+    path('history/', include('history.urls')),
 ]
 
 if settings.DEBUG:

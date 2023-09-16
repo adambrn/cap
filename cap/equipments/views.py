@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.urls import reverse_lazy
 from django_filters.views import FilterView
 from .filters import *
@@ -13,6 +14,7 @@ from view_breadcrumbs import DetailBreadcrumbMixin, BaseBreadcrumbMixin, CreateB
 from view_breadcrumbs.generic.base import BaseModelBreadcrumbMixin
 from django.utils.functional import cached_property
 from django.views.generic import DetailView
+from django.db.models import Max
 
 class EquipmentCatalogView(BaseBreadcrumbMixin, BaseEquipmentMixin, MultiTableMixin, TemplateView):
     
@@ -70,7 +72,25 @@ class ComputersView(BaseEquipmentListView):
 
 class ComputerDetailView(MultiTableMixin, BaseEquipmentDetailView):
     model = Computer
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
+        # Получаем текущую дату и время
+        current_date = timezone.now()
+
+        # Получаем последнюю запись истории для данного компьютера на текущую дату
+        last_history_entry = self.object.computerhistory_set.filter(
+            computer=self.object, start_date__lte=current_date
+        ).aggregate(Max('start_date'))
+
+        if last_history_entry['start_date__max']:
+            last_history_entry = self.object.computerhistory_set.filter(
+                computer=self.object, start_date=last_history_entry['start_date__max']
+            ).last()
+            context['current_history'] = last_history_entry
+        return context
+    
     def get_tables(self):
         computer_id = self.kwargs.get('pk')
         computer = Computer.objects.get(pk=computer_id)
