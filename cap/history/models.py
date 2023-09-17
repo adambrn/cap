@@ -11,7 +11,7 @@ class EquipmentHistory(models.Model):
         verbose_name = 'История оборудования'
         verbose_name_plural = 'История оборудования'
 
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='Сотрудник')
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Сотрудник')
     location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Местоположение')
     start_date = models.DateField(null=True, blank=True, verbose_name='Дата выдачи')
     end_date = models.DateField(null=True, blank=True, verbose_name='Дата возврата')
@@ -22,10 +22,10 @@ class ComputerHistory(EquipmentHistory):
 class MonitorHistory(EquipmentHistory):
     monitor = models.ForeignKey(Monitor, on_delete=models.CASCADE, verbose_name='Монитор')
 
-class PrintersHistory(EquipmentHistory):
+class PrinterHistory(EquipmentHistory):
     printer = models.ForeignKey(Printer, on_delete=models.CASCADE, verbose_name='Принтер')
 
-class PhoneHIstory(EquipmentHistory):
+class PhoneHistory(EquipmentHistory):
     phone = models.ForeignKey(Phone, on_delete=models.CASCADE, verbose_name='Телефон')
 
 class NetworkDeviceHIstory(EquipmentHistory):

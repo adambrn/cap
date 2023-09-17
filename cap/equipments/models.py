@@ -39,6 +39,7 @@ class Equipment(models.Model):
                 if hasattr(field, 'verbose_name'):
                     fields.append({"label": field.verbose_name, "value": getattr(self, field.name)})
         return fields
+    
 
 
 class Computer(Equipment):

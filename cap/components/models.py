@@ -23,9 +23,13 @@ class BaseComponent(models.Model):
         return reverse(f'components:{self._meta.model_name}_detail', kwargs={"pk": self.pk})
     
     def get_model_fields(self):
-        return [{"label": field.verbose_name, "value": getattr(self, field.name)} for field in self._meta.get_fields()]
+        fields = []
+        for field in self._meta.get_fields():
+            if "ptr" not in field.name:
+                if hasattr(field, 'verbose_name'):
+                    fields.append({"label": field.verbose_name, "value": getattr(self, field.name)})
+        return fields
               
-    
     def __str__(self) -> str:
         return str(self.name)
 

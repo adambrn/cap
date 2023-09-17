@@ -42,7 +42,40 @@ class BaseEquipmentListView(BaseModelBreadcrumbMixin, BaseEquipmentMixin, Single
         return [("Обрудование", "/"), (self.model_name_title_plural, "/")]
 
 class BaseEquipmentDetailView(DetailBreadcrumbMixin, BaseEquipmentMixin, DetailView):
-    pass
+    def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            
+            model_name = (self.model.__name__).lower()  # Имя модели
+            context['model_name'] = model_name
+            # Получаем текущую дату и время
+            current_date = timezone.now()
+            # имя атрибута динамически на основе model_name
+            equipment_history_attr = model_name + 'history_set'
+
+            # getattr для доступа к связанным записям
+            equipment_history = getattr(self.object, equipment_history_attr)
+
+            # словарь аргументов для фильтрации
+            filter_args = {
+                f"{model_name.lower()}": self.object,
+                    'start_date__lte': current_date
+            }
+            # Получаем последнюю запись истории для данного компьютера на текущую дату
+            last_history_entry = equipment_history.filter(**filter_args).aggregate(Max('start_date'))
+
+            if last_history_entry['start_date__max']:
+                # словарь аргументов для фильтрации
+                filter_args = {
+                    f"{model_name.lower()}": self.object,
+                    'start_date': last_history_entry['start_date__max']
+                }
+
+                # двойная распаковку для передачи аргументов filter
+                last_history_entry = equipment_history.filter(**filter_args).last()
+
+            context['current_history'] = last_history_entry
+            
+            return context
 
 class BaseEquipmentDeleteView(DeleteBreadcrumbMixin, BaseEquipmentMixin, DeleteView):
     pass
@@ -73,28 +106,9 @@ class ComputersView(BaseEquipmentListView):
 class ComputerDetailView(MultiTableMixin, BaseEquipmentDetailView):
     model = Computer
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        # Получаем текущую дату и время
-        current_date = timezone.now()
-
-        # Получаем последнюю запись истории для данного компьютера на текущую дату
-        last_history_entry = self.object.computerhistory_set.filter(
-            computer=self.object, start_date__lte=current_date
-        ).aggregate(Max('start_date'))
-
-        if last_history_entry['start_date__max']:
-            last_history_entry = self.object.computerhistory_set.filter(
-                computer=self.object, start_date=last_history_entry['start_date__max']
-            ).last()
-            context['current_history'] = last_history_entry
-        return context
-    
     def get_tables(self):
         computer_id = self.kwargs.get('pk')
         computer = Computer.objects.get(pk=computer_id)
-        print(computer)
         tables = [
             ProcessorTable(Processor.objects.filter(in_computer=computer)),
             RAMTable(RAM.objects.filter(in_computer=computer)),

@@ -11,7 +11,61 @@
 {% endblock buttons %}
 
 {% block content %}
+<div class="row">
+  <div class="col-md-8 mx-auto mt-5">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">
+          Расположение
+          <a
+            class="no-underline"
+            href="{% url 'history:'|add:model_name|add:'_history_list' equipment_pk=object.pk %}"
+          >
+            <i class="fas fa-eye"></i>
+          </a>
+        </h4>
+      </div>
+      <div class="card-body">
+        <dl class="row">
+          <dt class="col-sm-4">Местоположение:</dt>
+          <dd class="col-sm-6">{{current_history.location}}</dd>
+          <dd class="col-sm-2">
+            {% if current_history.pk %}
+            <a class="no-underline" href="{% url 'history:'|add:model_name|add:'_history_location_update' equipment_pk=object.pk pk=current_history.pk %}">
+              <i class="fas fa-pencil-alt"></i>
+            </a>
+            <a class="no-underline" href="">
+              <i class="fas fa-trash"></i>
+            </a>
+            {% else %}
+            <a class="no-underline" href="{% url 'history:'|add:model_name|add:'_history_location_create' equipment_pk=object.pk%}">
+              <i class="fas fa-plus"></i>
+            </a>
+            {% endif %}
+          </dd>
 
+          <dt class="col-sm-4">Сотрудник:</dt>
+          <dd class="col-sm-6">{{current_history.employee}}</dd>
+          <dd class="col-sm-2">
+            {% if current_history.pk %}
+            <a class="no-underline" href="{% url 'history:'|add:model_name|add:'_history_employee_update' equipment_pk=object.pk pk=current_history.pk %}">
+              <i class="fas fa-pencil-alt"></i>
+            </a>
+            <a class="no-underline" href="">
+              <i class="fas fa-trash"></i>
+            </a>
+            {% else %}
+            <a class="no-underline" href="{% url 'history:'|add:model_name|add:'_history_employee_create' equipment_pk=object.pk%}">
+              <i class="fas fa-plus"></i>
+            </a>
+            {% endif %}    
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
 
 <div class="row">
     <div class="col-md-8 mx-auto mt-5">
