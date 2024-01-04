@@ -9,6 +9,7 @@ class EquipmentTable(tables.Table):
     view_details = tables.TemplateColumn(_TEMPLATE_CMPONENT_LINK, verbose_name='Детали')
     
     class Meta:
+        
         fields = ('row_number',
                     'name',
                     'category',

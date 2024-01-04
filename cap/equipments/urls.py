@@ -11,6 +11,10 @@ urlpatterns = [
     path('computer/create/', ComputerCreateView.as_view(), name='computer_create'),
     path('computer/<int:pk>/update/', ComputerUpdateView.as_view(), name='computer_update'),
     path('computer/<int:pk>/delete/', ComputerDeleteView.as_view(), name='computer_delete'),
+    #компьютеры - компоненты
+    path('computer/<int:pk>/add_component/', ComponentAddInComputerView.as_view(), name='add_component_in_computer'),
+    path('computer/<int:pk>/remove_component/', ComponentRemoveFromComputerView.as_view(), name='remove_component_from_computer'),
+    
     #принтеры
     path('printer/list/', PrinterListView.as_view(), name='printer_list'),
     path('printer/<int:pk>/', PrinterDetailView.as_view(), name='printer_detail'),
@@ -41,4 +45,5 @@ urlpatterns = [
     path('other_equipment/create/', OtherEquipmentCreateView.as_view(), name='otherequipment_create'),
     path('other_equipment/<int:pk>/update/', OtherEquipmentUpdateView.as_view(), name='otherequipment_update'),
     path('other_equipment/<int:pk>/delete/', OtherEquipmentDeleteView.as_view(), name='otherequipment_delete'),
+
     ]

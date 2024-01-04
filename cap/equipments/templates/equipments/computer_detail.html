@@ -1,12 +1,19 @@
 {% extends 'equipments/equipment_detail.html' %} 
 {% load django_tables2 %} 
 {%block extra_content %}
+{% load custom_tags %} 
 
   <h3>Компоненты компьютера: {{ computer.name }}</h3>
   <div class="row">
     {% for table in tables %}
-    <h2>{{table.Meta.verbose_name}}</h2>
-    <div class="col-lg-12">{% render_table table %}</div>
+    <h2>{{table.Meta.verbose_name}} 
+      {% comment %}
+      <a href="{% url 'equipments:'|add:table.Meta.obj_name|add:'_add_in_computer' pk=object.pk %}" class="btn btn-primary">Добавить</a>
+      {% endcomment %}
+    </h2>
+
+    <div class="col-lg-12">
+      {% render_table table %}</div>
     {% endfor %}
   </div>
 </div>

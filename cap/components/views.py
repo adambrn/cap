@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django_filters.views import FilterView
@@ -285,3 +286,5 @@ class CreateComponentView(CreateBreadcrumbMixin, BaseContextMixin, LoginRequired
 
     def get_success_url(self):
         return reverse('components:components')
+
+

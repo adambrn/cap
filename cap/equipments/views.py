@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.utils import timezone
 from django.urls import reverse_lazy
 from django_filters.views import FilterView
@@ -110,15 +111,15 @@ class ComputerDetailView(MultiTableMixin, BaseEquipmentDetailView):
         computer_id = self.kwargs.get('pk')
         computer = Computer.objects.get(pk=computer_id)
         tables = [
-            ProcessorTable(Processor.objects.filter(in_computer=computer)),
-            RAMTable(RAM.objects.filter(in_computer=computer)),
-            MotherboardTable(Motherboard.objects.filter(in_computer=computer)),
-            GraphicsCardTable(GraphicsCard.objects.filter(in_computer=computer)),
-            StorageTable(Storage.objects.filter(in_computer=computer)), 
-            PowerSupplyTable(PowerSupply.objects.filter(in_computer=computer)),
-            CoolerTable(Cooler.objects.filter(in_computer=computer)),
-            CaseTable(Case.objects.filter(in_computer=computer)),
-            NetworkCardTable(NetworkCard.objects.filter(in_computer=computer)), 
+            ProcessorInComputerTable(Processor.objects.filter(in_computer=computer)),
+            RAMInComputerTable(RAM.objects.filter(in_computer=computer)),
+            MotherboardInComputerTable(Motherboard.objects.filter(in_computer=computer)),
+            GraphicsCardInComputerTable(GraphicsCard.objects.filter(in_computer=computer)),
+            StorageInComputerTable(Storage.objects.filter(in_computer=computer)), 
+            PowerSupplyInComputerTable(PowerSupply.objects.filter(in_computer=computer)),
+            CoolerInComputerTable(Cooler.objects.filter(in_computer=computer)),
+            CaseInComputerTable(Case.objects.filter(in_computer=computer)),
+            NetworkCardInComputerTable(NetworkCard.objects.filter(in_computer=computer)), 
         ]
         return tables
 
@@ -242,3 +243,21 @@ class MonitorUpdateView(BaseEquipmentUpdateView):
 class MonitorDeleteView(BaseEquipmentDeleteView):
     model = Monitor
     success_url = reverse_lazy('equipments:monitor_list')
+
+#Для добавления и удаления компонентов из компьютера
+class ComponentRemoveFromComputerView(DeleteView):
+    template_name = 'components/delete_component.html'
+    model = Computer
+    
+    def get_success_url(self):
+        return reverse_lazy('components:component_list')
+    
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.object.in_computer = None
+        self.object.save()
+        return HttpResponseRedirect(success_url)
+
+class ComponentAddInComputerView(TemplateView):
+    pass
