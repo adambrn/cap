@@ -1,4 +1,6 @@
 from django import forms
+
+from cap.mixins import COMPONENTS_LIST
 from .models import *
 
 class BaseComponentForm(forms.ModelForm):
@@ -54,3 +56,19 @@ COMPONENT_FORMS = {
     'case': CaseForm,
     'networkcard': NetworkCardForm,
 }
+
+class ComponentSelectForm(forms.Form):
+    component = forms.ModelChoiceField(queryset=None, empty_label=None)
+
+    def __init__(self, *args, **kwargs):
+        # Получаем класс компонента из параметра, переданного в конструктор формы
+        component_class = kwargs.pop('component_class', None)
+        
+        super().__init__(*args, **kwargs)
+        print(component_class)
+        # Проверяем, что класс компонента передан и соответствует ожидаемым классам
+        if component_class and component_class in COMPONENTS_LIST.values():
+            # Фильтруем queryset на основе класса компонента
+            self.fields['component'].queryset = component_class.objects.filter(in_computer__isnull=True)
+        else:
+            raise ValueError("Invalid component class")

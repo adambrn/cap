@@ -1,7 +1,12 @@
 from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone
 from django.urls import reverse_lazy
+from django.views import View
 from django_filters.views import FilterView
+from django.views.generic.edit import FormView
+
+from components.forms import ComponentSelectForm
 from .filters import *
 from cap.mixins import *
 from .tables import *
@@ -245,19 +250,56 @@ class MonitorDeleteView(BaseEquipmentDeleteView):
     success_url = reverse_lazy('equipments:monitor_list')
 
 #Для добавления и удаления компонентов из компьютера
-class ComponentRemoveFromComputerView(DeleteView):
-    template_name = 'components/delete_component.html'
-    model = Computer
-    
-    def get_success_url(self):
-        return reverse_lazy('components:component_list')
-    
-    def delete(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        success_url = self.get_success_url()
-        self.object.in_computer = None
-        self.object.save()
-        return HttpResponseRedirect(success_url)
+class ComponentRemoveFromComputerView(View):
+ def get(self, request, pk, component_pk, component):
+        
+        computer = get_object_or_404(Computer, pk=pk)
+        component_class_name = self.kwargs.get('component')
 
-class ComponentAddInComputerView(TemplateView):
-    pass
+        # Определяем класс компонента на основе переданного значения
+        component_class = COMPONENTS_LIST[component_class_name] 
+        current_component = get_object_or_404(component_class, pk=component_pk)
+
+        # Удалить компонент из компьютера (или выполнить другие действия)
+        current_component.in_computer = None
+        current_component.save()
+
+        return redirect('equipments:computer_detail', pk=pk)
+
+class ComponentAddInComputerView(BaseBreadcrumbMixin, BaseEquipmentMixin, FormView):
+    template_name = 'components/add_component.html'
+    form_class = ComponentSelectForm
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        component_class_name = self.kwargs.get('component')
+
+        # Определяем класс компонента на основе переданного значения
+        component_class = COMPONENTS_LIST[component_class_name] 
+        # Передаем класс компонента в форму через аргумент формы
+        kwargs['component_class'] = component_class
+        return kwargs
+    
+    def form_valid(self, form):
+        # Получаем компьютер
+        computer = get_object_or_404(Computer, pk=self.kwargs['pk'])
+
+        # Выбранный компонент
+        selected_component = form.cleaned_data['component']
+        
+        # Устанавливаем компьютер для выбранного компонента
+        selected_component.in_computer = computer
+        selected_component.save()
+
+        self.success_url = reverse_lazy('equipments:computer_detail', kwargs={'pk': computer.pk})
+        
+        return super().form_valid(form)
+    
+    @cached_property
+    def crumbs(self):
+        computer = get_object_or_404(Computer, pk=self.kwargs['pk'])
+        return [("Компьютеры", reverse_lazy('equipments:equipments')),
+                (computer.name ,reverse_lazy('equipments:computer_detail', kwargs={'pk': self.kwargs['pk']})),
+                (f"Добавить компонент в компьютер" , reverse_lazy('components:component_add_in_computer', kwargs={'pk': self.kwargs['pk'], 'component': self.kwargs['component']})),
+                ]
+        

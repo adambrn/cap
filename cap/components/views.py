@@ -108,6 +108,7 @@ class RAMDetailView(BaseComponentDetailView):
     model = RAM
     template_name = 'components/ram_detail.html'
 
+
 class GraphicsCardListView(BaseComponentView):
     model = GraphicsCard
     template_name = 'components/graphicscard_list.html'
