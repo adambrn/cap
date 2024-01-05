@@ -10,3 +10,11 @@ class BaseCatalogsForm(forms.ModelForm):
 class ManufacturerForm(BaseCatalogsForm):
     class Meta(BaseCatalogsForm.Meta):
         model = Manufacturer
+
+class EmployeeForm(BaseCatalogsForm):
+    class Meta(BaseCatalogsForm.Meta):
+        model = Employee
+
+class LocationForm(BaseCatalogsForm):
+    class Meta(BaseCatalogsForm.Meta):
+        model = Location

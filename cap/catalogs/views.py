@@ -85,6 +85,49 @@ class ManufacturerCreateView(BaseCatalogCreateView):
 class ManufacturerUpdateView(BaseCatalogUpdateView):
     model = Manufacturer
     form_class = ManufacturerForm
+
+#Сотрудники 
+class EmployeeListView(BaseCatalogView):
+    model = Employee
+    template_name = 'catalogs/employee_list.html'
+    table_class = EmployeeTable
+    filterset_class = CatalogsFilter
+
+class EmployeeDetailView(BaseCatalogDetailView):
+    model = Employee
+
+class EmployeeDeleteView(BaseCatalogDeleteView):
+    model = Employee
+
+class EmployeeCreateView(BaseCatalogCreateView):
+    model = Employee
+    form_class = EmployeeForm
+
+class EmployeeUpdateView(BaseCatalogUpdateView):
+    model = Employee
+    form_class = EmployeeForm
+
+#Местоположение
+class LocationListView(BaseCatalogView):
+    model = Location
+    template_name = 'catalogs/location_list.html'
+    table_class = LocationTable
+    filterset_class = CatalogsFilter
+
+class LocationDetailView(BaseCatalogDetailView):
+    model = Location
+
+class LocationDeleteView(BaseCatalogDeleteView):
+    model = Location
+
+class LocationCreateView(BaseCatalogCreateView):
+    model = Location
+    form_class = LocationForm
+
+class LocationUpdateView(BaseCatalogUpdateView):
+    model = Location
+    form_class = LocationForm
+
 #Статусы оборудования
 #LOGIN
 class BaseLoginView(BaseContextMixin, LoginView):

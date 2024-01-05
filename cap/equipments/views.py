@@ -254,10 +254,9 @@ class ComponentRemoveFromComputerView(View):
  def get(self, request, pk, component_pk, component):
         
         computer = get_object_or_404(Computer, pk=pk)
-        component_class_name = self.kwargs.get('component')
 
         # Определяем класс компонента на основе переданного значения
-        component_class = COMPONENTS_LIST[component_class_name] 
+        component_class = COMPONENTS_LIST[component] 
         current_component = get_object_or_404(component_class, pk=component_pk)
 
         # Удалить компонент из компьютера (или выполнить другие действия)

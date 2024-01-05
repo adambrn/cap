@@ -25,3 +25,15 @@ class ManufacturerTable(CatalogsTable):
     class Meta(CatalogsTable.Meta):
         model = Manufacturer
         verbose_name = "Производители"
+
+class EmployeeTable(CatalogsTable):
+
+    class Meta(CatalogsTable.Meta):
+        model = Employee
+        verbose_name = "Сотрудники"
+
+class LocationTable(CatalogsTable):
+
+    class Meta(CatalogsTable.Meta):
+        model = Location
+        verbose_name = "Местоположение"

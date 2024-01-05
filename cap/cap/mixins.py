@@ -59,6 +59,9 @@ class BaseCatalogMixin(BaseContextMixin, LoginRequiredMixin):
       context = super().get_context_data(**kwargs)
       context['menu'] =  [
           {'title': 'Производители', 'url': 'catalogs:manufacturer_list'},
+          {'title': 'Сотрудники', 'url': 'catalogs:employee_list'},
+          {'title': 'Местоположение', 'url': 'catalogs:location_list'},
+
           ]
     
       return context
