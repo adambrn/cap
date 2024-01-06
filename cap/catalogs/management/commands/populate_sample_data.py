@@ -200,7 +200,7 @@ class Command(BaseCommand):
             )
 
             NetworkCard.objects.get_or_create(
-                name = f'Процессор № {i}',
+                name = f'Сетевая карта № {i}',
                 manufacturer = self.get_random_manufacturer(),
                 serial_number = fake.random_int(min=100000, max=999999),
                 inventory_number = fake.random_int(min=10000, max=99999),

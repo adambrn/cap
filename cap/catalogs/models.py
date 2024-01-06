@@ -61,6 +61,12 @@ class SocketType(BaseCommonInfo):
 # Принадлежность техники
 class Employee(BaseCommonInfo):
     position = models.CharField(max_length=100, verbose_name='Должность')
+    class Meta:
+        verbose_name = 'Сотрудник'
+        verbose_name_plural = 'Сотрудники'
 
 class Location(BaseCommonInfo):
     address = models.CharField(max_length=500, verbose_name='Адрес')
+    class Meta:
+        verbose_name = 'Местоположение'
+        verbose_name_plural = 'Местоположения'
