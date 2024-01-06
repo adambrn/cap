@@ -28,7 +28,7 @@ class PrinterHistory(EquipmentHistory):
 class PhoneHistory(EquipmentHistory):
     phone = models.ForeignKey(Phone, on_delete=models.CASCADE, verbose_name='Телефон')
 
-class NetworkDeviceHIstory(EquipmentHistory):
+class NetworkDeviceHistory(EquipmentHistory):
     network_device = models.ForeignKey(NetworkDevice, on_delete=models.CASCADE, verbose_name='Сетевое оборудование')
 
 class OtherEquipmentHistory(EquipmentHistory):

@@ -13,3 +13,13 @@ class LocationComputerHistoryForm(EmployeeHistoryForm):
     class Meta:
         model = ComputerHistory
         fields = ['location']
+
+class EmployeePrinterHistoryForm(EmployeeHistoryForm):
+    class Meta:
+        model = PrinterHistory
+        fields = ['employee']
+
+class LocationPrinterHistoryForm(EmployeeHistoryForm):
+    class Meta:
+        model = PrinterHistory
+        fields = ['location']
