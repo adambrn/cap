@@ -93,7 +93,10 @@ class BaseHistoryMixin(BaseContextMixin, LoginRequiredMixin):
           context['menu'] =  [
               {'title': 'Компьютеры', 'url': 'history:all_computer_history_list'},
               {'title': 'Принтеры', 'url': 'history:all_printer_history_list'},
-              
+              {'title': 'Мониторы', 'url': 'history:all_monitor_history_list'},
+              {'title': 'Телефоны', 'url': 'history:all_phone_history_list'},
+              {'title': 'Сетевые устройства', 'url': 'history:all_networkdevice_history_list'},
+              {'title': 'Другие устройства', 'url': 'history:all_otherequipment_history_list'},
               ]
       
           return context

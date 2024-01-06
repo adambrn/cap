@@ -73,7 +73,7 @@ class NetworkDeviceHistoryTable(EquipmentHistoryTable):
         model = NetworkDeviceHistory
         verbose_name = "История сетевого борудования"
         fields = ('row_number',
-                    'network_device',
+                    'networkdevice',
                     'employee',
                     'location', 
                     'start_date',
@@ -85,7 +85,7 @@ class OtherEquipmentHistoryTable(EquipmentHistoryTable):
         model = OtherEquipmentHistory
         verbose_name = "История сетевого борудования"
         fields = ('row_number',
-                    'other_equipment',
+                    'otherequipment',
                     'employee',
                     'location', 
                     'start_date',

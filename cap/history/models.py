@@ -29,10 +29,10 @@ class PhoneHistory(EquipmentHistory):
     phone = models.ForeignKey(Phone, on_delete=models.CASCADE, verbose_name='Телефон')
 
 class NetworkDeviceHistory(EquipmentHistory):
-    network_device = models.ForeignKey(NetworkDevice, on_delete=models.CASCADE, verbose_name='Сетевое оборудование')
+    networkdevice = models.ForeignKey(NetworkDevice, on_delete=models.CASCADE, verbose_name='Сетевое оборудование')
 
 class OtherEquipmentHistory(EquipmentHistory):
-    other_equipment = models.ForeignKey(OtherEquipment, on_delete=models.CASCADE, verbose_name='Другое оборудование')
+    otherequipment = models.ForeignKey(OtherEquipment, on_delete=models.CASCADE, verbose_name='Другое оборудование')
 
 class ComputerComponentHistory(models.Model):
 
@@ -58,22 +58,22 @@ class StorageHistory(ComputerComponentHistory):
     storage = models.ForeignKey(Storage, on_delete=models.CASCADE, verbose_name='Жесткий диск')
 
 class GraphicsCardHistory(ComputerComponentHistory):
-    graphics_card = models.ForeignKey(GraphicsCard, on_delete=models.CASCADE, verbose_name='Видеокарта')
+    graphicscard = models.ForeignKey(GraphicsCard, on_delete=models.CASCADE, verbose_name='Видеокарта')
 
 class CoolerHistory(ComputerComponentHistory):
     cooler = models.ForeignKey(Cooler, on_delete=models.CASCADE, verbose_name='Система охлаждения')
 
 class PowerSupplyHistory(ComputerComponentHistory):
-    power_supply = models.ForeignKey(PowerSupply, on_delete=models.CASCADE, verbose_name='Блок питания')
+    powersupply = models.ForeignKey(PowerSupply, on_delete=models.CASCADE, verbose_name='Блок питания')
 
 class CaseHistory(ComputerComponentHistory):
     case = models.ForeignKey(Case, on_delete=models.CASCADE, verbose_name='Корпус')
 
 class NetworkCardHistory(ComputerComponentHistory):
-    network_card = models.ForeignKey(NetworkCard, on_delete=models.CASCADE, verbose_name='Сетевая карта')
+    networkcard = models.ForeignKey(NetworkCard, on_delete=models.CASCADE, verbose_name='Сетевая карта')
 
 class OtherComponentHistory(ComputerComponentHistory):
-    other_component = models.ForeignKey(OtherComponent, on_delete=models.CASCADE, verbose_name='Другие компоненты')
+    othercomponent = models.ForeignKey(OtherComponent, on_delete=models.CASCADE, verbose_name='Другие компоненты')
 
 #Подключения оборудования к компьютеру
 
