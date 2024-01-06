@@ -37,3 +37,45 @@ class LocationTable(CatalogsTable):
     class Meta(CatalogsTable.Meta):
         model = Location
         verbose_name = "Местоположение"
+
+# Классы таблиц для остальных каталогов
+class EquipmentCategoryTable(CatalogsTable):
+
+    class Meta(CatalogsTable.Meta):
+        model = EquipmentCategory
+        verbose_name = "Категория оборудования"
+
+
+class EquipmentStatusTable(CatalogsTable):
+
+    class Meta(CatalogsTable.Meta):
+        model = EquipmentStatus
+        verbose_name = "Статус оборудования"
+
+
+class ComponentStatusTable(CatalogsTable):
+
+    class Meta(CatalogsTable.Meta):
+        model = ComponentStatus
+        verbose_name = "Статус компонента"
+
+
+class MemoryTypeTable(CatalogsTable):
+
+    class Meta(CatalogsTable.Meta):
+        model = MemoryType
+        verbose_name = "Тип памяти"
+
+
+class StorageTypeTable(CatalogsTable):
+
+    class Meta(CatalogsTable.Meta):
+        model = StorageType
+        verbose_name = "Тип накопителя"
+
+
+class SocketTypeTable(CatalogsTable):
+
+    class Meta(CatalogsTable.Meta):
+        model = SocketType
+        verbose_name = "Тип сокета"

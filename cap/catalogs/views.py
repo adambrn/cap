@@ -129,6 +129,132 @@ class LocationUpdateView(BaseCatalogUpdateView):
     form_class = LocationForm
 
 #Статусы оборудования
+class EquipmentCategoryListView(BaseCatalogView):
+    model = EquipmentCategory
+    template_name = 'catalogs/equipment_category_list.html'
+    table_class = EquipmentCategoryTable
+    filterset_class = CatalogsFilter
+
+class EquipmentCategoryDetailView(BaseCatalogDetailView):
+    model = EquipmentCategory
+
+class EquipmentCategoryDeleteView(BaseCatalogDeleteView):
+    model = EquipmentCategory
+
+class EquipmentCategoryCreateView(BaseCatalogCreateView):
+    model = EquipmentCategory
+    form_class = EquipmentCategoryForm
+
+class EquipmentCategoryUpdateView(BaseCatalogUpdateView):
+    model = EquipmentCategory
+    form_class = EquipmentCategoryForm
+
+# Классы для остальных каталогов
+class EquipmentStatusListView(BaseCatalogView):
+    model = EquipmentStatus
+    template_name = 'catalogs/equipment_status_list.html'
+    table_class = EquipmentStatusTable
+    filterset_class = CatalogsFilter
+
+class EquipmentStatusDetailView(BaseCatalogDetailView):
+    model = EquipmentStatus
+
+class EquipmentStatusDeleteView(BaseCatalogDeleteView):
+    model = EquipmentStatus
+
+class EquipmentStatusCreateView(BaseCatalogCreateView):
+    model = EquipmentStatus
+    form_class = EquipmentStatusForm
+
+class EquipmentStatusUpdateView(BaseCatalogUpdateView):
+    model = EquipmentStatus
+    form_class = EquipmentStatusForm
+
+
+class ComponentStatusListView(BaseCatalogView):
+    model = ComponentStatus
+    template_name = 'catalogs/component_status_list.html'
+    table_class = ComponentStatusTable
+    filterset_class = CatalogsFilter
+
+class ComponentStatusDetailView(BaseCatalogDetailView):
+    model = ComponentStatus
+
+class ComponentStatusDeleteView(BaseCatalogDeleteView):
+    model = ComponentStatus
+
+class ComponentStatusCreateView(BaseCatalogCreateView):
+    model = ComponentStatus
+    form_class = ComponentStatusForm
+
+class ComponentStatusUpdateView(BaseCatalogUpdateView):
+    model = ComponentStatus
+    form_class = ComponentStatusForm
+
+
+class MemoryTypeListView(BaseCatalogView):
+    model = MemoryType
+    template_name = 'catalogs/memory_type_list.html'
+    table_class = MemoryTypeTable
+    filterset_class = CatalogsFilter
+
+class MemoryTypeDetailView(BaseCatalogDetailView):
+    model = MemoryType
+
+class MemoryTypeDeleteView(BaseCatalogDeleteView):
+    model = MemoryType
+
+class MemoryTypeCreateView(BaseCatalogCreateView):
+    model = MemoryType
+    form_class = MemoryTypeForm
+
+class MemoryTypeUpdateView(BaseCatalogUpdateView):
+    model = MemoryType
+    form_class = MemoryTypeForm
+
+
+class StorageTypeListView(BaseCatalogView):
+    model = StorageType
+    template_name = 'catalogs/storage_type_list.html'
+    table_class = StorageTypeTable
+    filterset_class = CatalogsFilter
+
+class StorageTypeDetailView(BaseCatalogDetailView):
+    model = StorageType
+
+class StorageTypeDeleteView(BaseCatalogDeleteView):
+    model = StorageType
+
+class StorageTypeCreateView(BaseCatalogCreateView):
+    model = StorageType
+    form_class = StorageTypeForm
+
+class StorageTypeUpdateView(BaseCatalogUpdateView):
+    model = StorageType
+    form_class = StorageTypeForm
+
+
+class SocketTypeListView(BaseCatalogView):
+    model = SocketType
+    template_name = 'catalogs/socket_type_list.html'
+    table_class = SocketTypeTable
+    filterset_class = CatalogsFilter
+
+class SocketTypeDetailView(BaseCatalogDetailView):
+    model = SocketType
+
+class SocketTypeDeleteView(BaseCatalogDeleteView):
+    model = SocketType
+
+class SocketTypeCreateView(BaseCatalogCreateView):
+    model = SocketType
+    form_class = SocketTypeForm
+
+class SocketTypeUpdateView(BaseCatalogUpdateView):
+    model = SocketType
+    form_class = SocketTypeForm
+
+
 #LOGIN
 class BaseLoginView(BaseContextMixin, LoginView):
     template_name = 'accounts/login.html'

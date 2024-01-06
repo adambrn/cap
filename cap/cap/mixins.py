@@ -57,13 +57,19 @@ class BaseComponentMixin(BaseContextMixin, LoginRequiredMixin):
 class BaseCatalogMixin(BaseContextMixin, LoginRequiredMixin):
   def get_context_data(self, **kwargs):
       context = super().get_context_data(**kwargs)
-      context['menu'] =  [
-          {'title': 'Производители', 'url': 'catalogs:manufacturer_list'},
+      context['menu'] = [
+          
           {'title': 'Сотрудники', 'url': 'catalogs:employee_list'},
           {'title': 'Местоположение', 'url': 'catalogs:location_list'},
-
-          ]
-    
+          {'title': 'Производители', 'url': 'catalogs:manufacturer_list'},
+          {'title': 'Категории оборудования', 'url': 'catalogs:equipmentcategory_list'},
+          {'title': 'Статусы оборудования', 'url': 'catalogs:equipmentstatus_list'},
+          {'title': 'Статусы компонентов', 'url': 'catalogs:componentstatus_list'},
+          {'title': 'Типы памяти', 'url': 'catalogs:memorytype_list'},
+          {'title': 'Типы хранилищ', 'url': 'catalogs:storagetype_list'},
+          {'title': 'Типы сокетов', 'url': 'catalogs:sockettype_list'},
+      ]
+   
       return context
 
 class BaseEquipmentMixin(BaseContextMixin, LoginRequiredMixin):

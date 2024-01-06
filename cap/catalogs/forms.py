@@ -18,3 +18,33 @@ class EmployeeForm(BaseCatalogsForm):
 class LocationForm(BaseCatalogsForm):
     class Meta(BaseCatalogsForm.Meta):
         model = Location
+
+# Классы форм для остальных каталогов
+class EquipmentCategoryForm(BaseCatalogsForm):
+    class Meta(BaseCatalogsForm.Meta):
+        model = EquipmentCategory
+
+
+class EquipmentStatusForm(BaseCatalogsForm):
+    class Meta(BaseCatalogsForm.Meta):
+        model = EquipmentStatus
+
+
+class ComponentStatusForm(BaseCatalogsForm):
+    class Meta(BaseCatalogsForm.Meta):
+        model = ComponentStatus
+
+
+class MemoryTypeForm(BaseCatalogsForm):
+    class Meta(BaseCatalogsForm.Meta):
+        model = MemoryType
+
+
+class StorageTypeForm(BaseCatalogsForm):
+    class Meta(BaseCatalogsForm.Meta):
+        model = StorageType
+
+
+class SocketTypeForm(BaseCatalogsForm):
+    class Meta(BaseCatalogsForm.Meta):
+        model = SocketType
