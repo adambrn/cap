@@ -259,7 +259,7 @@ class ComponentRemoveFromComputerView(View):
         component_class = COMPONENTS_LIST[component] 
         current_component = get_object_or_404(component_class, pk=component_pk)
 
-        # Удалить компонент из компьютера (или выполнить другие действия)
+        # Удалить компонент из компьютера 
         current_component.in_computer = None
         current_component.save()
 

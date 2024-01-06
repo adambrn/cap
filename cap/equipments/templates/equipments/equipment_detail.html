@@ -30,11 +30,11 @@
           <dt class="col-sm-4">Местоположение:</dt>
           <dd class="col-sm-6">{{current_history.location}}</dd>
           <dd class="col-sm-2">
-            {% if current_history.pk %}
+            {% if current_history.pk and current_history.location != None %}
             <a class="no-underline" href="{% url 'history:'|add:model_name|add:'_history_location_update' equipment_pk=object.pk pk=current_history.pk %}">
               <i class="fas fa-pencil-alt"></i>
             </a>
-            <a class="no-underline" href="">
+            <a class="no-underline" href="{% url 'history:'|add:model_name|add:'_history_location_clear' equipment_pk=object.pk pk=current_history.pk %}">
               <i class="fas fa-trash"></i>
             </a>
             {% else %}
@@ -47,11 +47,11 @@
           <dt class="col-sm-4">Сотрудник:</dt>
           <dd class="col-sm-6">{{current_history.employee}}</dd>
           <dd class="col-sm-2">
-            {% if current_history.pk %}
+            {% if current_history.pk and current_history.employee != None%}
             <a class="no-underline" href="{% url 'history:'|add:model_name|add:'_history_employee_update' equipment_pk=object.pk pk=current_history.pk %}">
               <i class="fas fa-pencil-alt"></i>
             </a>
-            <a class="no-underline" href="">
+            <a class="no-underline" href="{% url 'history:'|add:model_name|add:'_history_employee_clear' equipment_pk=object.pk pk=current_history.pk %}">
               <i class="fas fa-trash"></i>
             </a>
             {% else %}

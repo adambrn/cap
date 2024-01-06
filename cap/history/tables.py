@@ -22,9 +22,31 @@ class EquipmentHistoryTable(tables.Table):
         return next(self.row_counter)
 
 class ComputerHistoryTable(EquipmentHistoryTable):
-
     class Meta(EquipmentHistoryTable.Meta):
         model = ComputerHistory
         verbose_name = "История компьютеры"
 
+class MonitorHistoryTable(EquipmentHistoryTable):
+    class Meta(EquipmentHistoryTable.Meta):
+        model = MonitorHistory
+        verbose_name = "История Мониторов"
 
+class PrinterHistoryTable(EquipmentHistoryTable):
+    class Meta(EquipmentHistoryTable.Meta):
+        model = PrinterHistory
+        verbose_name = "История принтеров"
+
+class PhoneHistoryTable(EquipmentHistoryTable):
+    class Meta(EquipmentHistoryTable.Meta):
+        model = PhoneHistory
+        verbose_name = "История телефонов"
+
+class NetworkDeviceHistoryTable(EquipmentHistoryTable):
+    class Meta(EquipmentHistoryTable.Meta):
+        model = NetworkDeviceHistory
+        verbose_name = "История сетевого борудования"
+
+class OtherEquipmentHistoryTable(EquipmentHistoryTable):
+    class Meta(EquipmentHistoryTable.Meta):
+        model = OtherEquipmentHistory
+        verbose_name = "История сетевого борудования"
