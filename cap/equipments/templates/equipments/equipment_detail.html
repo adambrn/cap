@@ -37,8 +37,14 @@
             <a class="no-underline" href="{% url 'history:'|add:model_name|add:'_history_location_clear' equipment_pk=object.pk pk=current_history.pk %}">
               <i class="fas fa-trash"></i>
             </a>
-            {% else %}
+            {% endif %}
+            {% if not current_history.pk %}
             <a class="no-underline" href="{% url 'history:'|add:model_name|add:'_history_location_create' equipment_pk=object.pk%}">
+              <i class="fas fa-plus"></i>
+            </a>
+            {% endif %}
+            {% if current_history.pk and current_history.location == None %}
+            <a class="no-underline" href="{% url 'history:'|add:model_name|add:'_history_location_update' equipment_pk=object.pk pk=current_history.pk %}">
               <i class="fas fa-plus"></i>
             </a>
             {% endif %}
@@ -54,8 +60,14 @@
             <a class="no-underline" href="{% url 'history:'|add:model_name|add:'_history_employee_clear' equipment_pk=object.pk pk=current_history.pk %}">
               <i class="fas fa-trash"></i>
             </a>
-            {% else %}
+            {% endif %} 
+            {% if not current_history.pk %}
             <a class="no-underline" href="{% url 'history:'|add:model_name|add:'_history_employee_create' equipment_pk=object.pk%}">
+              <i class="fas fa-plus"></i>
+            </a>
+            {% endif %}  
+            {% if current_history.pk and current_history.employee == None %}
+            <a class="no-underline" href="{% url 'history:'|add:model_name|add:'_history_employee_update' equipment_pk=object.pk pk=current_history.pk %}">
               <i class="fas fa-plus"></i>
             </a>
             {% endif %}    

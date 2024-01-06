@@ -58,10 +58,13 @@ class BaseHistoryCreateView(BaseModelBreadcrumbMixin, BaseHistoryMixin, CreateVi
         return [("История", reverse_lazy("history:history")), (self.model_name_title_plural, "/")]
 
 #Компьютеры
-class ComputerHistoryListView(BaseHistoryView):
+class AllComputerHistoryListView(BaseHistoryView):
     filterset_class = HistoryFilter
     table_class = ComputerHistoryTable
     model = ComputerHistory
+    template_name = 'history/equipment_history_list.html'   
+
+class ComputerHistoryListView(AllComputerHistoryListView):
     template_name = 'history/computer_history_list.html'
 
     def get_queryset(self):
@@ -84,7 +87,7 @@ class ComputerHistoryListView(BaseHistoryView):
         return [("История", reverse_lazy("history:history")), 
                 (computer.name, reverse("equipments:computer_detail", kwargs={"pk": computer.pk})), 
                 (self.model_name_title_plural, "/")]
-    
+
 class EmployeeComputerHistoryUpdateView(BaseHistoryUpdateView):
     model = ComputerHistory
     form_class = EmployeeComputerHistoryForm
@@ -225,14 +228,20 @@ class EmployeeComputerHistoryClearView(View):
         return redirect('equipments:computer_detail', pk=equipment_pk)
 
 #принтеры
-class PrinterHistoryListView(BaseHistoryView):
+class AllPrinterHistoryListView(BaseHistoryView):
     filterset_class = HistoryFilter
     table_class = PrinterHistoryTable
     model = PrinterHistory
+    template_name = 'history/equipment_history_list.html'   
+
+class PrinterHistoryListView(AllPrinterHistoryListView):
     template_name = 'history/printer_history_list.html'
 
     def get_queryset(self):
+        # получить компьютер по его pk
         printer = get_object_or_404(Printer, pk=self.kwargs['equipment_pk'])
+       
+        # получить все записи истории перемещения связанные с этим компьютером
         qs = self.model.objects.filter(printer=printer)
         return qs
     
@@ -241,6 +250,13 @@ class PrinterHistoryListView(BaseHistoryView):
         printer = get_object_or_404(Printer, pk=self.kwargs['equipment_pk'])
         context['printer'] = printer.name
         return context
+    
+    @cached_property
+    def crumbs(self):
+        printer = get_object_or_404(Printer, pk=self.kwargs['equipment_pk'])
+        return [("История", reverse_lazy("history:history")), 
+                (printer.name, reverse("equipments:printer_detail", kwargs={"pk": printer.pk})), 
+                (self.model_name_title_plural, "/")]
 
 class EmployeePrinterHistoryUpdateView(BaseHistoryUpdateView):
     model = PrinterHistory
@@ -248,47 +264,27 @@ class EmployeePrinterHistoryUpdateView(BaseHistoryUpdateView):
     template_name = 'history/equipment_history_employee_form.html'
     
     def form_valid(self, form):
-        current_entry = self.get_object()
-        history_entry = form.save(commit=False)
-        history_entry.end_date = timezone.now() 
-        history_entry.employee = current_entry.employee
-        history_entry.save()
-        
-        printer = history_entry.printer
-        employee = Employee.objects.get(name=form.cleaned_data['employee'])
-        location = history_entry.location
-        start_date = timezone.now()  
+            current_entry = self.get_object()
+            history_entry = form.save(commit=False)
+            history_entry.end_date = timezone.now() 
+            history_entry.employee = current_entry.employee
+            history_entry.save()
+            
+            printer = history_entry.printer
+            employee = Employee.objects.get(name = form.cleaned_data['employee'])
+            location = history_entry.location
+            start_date = timezone.now()  
 
-        PrinterHistory.objects.create(printer=printer, 
-                                      employee=employee, 
-                                      location=location, 
-                                      start_date=start_date)
-        
-        return super().form_valid(form)
-
-class LocationPrinterHistoryUpdateView(BaseHistoryUpdateView):
-    model = PrinterHistory
-    form_class = LocationPrinterHistoryForm
-    template_name = 'history/equipment_history_employee_form.html'
+            PrinterHistory.objects.create(printer=printer, 
+                                           employee=employee, 
+                                           location=location, 
+                                           start_date=start_date)
+            
+            return super().form_valid(form)
     
-    def form_valid(self, form):
-        current_entry = self.get_object()
-        history_entry = form.save(commit=False)
-        history_entry.end_date = timezone.now() 
-        history_entry.location = current_entry.location
-        history_entry.save()
-        
-        printer = history_entry.printer
-        location = Location.objects.get(name=form.cleaned_data['location'])
-        employee = history_entry.employee
-        start_date = timezone.now()  
-
-        PrinterHistory.objects.create(printer=printer, 
-                                      employee=employee, 
-                                      location=location, 
-                                      start_date=start_date)
-        
-        return super().form_valid(form)
+    def get_success_url(self):
+        pk=self.kwargs['equipment_pk']
+        return reverse("equipments:printer_detail", kwargs={"pk": int(pk)})
 
 class EmployeePrinterHistoryCreateView(BaseHistoryCreateView):
     model = PrinterHistory
@@ -296,27 +292,110 @@ class EmployeePrinterHistoryCreateView(BaseHistoryCreateView):
     template_name = 'history/equipment_history_employee_form.html'
     
     def form_valid(self, form):
-        pk = self.kwargs['equipment_pk']
-        history_entry = form.save(commit=False)
-        history_entry.printer = Printer.objects.get(pk=pk)
-        history_entry.start_date = timezone.now() 
-        history_entry.employee = form.cleaned_data['employee']
-        history_entry.save()
-    
-        return super().form_valid(form)
+            pk=self.kwargs['equipment_pk']
+            
+            history_entry = form.save(commit=False)
+            history_entry.printer = Printer.objects.get(pk=pk)
+            history_entry.start_date = timezone.now() 
+            history_entry.employee = form.cleaned_data['employee']
+            history_entry.save()
+        
+            return super().form_valid(form)
 
-class LocationPrinterHistoryCreateView(BaseHistoryCreateView):
+    def get_success_url(self):
+        pk=self.kwargs['equipment_pk']
+        return reverse("equipments:printer_detail", kwargs={"pk": int(pk)})
+    
+class LocationPrinterHistoryUpdateView(BaseHistoryUpdateView):
     model = PrinterHistory
     form_class = LocationPrinterHistoryForm
     template_name = 'history/equipment_history_employee_form.html'
     
     def form_valid(self, form):
-        pk = self.kwargs['equipment_pk']
-        history_entry = form.save(commit=False)
-        history_entry.printer = Printer.objects.get(pk=pk)
-        history_entry.start_date = timezone.now() 
-        history_entry.location = form.cleaned_data['location']
-        history_entry.save()
+            current_entry = self.get_object()
+            history_entry = form.save(commit=False)
+            history_entry.end_date = timezone.now() 
+            history_entry.location = current_entry.location
+            history_entry.save()
+            
+            printer = history_entry.printer
+            location = Location.objects.get(name = form.cleaned_data['location'])
+            employee = history_entry.employee
+            start_date = timezone.now()  
+
+            PrinterHistory.objects.create(printer=printer, 
+                                           employee=employee, 
+                                           location=location, 
+                                           start_date=start_date)
+            
+            return super().form_valid(form)
+
+    def get_success_url(self):
+        pk=self.kwargs['equipment_pk']
+        return reverse("equipments:printer_detail", kwargs={"pk": int(pk)})
     
+class LocationPrinterHistoryCreateView(BaseHistoryCreateView):
+    model = PrinterHistory
+    form_class = LocationPrinterHistoryForm
+    template_name = 'history/equipment_history_employee_form.html'
+    def form_valid(self, form):
+            pk=self.kwargs['equipment_pk']
+            
+            history_entry = form.save(commit=False)
+            history_entry.printer = Printer.objects.get(pk=pk)
+            history_entry.start_date = timezone.now() 
+            history_entry.location = form.cleaned_data['location']
+            history_entry.save()
+        
+            return super().form_valid(form)
+    def get_success_url(self):
+        pk=self.kwargs['equipment_pk']
+        return reverse("equipments:printer_detail", kwargs={"pk": int(pk)})
+
+class LocationPrinterHistoryClearView(View):
+    
+    def get(self, request, pk, equipment_pk):
+        
+        history_entry = get_object_or_404(PrinterHistory, pk=pk)
+
+        history_entry.end_date = timezone.now()
+        history_entry.save()
+
+        #компьютер и сотрудника из текущей записи
+        printer = history_entry.printer
+        employee = history_entry.employee
+
+        #новая запись в PrinterHistory
+        PrinterHistory.objects.create(
+            printer=printer,
+            employee=employee,
+            start_date=timezone.now(),
+            location=None
+        )
+
+        return redirect('equipments:printer_detail', pk=equipment_pk)
+
+class EmployeePrinterHistoryClearView(View):
+    def get(self, request, pk, equipment_pk):
+        
+        history_entry = get_object_or_404(PrinterHistory, pk=pk)
+
+        history_entry.end_date = timezone.now()
+        history_entry.save()
+
+        #компьютер и сотрудника из текущей записи
+        printer = history_entry.printer
+        location = history_entry.location
+
+        #новая запись в PrinterHistory
+        PrinterHistory.objects.create(
+            printer=printer,
+            employee=None,
+            start_date=timezone.now(),
+            location=location
+        )
+
+        return redirect('equipments:printer_detail', pk=equipment_pk)
+
 
 #мониторы  

@@ -9,8 +9,7 @@ class EquipmentHistoryTable(tables.Table):
     #view_details = tables.TemplateColumn(_TEMPLATE_CMPONENT_LINK, verbose_name='Детали')
     
     class Meta:
-        fields = ('row_number',
-                    'computer',
+         fields = ('row_number',
                     'employee',
                     'location', 
                     'start_date',
@@ -25,28 +24,70 @@ class ComputerHistoryTable(EquipmentHistoryTable):
     class Meta(EquipmentHistoryTable.Meta):
         model = ComputerHistory
         verbose_name = "История компьютеры"
+        fields = ('row_number',
+                    'computer',
+                    'employee',
+                    'location', 
+                    'start_date',
+                    'end_date',
+                )
 
 class MonitorHistoryTable(EquipmentHistoryTable):
     class Meta(EquipmentHistoryTable.Meta):
         model = MonitorHistory
         verbose_name = "История Мониторов"
+        fields = ('row_number',
+                    'monitor',
+                    'employee',
+                    'location', 
+                    'start_date',
+                    'end_date',
+                )
 
 class PrinterHistoryTable(EquipmentHistoryTable):
     class Meta(EquipmentHistoryTable.Meta):
         model = PrinterHistory
         verbose_name = "История принтеров"
+        fields = ('row_number',
+                    'printer',
+                    'employee',
+                    'location', 
+                    'start_date',
+                    'end_date',
+                )
 
 class PhoneHistoryTable(EquipmentHistoryTable):
     class Meta(EquipmentHistoryTable.Meta):
         model = PhoneHistory
         verbose_name = "История телефонов"
+        fields = ('row_number',
+                    'phone',
+                    'employee',
+                    'location', 
+                    'start_date',
+                    'end_date',
+                )
 
 class NetworkDeviceHistoryTable(EquipmentHistoryTable):
     class Meta(EquipmentHistoryTable.Meta):
         model = NetworkDeviceHistory
         verbose_name = "История сетевого борудования"
+        fields = ('row_number',
+                    'network_device',
+                    'employee',
+                    'location', 
+                    'start_date',
+                    'end_date',
+                )
 
 class OtherEquipmentHistoryTable(EquipmentHistoryTable):
     class Meta(EquipmentHistoryTable.Meta):
         model = OtherEquipmentHistory
         verbose_name = "История сетевого борудования"
+        fields = ('row_number',
+                    'other_equipment',
+                    'employee',
+                    'location', 
+                    'start_date',
+                    'end_date',
+                )

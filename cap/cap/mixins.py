@@ -91,7 +91,8 @@ class BaseHistoryMixin(BaseContextMixin, LoginRequiredMixin):
   def get_context_data(self, **kwargs):
           context = super().get_context_data(**kwargs)
           context['menu'] =  [
-              {'title': 'Компьютеров', 'url': 'history:history'},
+              {'title': 'Компьютеры', 'url': 'history:all_computer_history_list'},
+              {'title': 'Принтеры', 'url': 'history:all_printer_history_list'},
               
               ]
       
