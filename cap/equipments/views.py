@@ -125,6 +125,7 @@ class ComputerDetailView(MultiTableMixin, BaseEquipmentDetailView):
             CoolerInComputerTable(Cooler.objects.filter(in_computer=computer)),
             CaseInComputerTable(Case.objects.filter(in_computer=computer)),
             NetworkCardInComputerTable(NetworkCard.objects.filter(in_computer=computer)), 
+            OtherComponentInComputerTable(OtherComponent.objects.filter(in_computer=computer)),
         ]
         return tables
 

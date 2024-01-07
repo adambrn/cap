@@ -125,6 +125,7 @@ class NetworkCard(BaseComponent):
         verbose_name_plural = 'Сетевые карты'
 
 class OtherComponent(BaseComponent):
+    in_computer = models.ForeignKey(Computer, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Компьютер')
     class Meta:
         verbose_name = 'Другой компонент'
         verbose_name_plural = 'Другие компоненты'

@@ -58,7 +58,7 @@ class Command(BaseCommand):
             SocketType.objects.get_or_create(name=socket_type)
 
     def populate_equipment(self):
-        for i in range(5):
+        for i in range(10):
             Computer.objects.get_or_create(
                 name = f'Компьютер № {i}',
                 category = EquipmentCategory.objects.get(name='Настольный компьютер'),
@@ -66,7 +66,7 @@ class Command(BaseCommand):
                 serial_number = fake.random_int(min=100000, max=999999),
                 inventory_number = fake.random_int(min=10000, max=99999),
                 cost = fake.pydecimal(left_digits=6, right_digits=2, positive=True),
-                purchase_date = fake.date_this_decade(),
+                purchase_date = fake.date_time(),
                 equipment_status = EquipmentStatus.objects.get(name='Рабочее'),
             )
             
@@ -77,7 +77,7 @@ class Command(BaseCommand):
                 serial_number = fake.random_int(min=100000, max=999999),
                 inventory_number = fake.random_int(min=10000, max=99999),
                 cost = fake.pydecimal(left_digits=6, right_digits=2, positive=True),
-                purchase_date = fake.date_this_decade(),
+                purchase_date = fake.date_time(),
                 equipment_status = EquipmentStatus.objects.get(name='Рабочее'),
             )
 
@@ -88,22 +88,24 @@ class Command(BaseCommand):
                 serial_number = fake.random_int(min=100000, max=999999),
                 inventory_number = fake.random_int(min=10000, max=99999),
                 cost = fake.pydecimal(left_digits=6, right_digits=2, positive=True),
-                purchase_date = fake.date_this_decade(),
+                purchase_date = fake.date_time(),
                 equipment_status = EquipmentStatus.objects.get(name='Рабочее'),
             )
 
     def populate_components(self):
-        for i in range(5): 
+        for i in range(10): 
+            computer_name = f'Компьютер № {i}'
+            computer = Computer.objects.filter(name=computer_name)[0]
             Motherboard.objects.get_or_create(
                 name = f'Материнская плата № {i}',
                 manufacturer = self.get_random_manufacturer(),
                 serial_number = fake.random_int(min=100000, max=999999),
                 inventory_number = fake.random_int(min=10000, max=99999),
                 cost = fake.pydecimal(left_digits=6, right_digits=2, positive=True),
-                start_date = fake.date_this_decade(),
+                start_date = fake.date_time(),
                 component_status = ComponentStatus.objects.get(name='Новый'),
                 socket_type=self.get_random_socket_type(),
-                in_computer=None,
+                in_computer=computer,
             )
 
             Processor.objects.get_or_create(
@@ -112,12 +114,12 @@ class Command(BaseCommand):
                 serial_number = fake.random_int(min=100000, max=999999),
                 inventory_number = fake.random_int(min=10000, max=99999),
                 cost = fake.pydecimal(left_digits=6, right_digits=2, positive=True),
-                start_date = fake.date_this_decade(),
+                start_date = fake.date_time(),
                 component_status = ComponentStatus.objects.get(name='Новый'),
                 socket_type=self.get_random_socket_type(),
                 num_cores=fake.random_int(min=2, max=8),
                 frequency=fake.random_int(min=1000, max=5000),
-                in_computer=None,
+                in_computer=computer,
             )
 
             RAM.objects.get_or_create(
@@ -126,12 +128,12 @@ class Command(BaseCommand):
                 serial_number = fake.random_int(min=100000, max=999999),
                 inventory_number = fake.random_int(min=10000, max=99999),
                 cost = fake.pydecimal(left_digits=6, right_digits=2, positive=True),
-                start_date = fake.date_this_decade(),
+                start_date = fake.date_time(),
                 component_status = ComponentStatus.objects.get(name='Новый'),
                 memory_type=self.get_random_memory_type(),
                 capacity=fake.random_int(min=4, max=64),
                 frequency=fake.random_int(min=1600, max=4000),
-                in_computer=None
+                in_computer=computer,
             )
 
             GraphicsCard.objects.get_or_create(
@@ -140,11 +142,11 @@ class Command(BaseCommand):
                 serial_number = fake.random_int(min=100000, max=999999),
                 inventory_number = fake.random_int(min=10000, max=99999),
                 cost = fake.pydecimal(left_digits=6, right_digits=2, positive=True),
-                start_date = fake.date_this_decade(),
+                start_date = fake.date_time(),
                 component_status = ComponentStatus.objects.get(name='Новый'),
                 memory=fake.word(),
                 frequency=fake.random_int(min=1000, max=2000),
-                in_computer=None
+                in_computer=computer,
             )
 
             Storage.objects.get_or_create(
@@ -153,12 +155,12 @@ class Command(BaseCommand):
                 serial_number = fake.random_int(min=100000, max=999999),
                 inventory_number = fake.random_int(min=10000, max=99999),
                 cost = fake.pydecimal(left_digits=6, right_digits=2, positive=True),
-                start_date = fake.date_this_decade(),
+                start_date = fake.date_time(),
                 component_status = ComponentStatus.objects.get(name='Новый'),
                 storage_type=self.get_random_storage_type(),
                 capacity=fake.random_int(min=128, max=4096),
                 interface='SATA3',
-                in_computer=None
+                in_computer=computer,
             )
 
             PowerSupply.objects.get_or_create(
@@ -167,10 +169,10 @@ class Command(BaseCommand):
                 serial_number = fake.random_int(min=100000, max=999999),
                 inventory_number = fake.random_int(min=10000, max=99999),
                 cost = fake.pydecimal(left_digits=6, right_digits=2, positive=True),
-                start_date = fake.date_this_decade(),
+                start_date = fake.date_time(),
                 component_status = ComponentStatus.objects.get(name='Новый'),
                 power=fake.random_int(min=300, max=1000),
-                in_computer=None
+                in_computer=computer,
             )
 
             Cooler.objects.get_or_create(
@@ -179,11 +181,11 @@ class Command(BaseCommand):
                 serial_number = fake.random_int(min=100000, max=999999),
                 inventory_number = fake.random_int(min=10000, max=99999),
                 cost = fake.pydecimal(left_digits=6, right_digits=2, positive=True),
-                start_date = fake.date_this_decade(),
+                start_date = fake.date_time(),
                 component_status = ComponentStatus.objects.get(name='Новый'),
                 cooler_type='Процессорный',
                 size="90X90",
-                in_computer=None
+                in_computer=computer,
             )
 
             Case.objects.get_or_create(
@@ -192,11 +194,11 @@ class Command(BaseCommand):
                 serial_number = fake.random_int(min=100000, max=999999),
                 inventory_number = fake.random_int(min=10000, max=99999),
                 cost = fake.pydecimal(left_digits=6, right_digits=2, positive=True),
-                start_date = fake.date_this_decade(),
+                start_date = fake.date_time(),
                 component_status = ComponentStatus.objects.get(name='Новый'),
                 case_type='ATX',
                 num_bays=fake.random_int(min=1, max=5),
-                in_computer=None
+                in_computer=computer,
             )
 
             NetworkCard.objects.get_or_create(
@@ -205,11 +207,11 @@ class Command(BaseCommand):
                 serial_number = fake.random_int(min=100000, max=999999),
                 inventory_number = fake.random_int(min=10000, max=99999),
                 cost = fake.pydecimal(left_digits=6, right_digits=2, positive=True),
-                start_date = fake.date_this_decade(),
+                start_date = fake.date_time(),
                 component_status = ComponentStatus.objects.get(name='Новый'),
                 speed= '10000',
                 card_type='PCI-E',
-                in_computer=None
+                in_computer=computer,
             )
 
             OtherComponent.objects.get_or_create(
@@ -218,13 +220,13 @@ class Command(BaseCommand):
                 serial_number = fake.random_int(min=100000, max=999999),
                 inventory_number = fake.random_int(min=10000, max=99999),
                 cost = fake.pydecimal(left_digits=6, right_digits=2, positive=True),
-                start_date = fake.date_this_decade(),
-                component_status = ComponentStatus.objects.get(name='Новый'),
+                start_date = fake.date_time(),
+                in_computer=computer,
             )
 
 
     def populate_peripherals(self):
-        for i in range(10):
+        for i in range(5):
             name = f'Клавиатура № {i}'
             manufacturer = self.get_random_manufacturer()
             serial_number = fake.random_int(min=100000, max=999999)
