@@ -1,10 +1,8 @@
 {% extends "base.html" %}
-
-{% block title %}Удалить процессор{% endblock %}
-
+{% load custom_tags %} 
 {% block content %}
-<h1>Удалить процессор</h1>
-<p>Вы уверены, что хотите удалить процессор <strong>{{ object.name }}</strong>?</p>
+<h1>Удалить {% model_verbose_name object %}</h1>
+<p>Вы уверены, что хотите удалить {% model_verbose_name object %} <strong>{{ object.name }}</strong>?</p>
 
 <form method="post">
     {% csrf_token %}

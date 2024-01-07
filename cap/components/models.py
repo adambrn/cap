@@ -22,6 +22,12 @@ class BaseComponent(models.Model):
     def get_absolute_url(self):
         return reverse(f'components:{self._meta.model_name}_detail', kwargs={"pk": self.pk})
     
+    def get_update_url(self):
+        return reverse(f'components:{self._meta.model_name}_update', args=[str(self.id)])
+    
+    def get_delete_url(self):
+        return reverse(f'components:{self._meta.model_name}_delete', args=[str(self.id)])
+    
     def get_model_fields(self):
         fields = []
         for field in self._meta.get_fields():

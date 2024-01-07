@@ -69,7 +69,6 @@ class ProcessorUpdateView(BaseComponentUpdateView):
 class ProcessorDeleteView(BaseComponentDeleteView):
     model = Processor
     success_url = reverse_lazy("components:processor_list")
-    template_name = 'components/processor_delete.html'
 
 #Материнские платы
 class MotherboardListView(BaseComponentView):
@@ -95,7 +94,6 @@ class MotherboardUpdateView(BaseComponentUpdateView):
 class MotherboardDeleteView(BaseComponentDeleteView):
     model = Motherboard
     success_url = reverse_lazy("components:motherboard_list")
-    template_name = 'components/motherboard_delete.html'
 
 #Память
 class RAMListView(BaseComponentView):
@@ -108,7 +106,22 @@ class RAMDetailView(BaseComponentDetailView):
     model = RAM
     template_name = 'components/ram_detail.html'
 
+class RAMCreateView(BaseComponentCreateView):
+    model = RAM
+    form_class = RAMForm
+    template_name = 'components/create_component.html'
 
+class RAMUpdateView(BaseComponentUpdateView):
+    model = RAM
+    form_class = RAMForm
+    template_name = 'components/create_component.html'
+
+class RAMDeleteView(BaseComponentDeleteView):
+    model = RAM
+    success_url = reverse_lazy("components:ram_list")
+
+
+#видеокарты
 class GraphicsCardListView(BaseComponentView):
     model = GraphicsCard
     template_name = 'components/graphicscard_list.html'
@@ -119,6 +132,21 @@ class GraphicsCardDetailView(BaseComponentDetailView):
     model = GraphicsCard 
     template_name = 'components/graphicscard_detail.html'
 
+class GraphicsCardCreateView(BaseComponentCreateView):
+    model = GraphicsCard
+    form_class = GraphicsCardForm
+    template_name = 'components/create_component.html'
+
+class GraphicsCardUpdateView(BaseComponentUpdateView):
+    model = GraphicsCard
+    form_class = GraphicsCardForm
+    template_name = 'components/create_component.html'
+
+class GraphicsCardDeleteView(BaseComponentDeleteView):
+    model = GraphicsCard
+    success_url = reverse_lazy("components:graphicscard_list")
+
+#Накопители
 class StorageListView(BaseComponentView):
     model = Storage
     template_name = 'components/storage_list.html' 
@@ -129,6 +157,21 @@ class StorageDetailView(BaseComponentDetailView):
     model = Storage 
     template_name = 'components/storage_detail.html'
 
+class StorageCreateView(BaseComponentCreateView):
+    model = Storage
+    form_class = StorageForm
+    template_name = 'components/create_component.html'
+
+class StorageUpdateView(BaseComponentUpdateView):
+    model = Storage
+    form_class = StorageForm
+    template_name = 'components/create_component.html'
+
+class StorageDeleteView(BaseComponentDeleteView):
+    model = Storage
+    success_url = reverse_lazy("components:storage_list")
+
+#Питание
 class PowerSupplyListView(BaseComponentView):
     model = PowerSupply
     template_name = 'components/powersupply_list.html'
@@ -139,6 +182,22 @@ class PowerSupplyDetailView(BaseComponentDetailView):
     model = PowerSupply
     template_name = 'components/powersupply_detail.html'
 
+class PowerSupplyCreateView(BaseComponentCreateView):
+    model = PowerSupply
+    form_class = PowerSupplyForm
+    template_name = 'components/create_component.html'
+
+class PowerSupplyUpdateView(BaseComponentUpdateView):
+    model = PowerSupply
+    form_class = PowerSupplyForm
+    template_name = 'components/create_component.html'
+
+class PowerSupplyDeleteView(BaseComponentDeleteView):
+    model = PowerSupply
+    success_url = reverse_lazy("components:powersupply_list")
+
+
+#Охлаждение
 class CoolerListView(BaseComponentView):
     model = Cooler
     template_name = 'components/cooler_list.html'
@@ -149,6 +208,7 @@ class CoolerDetailView(BaseComponentDetailView):
     model = Cooler
     template_name = 'components/cooler_detail.html'
 
+#Корпус
 class CaseListView(BaseComponentView):
     model = Case  
     template_name = 'components/case_list.html'
@@ -159,6 +219,7 @@ class CaseDetailView(BaseComponentDetailView):
     model = Case
     template_name = 'components/case_detail.html'
 
+#Сетевые карты
 class NetworkCardListView(BaseComponentView):
     model = NetworkCard
     template_name = 'components/networkcard_list.html'
@@ -169,7 +230,7 @@ class NetworkCardDetailView(BaseComponentDetailView):
     model = NetworkCard
     template_name = 'components/networkcard_detail.html'
 
-
+#Общие
 class ComponentListView(BaseBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, MultiTableMixin, TemplateView):
     template_name = 'components/components.html'
     
