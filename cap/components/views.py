@@ -208,6 +208,19 @@ class CoolerDetailView(BaseComponentDetailView):
     model = Cooler
     template_name = 'components/cooler_detail.html'
 
+class CoolerCreateView(BaseComponentCreateView):
+    model = Cooler
+    form_class = CoolerForm
+    template_name = 'components/create_component.html'
+
+class CoolerUpdateView(BaseComponentUpdateView):
+    model = Cooler
+    form_class = CoolerForm
+    template_name = 'components/create_component.html'
+
+class CoolerDeleteView(BaseComponentDeleteView):
+    model = Cooler
+    success_url = reverse_lazy("components:cooler_list")
 #Корпус
 class CaseListView(BaseComponentView):
     model = Case  
@@ -219,6 +232,20 @@ class CaseDetailView(BaseComponentDetailView):
     model = Case
     template_name = 'components/case_detail.html'
 
+class CaseCreateView(BaseComponentCreateView):
+    model = Case
+    form_class = CaseForm
+    template_name = 'components/create_component.html'
+
+class CaseUpdateView(BaseComponentUpdateView):
+    model = Case
+    form_class = CaseForm
+    template_name = 'components/create_component.html'
+
+class CaseDeleteView(BaseComponentDeleteView):
+    model = Case
+    success_url = reverse_lazy("components:case_list")
+
 #Сетевые карты
 class NetworkCardListView(BaseComponentView):
     model = NetworkCard
@@ -229,6 +256,46 @@ class NetworkCardListView(BaseComponentView):
 class NetworkCardDetailView(BaseComponentDetailView):
     model = NetworkCard
     template_name = 'components/networkcard_detail.html'
+
+class NetworkCardCreateView(BaseComponentCreateView):
+    model = NetworkCard
+    form_class = NetworkCardForm
+    template_name = 'components/create_component.html'
+
+class NetworkCardUpdateView(BaseComponentUpdateView):
+    model = NetworkCard
+    form_class = NetworkCardForm
+    template_name = 'components/create_component.html'
+
+class NetworkCardDeleteView(BaseComponentDeleteView):
+    model = NetworkCard
+    success_url = reverse_lazy("components:networkcard_list")
+
+#Прочие
+class OtherComponentListView(BaseComponentView):
+    model = OtherComponent
+    template_name = 'components/othercomponent_list.html'
+    table_class = OtherComponentTable
+    filterset_class = ComponentFilter
+
+class OtherComponentDetailView(BaseComponentDetailView):
+    model = OtherComponent
+    template_name = 'components/othercomponent_detail.html'
+
+class OtherComponentCreateView(BaseComponentCreateView):
+    model = OtherComponent
+    form_class = OtherComponentForm
+    template_name = 'components/create_component.html'
+
+class OtherComponentUpdateView(BaseComponentUpdateView):
+    model = OtherComponent
+    form_class = OtherComponentForm
+    template_name = 'components/create_component.html'
+
+class OtherComponentDeleteView(BaseComponentDeleteView):
+    model = OtherComponent
+    success_url = reverse_lazy("components:othercomponent_list")
+
 
 #Общие
 class ComponentListView(BaseBreadcrumbMixin, BaseContextMixin, LoginRequiredMixin, MultiTableMixin, TemplateView):

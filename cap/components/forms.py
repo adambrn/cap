@@ -45,6 +45,10 @@ class NetworkCardForm(BaseComponentForm):
     class Meta(BaseComponentForm.Meta):
         model = NetworkCard
 
+class OtherComponentForm(BaseComponentForm):
+    class Meta(BaseComponentForm.Meta):
+        model = OtherComponent
+
 COMPONENT_FORMS = {
     'motherboard': MotherboardForm,
     'processor': ProcessorForm,
@@ -55,6 +59,7 @@ COMPONENT_FORMS = {
     'cooler': CoolerForm,
     'case': CaseForm,
     'networkcard': NetworkCardForm,
+    'othercomponent': OtherComponentForm,
 }
 
 class ComponentSelectForm(forms.Form):

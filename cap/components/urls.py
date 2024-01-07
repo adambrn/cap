@@ -54,21 +54,28 @@ urlpatterns = [
     #Охлаждение
     path('cooler_list/', CoolerListView.as_view(), name='cooler_list'),
     path('cooler_detail/<int:pk>/', CoolerDetailView.as_view(), name='cooler_detail'),
-    path('processor/create', ProcessorCreateView.as_view(), name='processor_create'),
-    path('processor/<int:pk>/update', ProcessorUpdateView.as_view(), name='processor_update'),
-    path('processor/<int:pk>/delete', ProcessorDeleteView.as_view(), name='processor_delete'), 
+    path('cooler/create', CoolerCreateView.as_view(), name='cooler_create'),
+    path('cooler/<int:pk>/update', CoolerUpdateView.as_view(), name='cooler_update'),
+    path('cooler/<int:pk>/delete', CoolerDeleteView.as_view(), name='cooler_delete'), 
 
     #Корпус
     path('case_list/', CaseListView.as_view(), name='case_list'),
     path('case_detail/<int:pk>/', CaseDetailView.as_view(), name='case_detail'),
-    path('processor/create', ProcessorCreateView.as_view(), name='processor_create'),
-    path('processor/<int:pk>/update', ProcessorUpdateView.as_view(), name='processor_update'),
-    path('processor/<int:pk>/delete', ProcessorDeleteView.as_view(), name='processor_delete'), 
+    path('case/create', CaseCreateView.as_view(), name='case_create'),
+    path('case/<int:pk>/update', CaseUpdateView.as_view(), name='case_update'),
+    path('case/<int:pk>/delete', CaseDeleteView.as_view(), name='case_delete'), 
 
     #Сетевая карта
     path('networkcard_list/', NetworkCardListView.as_view(), name='networkcard_list'),
     path('networkcard_detail/<int:pk>/', NetworkCardDetailView.as_view(), name='networkcard_detail'),
-    path('processor/create', ProcessorCreateView.as_view(), name='processor_create'),
-    path('processor/<int:pk>/update', ProcessorUpdateView.as_view(), name='processor_update'),
-    path('processor/<int:pk>/delete', ProcessorDeleteView.as_view(), name='processor_delete'), 
+    path('networkcard/create', NetworkCardCreateView.as_view(), name='networkcard_create'),
+    path('networkcard/<int:pk>/update', NetworkCardUpdateView.as_view(), name='networkcard_update'),
+    path('networkcard/<int:pk>/delete', NetworkCardDeleteView.as_view(), name='networkcard_delete'), 
+
+    #Прочие
+    path('othercomponent_list/', OtherComponentListView.as_view(), name='othercomponent_list'),
+    path('othercomponent_detail/<int:pk>/', OtherComponentDetailView.as_view(), name='othercomponent_detail'),
+    path('othercomponent/create', OtherComponentCreateView.as_view(), name='othercomponent_create'),
+    path('othercomponent/<int:pk>/update', OtherComponentUpdateView.as_view(), name='othercomponent_update'),
+    path('othercomponent/<int:pk>/delete', OtherComponentDeleteView.as_view(), name='othercomponent_delete'), 
     ]

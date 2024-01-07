@@ -65,6 +65,11 @@ class NetworkCardTable(ComputerComponentsTable):
         model = NetworkCard
         verbose_name = "Сетевые карты"
 
+class OtherComponentTable(ComputerComponentsTable):
+    class Meta(ComputerComponentsTable.Meta):
+        model = OtherComponent
+        verbose_name = "Прочие компоненты"
+
 #Таблицы для отображения компонентов в компьютере
 
 _TEMPLATE_COMPONENT_LINKS = '''
@@ -142,4 +147,10 @@ class NetworkCardInComputerTable(ComponentsInComputerTable):
     class Meta(ComponentsInComputerTable.Meta):
         model = NetworkCard
         verbose_name = "Сетевые карты"
+        model_name = model._meta.model_name
+
+class OtherComponentInComputerTable(ComponentsInComputerTable):
+    class Meta(ComponentsInComputerTable.Meta):
+        model = OtherComponent
+        verbose_name = "Прочие компоненты"
         model_name = model._meta.model_name

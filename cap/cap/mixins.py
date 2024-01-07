@@ -15,6 +15,7 @@ COMPONENTS_LIST = {
     'cooler': Cooler,
     'case': Case,
     'networkcard': NetworkCard,
+    'othercomponent': OtherComponent
 }
 
 class BaseContextMixin(ContextMixin):
@@ -50,6 +51,7 @@ class BaseComponentMixin(BaseContextMixin, LoginRequiredMixin):
           {'title': 'Охлаждение', 'url': 'components:cooler_list'}, 
           {'title': 'Корпуса', 'url': 'components:case_list'},
           {'title': 'Сетевые карты', 'url': 'components:networkcard_list'},
+          {'title': 'Прочие', 'url': 'components:othercomponent_list'},
           ]
     
       return context
