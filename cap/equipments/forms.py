@@ -1,8 +1,13 @@
 from django import forms
+
+from components.models import get_datetime_now
 from .models import *
 
-class BaseEquipmentForm(forms.ModelForm):
 
+
+
+class BaseEquipmentForm(forms.ModelForm):
+    purchase_date = forms.DateTimeField(required=False, label='Дата начала использования', initial=get_datetime_now, widget=forms.DateTimeInput(attrs={'type': 'datetime'}))
     class Meta:
         model = None 
         fields = '__all__'

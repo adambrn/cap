@@ -13,8 +13,8 @@ class EquipmentHistory(models.Model):
 
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Сотрудник')
     location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Местоположение')
-    start_date = models.DateField(null=True, blank=True, verbose_name='Дата выдачи')
-    end_date = models.DateField(null=True, blank=True, verbose_name='Дата возврата')
+    start_date = models.DateTimeField(null=True, blank=True, verbose_name='Дата выдачи')
+    end_date = models.DateTimeField(null=True, blank=True, verbose_name='Дата возврата')
 
 class ComputerHistory(EquipmentHistory):
     computer = models.ForeignKey(Computer, on_delete=models.CASCADE, verbose_name='Компьютер')

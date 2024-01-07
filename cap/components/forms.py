@@ -3,8 +3,13 @@ from django import forms
 from cap.mixins import COMPONENTS_LIST
 from .models import *
 
-class BaseComponentForm(forms.ModelForm):
+def get_datetime_now():
+    return timezone.now()
 
+class BaseComponentForm(forms.ModelForm):
+    start_date = forms.DateTimeField(required=False, label='Дата начала использования', initial=get_datetime_now, widget=forms.DateTimeInput(attrs={'type': 'datetime'}))
+    end_date = forms.DateTimeField(required=False, label='Дата окончания использования', widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
+    
     class Meta:
         model = None 
         fields = '__all__'

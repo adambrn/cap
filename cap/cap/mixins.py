@@ -19,16 +19,12 @@ COMPONENTS_LIST = {
 }
 
 class BaseContextMixin(ContextMixin):
-  menu = [
-  
-]
-  top_menu = [
-    
+  menu = []
+  top_menu = [    
   {'title': 'Главная', 'url': 'index'},
   {'title': 'Оборудование', 'url': 'equipments:equipments'},
   {'title': 'Компоненты', 'url': 'components:components'},
   {'title': 'Справочники', 'url': 'catalogs:catalogs'},
-
   ]
 
 

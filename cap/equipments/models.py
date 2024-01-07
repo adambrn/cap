@@ -13,7 +13,7 @@ class Equipment(models.Model):
     serial_number = models.CharField(max_length=100, verbose_name='Серийный номер')
     inventory_number = models.CharField(max_length=100, verbose_name='Инвентарный номер')
     cost = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Стоимость')
-    purchase_date = models.DateField(verbose_name='Дата приобретения')
+    purchase_date = models.DateTimeField(verbose_name='Дата приобретения')
     equipment_status = models.ForeignKey(EquipmentStatus, on_delete=models.CASCADE, verbose_name='Статус')
     
     class Meta:

@@ -1,8 +1,11 @@
 from django.db import models
 from catalogs.models import *
 from equipments.models import *
-
+from django.utils import timezone
 # Компоненты компьютера
+def get_datetime_now():
+    return timezone.now()
+
 class BaseComponent(models.Model):
 
     class Meta:
@@ -15,8 +18,8 @@ class BaseComponent(models.Model):
     inventory_number = models.CharField(max_length=100, verbose_name='Инвентарный номер')
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.SET_NULL, null=True, verbose_name='Производитель')
     cost = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Стоимость')
-    start_date = models.DateField(verbose_name='Дата начала использования')
-    end_date = models.DateField(blank=True, null=True, verbose_name='Дата окончания использования')
+    start_date = models.DateTimeField(verbose_name='Дата начала использования')
+    end_date = models.DateTimeField(blank=True, null=True, verbose_name='Дата окончания использования')
     component_status = models.ForeignKey(ComponentStatus, on_delete=models.SET_NULL, null=True, verbose_name='Статус')
     
     def get_absolute_url(self):

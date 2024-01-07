@@ -6,11 +6,11 @@
   <h3>Компоненты компьютера: {{ computer.name }}</h3>
   <div class="row">
     {% for table in tables %}
-    <h2>{{table.Meta.verbose_name}} 
+    <h5>{{table.Meta.verbose_name}} 
      
-      <a href="{% url 'equipments:add_component_in_computer' pk=object.pk component=table.Meta.model_name%}" class="btn btn-primary">Добавить</a>
+      <a class="btn btn-primary" href="{% url 'equipments:add_component_in_computer' pk=object.pk component=table.Meta.model_name%}" >Добавить</a>
       
-    </h2>
+    </h5>
 
     <div class="col-lg-12">
       {% render_table table %}</div>

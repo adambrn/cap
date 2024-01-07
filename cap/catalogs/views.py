@@ -12,15 +12,26 @@ from django.views.generic import DetailView, CreateView, ListView, DeleteView, U
 from django_tables2 import MultiTableMixin, SingleTableMixin, SingleTableView
 from django_filters.views import FilterView
 from django.views.generic.base import TemplateView
+from django.db.models import Count
 
 
-class Index(BaseContextMixin, LoginView):
+class Index(BaseContextMixin, LoginView, ListView):
     template_name = 'index.html'
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Главная'
-        return context
+    context_object_name = 'status_counts'
+
+    def get_queryset(self):
+
+        status_counts = dict()
+        models = [Computer, Monitor, Printer, Phone, NetworkDevice, OtherEquipment]
+
+        for model in models:
+            counts = (
+                model.objects
+                .values('equipment_status__name')  
+                .annotate(count=Count('equipment_status'))
+            )
+            status_counts[model] = counts
+        return status_counts
 
 #Базовые классы справочников
 class BaseCatalogView(BaseModelBreadcrumbMixin, BaseCatalogMixin, SingleTableMixin, FilterView):
