@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 
 # Общие справочники
 class BaseCommonInfo(models.Model):
@@ -9,6 +10,12 @@ class BaseCommonInfo(models.Model):
         
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, verbose_name='Название')
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+    updated_at = models.DateTimeField(auto_now=True, editable=False)
+
+    def save(self, *args, **kwargs):
+        self.updated_at = timezone.now()
+        super().save(*args, **kwargs)
     
     
     def get_absolute_url(self):

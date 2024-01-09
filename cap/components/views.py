@@ -1,5 +1,4 @@
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django_filters.views import FilterView
 from components.filters import *
