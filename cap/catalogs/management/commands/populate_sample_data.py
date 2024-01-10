@@ -33,7 +33,7 @@ class Command(BaseCommand):
         for manufacturer in manufacturers:
             Manufacturer.objects.get_or_create(name=manufacturer)
         
-        equipment_categories = ['Настольный компьютер', 'Принтер', 'Сетевое устройство', 'Телефон', 'Другое оборудование']
+        equipment_categories = ['Настольный компьютер', 'Монитор', 'Принтер', 'Сетевое устройство', 'Телефон', 'Другое оборудование']
         for category in equipment_categories:
             EquipmentCategory.objects.get_or_create(name=category)
         
@@ -69,7 +69,16 @@ class Command(BaseCommand):
                 purchase_date = fake.date_time(),
                 equipment_status = EquipmentStatus.objects.get(name='Рабочее'),
             )
-            
+            Monitor.objects.get_or_create(
+                name = f'Монитор № {i}',
+                category = EquipmentCategory.objects.get(name='Монитор'),
+                manufacturer = self.get_random_manufacturer(),
+                serial_number = fake.random_int(min=100000, max=999999),
+                inventory_number = fake.random_int(min=10000, max=99999),
+                cost = fake.pydecimal(left_digits=6, right_digits=2, positive=True),
+                purchase_date = fake.date_time(),
+                equipment_status = EquipmentStatus.objects.get(name='Рабочее'),
+            )
             Printer.objects.get_or_create(
                 name = f'Принтер № {i}',
                 category = EquipmentCategory.objects.get(name='Принтер'),

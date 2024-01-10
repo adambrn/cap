@@ -42,8 +42,8 @@ class ComputerComponentHistory(models.Model):
         verbose_name_plural = 'История компонентов'
 
     computer = models.ForeignKey(Computer, on_delete=models.CASCADE, verbose_name='Компьютер')
-    start_date = models.DateField(null=True, blank=True, verbose_name='Дата выдачи')
-    end_date = models.DateField(null=True, blank=True, verbose_name='Дата возврата')
+    start_date = models.DateTimeField(null=True, blank=True, verbose_name='Дата выдачи')
+    end_date = models.DateTimeField(null=True, blank=True, verbose_name='Дата возврата')
 
 class MotherBoardHistory(ComputerComponentHistory):
     motherboard = models.ForeignKey(Motherboard, on_delete=models.CASCADE, verbose_name='Материнская плата')
