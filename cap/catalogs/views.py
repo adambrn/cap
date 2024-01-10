@@ -30,7 +30,8 @@ class Index(BaseContextMixin, LoginView, ListView):
                 .values('equipment_status__name')  
                 .annotate(count=Count('equipment_status'))
             )
-            status_counts[model] = counts
+            if counts:
+                status_counts[model] = counts
         return status_counts
 
 #Базовые классы справочников
