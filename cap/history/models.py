@@ -52,7 +52,7 @@ class ProcessorHistory(ComputerComponentHistory):
     processor = models.ForeignKey(Processor, on_delete=models.CASCADE, verbose_name='Процессор')
 
 class RAMHistory(ComputerComponentHistory):
-    memory = models.ForeignKey(RAM, on_delete=models.CASCADE, verbose_name='Оперативная память')
+    ram = models.ForeignKey(RAM, on_delete=models.CASCADE, verbose_name='Оперативная память')
 
 class StorageHistory(ComputerComponentHistory):
     storage = models.ForeignKey(Storage, on_delete=models.CASCADE, verbose_name='Жесткий диск')

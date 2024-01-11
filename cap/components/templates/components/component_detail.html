@@ -8,6 +8,7 @@
 {% block buttons %}
 <a href="{{object.get_update_url}}" class="btn btn-primary">Редактировать</a>
 <a href="{{object.get_delete_url}}" class="btn btn-danger"> Удалить</a> 
+<a class="btn btn-primary" href="{% url 'history:component_history_list' component=model_name pk=object.pk%}">История</a>
 {% endblock buttons %}
 
 {% block content %}
@@ -15,6 +16,7 @@
   
     <div class="col-md-8 mx-auto mt-5">
       <div>
+
         {% if object.in_computer %}
         <h5>Установлен в компьютере компьютере: <a href="{{object.in_computer.get_absolute_url}}">{{object.in_computer}}</a></h5>
         {% endif %}

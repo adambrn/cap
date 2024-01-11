@@ -1,3 +1,5 @@
+from django.apps import apps
+from django.views.generic.base import TemplateView
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
@@ -1077,3 +1079,59 @@ class EmployeeOtherEquipmentHistoryClearView(View):
         )
 
         return redirect('equipments:otherequipment_detail', pk=equipment_pk)
+    
+class ComponentHistoryListView(BaseBreadcrumbMixin,  BaseComponentMixin, SingleTableView):
+    #filterset_class = HistoryFilter
+    template_name = 'history/component_history_list.html'
+    
+    def get_queryset(self):
+         
+        component = self.kwargs['component']
+        
+        model_name = apps.get_model('components', component)
+       
+        component_name = model_name.__name__
+        print(component_name)
+        model = apps.get_model('history', f'{component_name}History')
+        get_filter = {f'{component}_id':self.kwargs['pk']}
+        queryset = model.objects.filter(**get_filter)
+               
+
+        return queryset
+    
+    def get_table_class(self):
+        
+        component = self.kwargs['component']
+        TABLES_CLASS ={
+             'processor': ProcessorHistoryTable,
+             'motherboard': MotherboardHistoryTable,
+             'ram': RAMHistoryTable,
+             'storage': StorageHistoryTable,
+             'graphicscard': GraphicsCardHistoryTable,
+             'powersupply':PowerSupplyHistoryTable,
+             'case':CaseHistoryTable,
+             'cooler':CoolerHistoryTable,
+             'othercomponent':OtherComponentHistoryTable,
+             'networkcard':NetworkCardHistoryTable,
+
+        }
+        #table_class = apps.get_model('history', f'table.{component_name}HistoryTable')
+
+        self.table_class = TABLES_CLASS[component]
+                
+        return super().get_table_class()
+    
+    @cached_property
+    def crumbs(self):
+        pk = self.kwargs['component']    
+        model_name = apps.get_model('components', pk)
+       
+        component = model_name.__name__
+        component_object = get_object_or_404(model_name, pk=self.kwargs['pk'])
+        return [("Компоненты", reverse_lazy('components:components')),
+                (component_object.name ,reverse_lazy(f'components:{pk}_detail', kwargs={'pk': self.kwargs['pk']})),
+                (f"История компонента" , ''),
+                ]
+    
+   
+    
