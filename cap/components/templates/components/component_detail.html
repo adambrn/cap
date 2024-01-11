@@ -11,10 +11,14 @@
 {% endblock buttons %}
 
 {% block content %}
-  
-
 <div class="row">
+  
     <div class="col-md-8 mx-auto mt-5">
+      <div>
+        {% if object.in_computer %}
+        <h5>Установлен в компьютере компьютере: <a href="{{object.in_computer.get_absolute_url}}">{{object.in_computer}}</a></h5>
+        {% endif %}
+      </div>
       <div class="card">
         <div class="card-header">
           <h3 class="card-title">
@@ -32,4 +36,5 @@
       </div>
     </div>
 </div>
+
 {% endblock content %}
