@@ -57,6 +57,14 @@ class Command(BaseCommand):
         for socket_type in socket_types:
             SocketType.objects.get_or_create(name=socket_type)
 
+        employees = ['Иван', 'Марья', 'Семён Семёнович']
+        for employee in employees:
+            Employee.objects.get_or_create(name=employee, position=fake.job())
+
+        locations = ['Серверная', 'Склад', 'Кабинет1']
+        for location in locations:
+            Location.objects.get_or_create(name=location)
+
     def populate_equipment(self):
         for i in range(10):
             Computer.objects.get_or_create(

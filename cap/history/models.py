@@ -2,6 +2,7 @@ from django.db import models
 from catalogs.models import Employee, Location
 from equipments.models import *
 from components.models import *
+from django.contrib.auth.models import User
 
 # Движение техники
 class EquipmentHistory(models.Model):
@@ -15,7 +16,7 @@ class EquipmentHistory(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Местоположение')
     start_date = models.DateTimeField(null=True, blank=True, verbose_name='Дата выдачи')
     end_date = models.DateTimeField(null=True, blank=True, verbose_name='Дата возврата')
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
 class ComputerHistory(EquipmentHistory):
     computer = models.ForeignKey(Computer, on_delete=models.CASCADE, verbose_name='Компьютер')
 
@@ -44,6 +45,7 @@ class ComputerComponentHistory(models.Model):
     computer = models.ForeignKey(Computer, on_delete=models.CASCADE, verbose_name='Компьютер')
     start_date = models.DateTimeField(null=True, blank=True, verbose_name='Дата выдачи')
     end_date = models.DateTimeField(null=True, blank=True, verbose_name='Дата возврата')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
 
 class MotherBoardHistory(ComputerComponentHistory):
     motherboard = models.ForeignKey(Motherboard, on_delete=models.CASCADE, verbose_name='Материнская плата')
