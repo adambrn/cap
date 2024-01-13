@@ -14,6 +14,7 @@ class EquipmentHistoryTable(tables.Table):
                     'location', 
                     'start_date',
                     'end_date',
+                    'user',
                 )
     
     def render_row_number(self):
@@ -31,6 +32,7 @@ class ComputerHistoryTable(EquipmentHistoryTable):
                     'location', 
                     'start_date',
                     'end_date',
+                    'user',
                 )
 
 class MonitorHistoryTable(EquipmentHistoryTable):
@@ -43,6 +45,7 @@ class MonitorHistoryTable(EquipmentHistoryTable):
                     'location', 
                     'start_date',
                     'end_date',
+                    'user',
                 )
 
 class PrinterHistoryTable(EquipmentHistoryTable):
@@ -55,6 +58,7 @@ class PrinterHistoryTable(EquipmentHistoryTable):
                     'location', 
                     'start_date',
                     'end_date',
+                    'user',
                 )
 
 class PhoneHistoryTable(EquipmentHistoryTable):
@@ -67,6 +71,7 @@ class PhoneHistoryTable(EquipmentHistoryTable):
                     'location', 
                     'start_date',
                     'end_date',
+                    'user',
                 )
 
 class NetworkDeviceHistoryTable(EquipmentHistoryTable):
@@ -79,6 +84,7 @@ class NetworkDeviceHistoryTable(EquipmentHistoryTable):
                     'location', 
                     'start_date',
                     'end_date',
+                    'user',
                 )
 
 class OtherEquipmentHistoryTable(EquipmentHistoryTable):
@@ -91,6 +97,7 @@ class OtherEquipmentHistoryTable(EquipmentHistoryTable):
                     'location', 
                     'start_date',
                     'end_date',
+                    'user',
                 )
         
 # Таблицы истории компонентов   
@@ -101,8 +108,8 @@ class ComponentHistoryTable(tables.Table):
     class Meta:
          fields = ('row_number',
                     'computer',
-                    'start_date',
-                    'end_date',
+                    'at_date',
+                    'user',
                 )
     
     def render_row_number(self):
@@ -116,60 +123,59 @@ class ProcessorHistoryTable(ComponentHistoryTable):
         fields = ('row_number',
                     'processor',
                     'computer',
-                    
-                   'start_date',
-                    'end_date',
+                    'at_date',
+                    'user',
                 )
 class MotherboardHistoryTable(ComponentHistoryTable):
     class Meta(ComponentHistoryTable.Meta):
         model = MotherBoardHistory
         verbose_name = "История материнских плат"
-        fields = ('row_number', 'motherboard', 'computer',  'start_date', 'end_date',)
+        fields = ('row_number', 'motherboard', 'computer', 'at_date', 'user',)
 
 class RAMHistoryTable(ComponentHistoryTable):
     class Meta(ComponentHistoryTable.Meta):
         model = RAMHistory
         verbose_name = "История оперативной памяти"
-        fields = ('row_number', 'ram', 'computer',  'start_date', 'end_date',)
+        fields = ('row_number', 'ram', 'computer',  'at_date', 'user',)
 
 class StorageHistoryTable(ComponentHistoryTable):
     class Meta(ComponentHistoryTable.Meta):
         model = StorageHistory
         verbose_name = "История жестких дисков"
-        fields = ('row_number', 'storage', 'computer',  'start_date', 'end_date',)
+        fields = ('row_number', 'storage', 'computer',  'at_date', 'user',)
 
 class GraphicsCardHistoryTable(ComponentHistoryTable):
     class Meta(ComponentHistoryTable.Meta):
         model = GraphicsCardHistory
         verbose_name = "История видеокарт"
-        fields = ('row_number', 'graphicscard', 'computer',  'start_date', 'end_date',)
+        fields = ('row_number', 'graphicscard', 'computer', 'at_date', 'user',)
 
 class CaseHistoryTable(ComponentHistoryTable):
     class Meta(ComponentHistoryTable.Meta):
         model = CaseHistory
         verbose_name = "История корпусов"
-        fields = ('row_number', 'case', 'computer',  'start_date', 'end_date',)
+        fields = ('row_number', 'case', 'computer', 'at_date', 'user',)
 
 class NetworkCardHistoryTable(ComponentHistoryTable):
     class Meta(ComponentHistoryTable.Meta):
         model = NetworkCardHistory
         verbose_name = "История сетевых карт"
-        fields = ('row_number', 'networkcard', 'computer',  'start_date', 'end_date',)
+        fields = ('row_number', 'networkcard', 'computer', 'at_date', 'user',)
 
 class CoolerHistoryTable(ComponentHistoryTable):
     class Meta(ComponentHistoryTable.Meta):
         model = CoolerHistory
         verbose_name = "История кулеров"
-        fields = ('row_number', 'cooler', 'computer',  'start_date', 'end_date',)
+        fields = ('row_number', 'cooler', 'computer', 'at_date', 'user',)
 
 class OtherComponentHistoryTable(ComponentHistoryTable):
     class Meta(ComponentHistoryTable.Meta):
         model = OtherComponentHistory
         verbose_name = "История других компонентов"
-        fields = ('row_number', 'othercomponent', 'computer',  'start_date', 'end_date',)
+        fields = ('row_number', 'othercomponent', 'computer', 'at_date', 'user',)
 
 class PowerSupplyHistoryTable(ComponentHistoryTable):
     class Meta(ComponentHistoryTable.Meta):
         model = PowerSupplyHistory
         verbose_name = "История блоков питания"
-        fields = ('row_number', 'powersupply', 'computer','start_date', 'end_date',)
+        fields = ('row_number', 'powersupply', 'computer', 'at_date', 'user',)

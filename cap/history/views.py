@@ -110,7 +110,8 @@ class EmployeeComputerHistoryUpdateView(BaseHistoryUpdateView):
             ComputerHistory.objects.create(computer=computer, 
                                            employee=employee, 
                                            location=location, 
-                                           start_date=start_date)
+                                           start_date=start_date,
+                                           user = self.request.user)
             
             return super().form_valid(form)
     
@@ -129,6 +130,7 @@ class EmployeeComputerHistoryCreateView(BaseHistoryCreateView):
             history_entry = form.save(commit=False)
             history_entry.computer = Computer.objects.get(pk=pk)
             history_entry.start_date = timezone.now() 
+            history_entry.user = self.request.user
             history_entry.employee = form.cleaned_data['employee']
             history_entry.save()
         
@@ -147,6 +149,7 @@ class LocationComputerHistoryUpdateView(BaseHistoryUpdateView):
             current_entry = self.get_object()
             history_entry = form.save(commit=False)
             history_entry.end_date = timezone.now() 
+            history_entry.user = self.request.user
             history_entry.location = current_entry.location
             history_entry.save()
             
@@ -158,7 +161,8 @@ class LocationComputerHistoryUpdateView(BaseHistoryUpdateView):
             ComputerHistory.objects.create(computer=computer, 
                                            employee=employee, 
                                            location=location, 
-                                           start_date=start_date)
+                                           start_date=start_date,
+                                           user = self.request.user,)
             
             return super().form_valid(form)
 
@@ -176,6 +180,7 @@ class LocationComputerHistoryCreateView(BaseHistoryCreateView):
             history_entry = form.save(commit=False)
             history_entry.computer = Computer.objects.get(pk=pk)
             history_entry.start_date = timezone.now() 
+            history_entry.user = self.request.user
             history_entry.location = form.cleaned_data['location']
             history_entry.save()
         
@@ -202,7 +207,8 @@ class LocationComputerHistoryClearView(View):
             computer=computer,
             employee=employee,
             start_date=timezone.now(),
-            location=None
+            user = self.request.user,
+            location=None,
         )
 
         return redirect('equipments:computer_detail', pk=equipment_pk)
@@ -224,7 +230,8 @@ class EmployeeComputerHistoryClearView(View):
             computer=computer,
             employee=None,
             start_date=timezone.now(),
-            location=location
+            location=location,
+            user = self.request.user,
         )
 
         return redirect('equipments:computer_detail', pk=equipment_pk)
@@ -270,6 +277,7 @@ class EmployeePrinterHistoryUpdateView(BaseHistoryUpdateView):
             history_entry = form.save(commit=False)
             history_entry.end_date = timezone.now() 
             history_entry.employee = current_entry.employee
+            history_entry.user = self.request.user
             history_entry.save()
             
             printer = history_entry.printer
@@ -280,7 +288,8 @@ class EmployeePrinterHistoryUpdateView(BaseHistoryUpdateView):
             PrinterHistory.objects.create(printer=printer, 
                                            employee=employee, 
                                            location=location, 
-                                           start_date=start_date)
+                                           start_date=start_date,
+                                           user = self.request.user)
             
             return super().form_valid(form)
     
@@ -300,6 +309,7 @@ class EmployeePrinterHistoryCreateView(BaseHistoryCreateView):
             history_entry.printer = Printer.objects.get(pk=pk)
             history_entry.start_date = timezone.now() 
             history_entry.employee = form.cleaned_data['employee']
+            history_entry.user = self.request.user
             history_entry.save()
         
             return super().form_valid(form)
@@ -318,6 +328,7 @@ class LocationPrinterHistoryUpdateView(BaseHistoryUpdateView):
             history_entry = form.save(commit=False)
             history_entry.end_date = timezone.now() 
             history_entry.location = current_entry.location
+            history_entry.user = self.request.user
             history_entry.save()
             
             printer = history_entry.printer
@@ -328,7 +339,8 @@ class LocationPrinterHistoryUpdateView(BaseHistoryUpdateView):
             PrinterHistory.objects.create(printer=printer, 
                                            employee=employee, 
                                            location=location, 
-                                           start_date=start_date)
+                                           start_date=start_date,
+                                           user = self.request.user)
             
             return super().form_valid(form)
 
@@ -346,6 +358,7 @@ class LocationPrinterHistoryCreateView(BaseHistoryCreateView):
             history_entry = form.save(commit=False)
             history_entry.printer = Printer.objects.get(pk=pk)
             history_entry.start_date = timezone.now() 
+            history_entry.user = self.request.user
             history_entry.location = form.cleaned_data['location']
             history_entry.save()
         
@@ -372,6 +385,7 @@ class LocationPrinterHistoryClearView(View):
             printer=printer,
             employee=employee,
             start_date=timezone.now(),
+            user = self.request.user,
             location=None
         )
 
@@ -394,7 +408,8 @@ class EmployeePrinterHistoryClearView(View):
             printer=printer,
             employee=None,
             start_date=timezone.now(),
-            location=location
+            location=location,
+            user = self.request.user
         )
 
         return redirect('equipments:printer_detail', pk=equipment_pk)
@@ -441,6 +456,7 @@ class EmployeeMonitorHistoryUpdateView(BaseHistoryUpdateView):
             history_entry = form.save(commit=False)
             history_entry.end_date = timezone.now() 
             history_entry.employee = current_entry.employee
+            history_entry.user = self.request.user
             history_entry.save()
             
             monitor = history_entry.monitor
@@ -451,7 +467,8 @@ class EmployeeMonitorHistoryUpdateView(BaseHistoryUpdateView):
             MonitorHistory.objects.create(monitor=monitor, 
                                            employee=employee, 
                                            location=location, 
-                                           start_date=start_date)
+                                           start_date=start_date,
+                                           user = self.request.user)
             
             return super().form_valid(form)
     
@@ -471,6 +488,7 @@ class EmployeeMonitorHistoryCreateView(BaseHistoryCreateView):
             history_entry.monitor = Monitor.objects.get(pk=pk)
             history_entry.start_date = timezone.now() 
             history_entry.employee = form.cleaned_data['employee']
+            history_entry.user = self.request.user
             history_entry.save()
         
             return super().form_valid(form)
@@ -489,6 +507,7 @@ class LocationMonitorHistoryUpdateView(BaseHistoryUpdateView):
             history_entry = form.save(commit=False)
             history_entry.end_date = timezone.now() 
             history_entry.location = current_entry.location
+            history_entry.user = self.request.user
             history_entry.save()
             
             monitor = history_entry.monitor
@@ -499,7 +518,8 @@ class LocationMonitorHistoryUpdateView(BaseHistoryUpdateView):
             MonitorHistory.objects.create(monitor=monitor, 
                                            employee=employee, 
                                            location=location, 
-                                           start_date=start_date)
+                                           start_date=start_date,
+                                           user = self.request.user)
             
             return super().form_valid(form)
 
@@ -518,6 +538,7 @@ class LocationMonitorHistoryCreateView(BaseHistoryCreateView):
             history_entry.monitor = Monitor.objects.get(pk=pk)
             history_entry.start_date = timezone.now() 
             history_entry.location = form.cleaned_data['location']
+            history_entry.user = self.request.user
             history_entry.save()
         
             return super().form_valid(form)
@@ -543,7 +564,8 @@ class LocationMonitorHistoryClearView(View):
             monitor=monitor,
             employee=employee,
             start_date=timezone.now(),
-            location=None
+            location=None,
+            user = self.request.user
         )
 
         return redirect('equipments:monitor_detail', pk=equipment_pk)
@@ -565,7 +587,8 @@ class EmployeeMonitorHistoryClearView(View):
             monitor=monitor,
             employee=None,
             start_date=timezone.now(),
-            location=location
+            location=location,
+            user = self.request.user
         )
 
         return redirect('equipments:monitor_detail', pk=equipment_pk)
@@ -610,6 +633,7 @@ class EmployeePhoneHistoryUpdateView(BaseHistoryUpdateView):
             current_entry = self.get_object()
             history_entry = form.save(commit=False)
             history_entry.end_date = timezone.now() 
+            history_entry.user = self.request.user
             history_entry.employee = current_entry.employee
             history_entry.save()
             
@@ -621,7 +645,8 @@ class EmployeePhoneHistoryUpdateView(BaseHistoryUpdateView):
             PhoneHistory.objects.create(phone=phone, 
                                            employee=employee, 
                                            location=location, 
-                                           start_date=start_date)
+                                           start_date=start_date,
+                                           user = self.request.user)
             
             return super().form_valid(form)
     
@@ -658,6 +683,7 @@ class LocationPhoneHistoryUpdateView(BaseHistoryUpdateView):
             current_entry = self.get_object()
             history_entry = form.save(commit=False)
             history_entry.end_date = timezone.now() 
+            history_entry.user = self.request.user
             history_entry.location = current_entry.location
             history_entry.save()
             
@@ -669,7 +695,8 @@ class LocationPhoneHistoryUpdateView(BaseHistoryUpdateView):
             PhoneHistory.objects.create(phone=phone, 
                                            employee=employee, 
                                            location=location, 
-                                           start_date=start_date)
+                                           start_date=start_date,
+                                           user = self.request.user)
             
             return super().form_valid(form)
 
@@ -713,7 +740,8 @@ class LocationPhoneHistoryClearView(View):
             phone=phone,
             employee=employee,
             start_date=timezone.now(),
-            location=None
+            location=None,
+            user = self.request.user
         )
 
         return redirect('equipments:phone_detail', pk=equipment_pk)
@@ -735,7 +763,8 @@ class EmployeePhoneHistoryClearView(View):
             phone=phone,
             employee=None,
             start_date=timezone.now(),
-            location=location
+            location=location,
+            user = self.request.user
         )
 
         return redirect('equipments:phone_detail', pk=equipment_pk)
@@ -780,6 +809,7 @@ class EmployeeNetworkDeviceHistoryUpdateView(BaseHistoryUpdateView):
             current_entry = self.get_object()
             history_entry = form.save(commit=False)
             history_entry.end_date = timezone.now() 
+            history_entry.user = self.request.user
             history_entry.employee = current_entry.employee
             history_entry.save()
             
@@ -791,7 +821,8 @@ class EmployeeNetworkDeviceHistoryUpdateView(BaseHistoryUpdateView):
             NetworkDeviceHistory.objects.create(networkdevice=networkdevice, 
                                            employee=employee, 
                                            location=location, 
-                                           start_date=start_date)
+                                           start_date=start_date,
+                                           user = self.request.user)
             
             return super().form_valid(form)
     
@@ -828,6 +859,7 @@ class LocationNetworkDeviceHistoryUpdateView(BaseHistoryUpdateView):
             current_entry = self.get_object()
             history_entry = form.save(commit=False)
             history_entry.end_date = timezone.now() 
+            history_entry.user = self.request.user
             history_entry.location = current_entry.location
             history_entry.save()
             
@@ -839,7 +871,8 @@ class LocationNetworkDeviceHistoryUpdateView(BaseHistoryUpdateView):
             NetworkDeviceHistory.objects.create(networkdevice=networkdevice, 
                                            employee=employee, 
                                            location=location, 
-                                           start_date=start_date)
+                                           start_date=start_date,
+                                           user = self.request.user)
             
             return super().form_valid(form)
 
@@ -883,7 +916,8 @@ class LocationNetworkDeviceHistoryClearView(View):
             networkdevice=networkdevice,
             employee=employee,
             start_date=timezone.now(),
-            location=None
+            location=None,
+            user = self.request.user
         )
 
         return redirect('equipments:networkdevice_detail', pk=equipment_pk)
@@ -905,7 +939,8 @@ class EmployeeNetworkDeviceHistoryClearView(View):
             networkdevice=networkdevice,
             employee=None,
             start_date=timezone.now(),
-            location=location
+            location=location,
+            user = self.request.user
         )
 
         return redirect('equipments:networkdevice_detail', pk=equipment_pk)
@@ -950,6 +985,7 @@ class EmployeeOtherEquipmentHistoryUpdateView(BaseHistoryUpdateView):
             current_entry = self.get_object()
             history_entry = form.save(commit=False)
             history_entry.end_date = timezone.now() 
+            history_entry.user = self.request.user
             history_entry.employee = current_entry.employee
             history_entry.save()
             
@@ -961,7 +997,8 @@ class EmployeeOtherEquipmentHistoryUpdateView(BaseHistoryUpdateView):
             OtherEquipmentHistory.objects.create(otherequipment=otherequipment, 
                                            employee=employee, 
                                            location=location, 
-                                           start_date=start_date)
+                                           start_date=start_date,
+                                           user = self.request.user)
             
             return super().form_valid(form)
     
@@ -998,6 +1035,7 @@ class LocationOtherEquipmentHistoryUpdateView(BaseHistoryUpdateView):
             current_entry = self.get_object()
             history_entry = form.save(commit=False)
             history_entry.end_date = timezone.now() 
+            history_entry.user = self.request.user
             history_entry.location = current_entry.location
             history_entry.save()
             
@@ -1009,7 +1047,8 @@ class LocationOtherEquipmentHistoryUpdateView(BaseHistoryUpdateView):
             OtherEquipmentHistory.objects.create(otherequipment=otherequipment, 
                                            employee=employee, 
                                            location=location, 
-                                           start_date=start_date)
+                                           start_date=start_date,
+                                           user = self.request.user)
             
             return super().form_valid(form)
 
@@ -1053,7 +1092,8 @@ class LocationOtherEquipmentHistoryClearView(View):
             otherequipment=otherequipment,
             employee=employee,
             start_date=timezone.now(),
-            location=None
+            location=None,
+            user = self.request.user
         )
 
         return redirect('equipments:otherequipment_detail', pk=equipment_pk)
@@ -1075,7 +1115,8 @@ class EmployeeOtherEquipmentHistoryClearView(View):
             otherequipment=otherequipment,
             employee=None,
             start_date=timezone.now(),
-            location=location
+            location=location,
+            user = self.request.user
         )
 
         return redirect('equipments:otherequipment_detail', pk=equipment_pk)

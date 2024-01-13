@@ -258,29 +258,27 @@ class ComponentRemoveFromComputerView(View):
         
         # Определяем класс компонента на основе переданного значения
         component_class = COMPONENTS_LIST[component] 
-        current_component = get_object_or_404(component_class, pk=component_pk)
+        selected_component = get_object_or_404(component_class, pk=component_pk)
         # Получаем компьютер
         computer = get_object_or_404(Computer, pk=self.kwargs['pk'])
 
 
         # Удалить компонент из компьютера 
-        current_component.in_computer = None
-        current_component.save()
+        selected_component.in_computer = None
+        selected_component.save()
 
         # запись в историю
-        selected_component_name = current_component.__class__.__name__
+        selected_component_name = selected_component.__class__.__name__
         model_class = apps.get_model('history', f'{selected_component_name}History')
-        fields_to_filter = {
-            selected_component_name.lower(): current_component,
+        fields_to_set = {
+            selected_component_name.lower(): selected_component,
             'computer': computer,
+            'at_date': timezone.now(),
+            'user': self.request.user,
             }
 
-    
-        history_instance = model_class.objects.filter(**fields_to_filter).last()
-
-        if history_instance:
-            history_instance.end_date = timezone.now()
-            history_instance.save()
+        history_instance = model_class(**fields_to_set)
+        history_instance.save()
 
         return redirect('equipments:computer_detail', pk=pk)
 
@@ -317,7 +315,8 @@ class ComponentAddInComputerView(BaseBreadcrumbMixin, BaseEquipmentMixin, FormVi
         fields_to_set = {
             selected_component_name.lower(): selected_component,
             'computer': computer,
-            'start_date': timezone.now(),
+            'at_date': timezone.now(),
+            'user': self.request.user,
             }
 
         history_instance = model_class(**fields_to_set)

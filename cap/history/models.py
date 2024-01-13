@@ -17,6 +17,7 @@ class EquipmentHistory(models.Model):
     start_date = models.DateTimeField(null=True, blank=True, verbose_name='Дата выдачи')
     end_date = models.DateTimeField(null=True, blank=True, verbose_name='Дата возврата')
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
+
 class ComputerHistory(EquipmentHistory):
     computer = models.ForeignKey(Computer, on_delete=models.CASCADE, verbose_name='Компьютер')
 
@@ -43,8 +44,7 @@ class ComputerComponentHistory(models.Model):
         verbose_name_plural = 'История компонентов'
 
     computer = models.ForeignKey(Computer, on_delete=models.CASCADE, verbose_name='Компьютер')
-    start_date = models.DateTimeField(null=True, blank=True, verbose_name='Дата выдачи')
-    end_date = models.DateTimeField(null=True, blank=True, verbose_name='Дата возврата')
+    at_date = models.DateTimeField(null=True, blank=True, verbose_name='Дата выдачи')
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
 
 class MotherBoardHistory(ComputerComponentHistory):
