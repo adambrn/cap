@@ -272,7 +272,7 @@ class ComponentRemoveFromComputerView(View):
         model_class = apps.get_model('history', f'{selected_component_name}History')
         fields_to_set = {
             selected_component_name.lower(): selected_component,
-            'computer': computer,
+            'computer': None,
             'at_date': timezone.now(),
             'user': self.request.user,
             }
