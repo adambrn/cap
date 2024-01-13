@@ -23,7 +23,12 @@ class BaseComponentView(BaseModelBreadcrumbMixin, BaseComponentMixin, SingleTabl
         return [("Компоненты", reverse_lazy("components:components")), (self.model_name_title_plural, "/")]
 
 class BaseComponentDetailView(DetailBreadcrumbMixin, BaseComponentMixin, DetailView):
-    pass
+     def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            
+            model_name = (self.model.__name__).lower()  # Имя модели
+            context['model_name'] = model_name
+            return context
 
 class BaseComponentDeleteView(DeleteBreadcrumbMixin, BaseComponentMixin, DeleteView):
     pass

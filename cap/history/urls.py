@@ -58,5 +58,8 @@ urlpatterns = [
     path('otherequipment/<int:equipment_pk>/location_create', LocationOtherEquipmentHistoryCreateView.as_view(), name='otherequipment_history_location_create'),
     path('otherequipment/<int:equipment_pk>/location_clear/<int:pk>', LocationOtherEquipmentHistoryClearView.as_view(), name='otherequipment_history_location_clear'),
     path('otherequipment/<int:equipment_pk>/employee_clear/<int:pk>', EmployeeOtherEquipmentHistoryClearView.as_view(), name='otherequipment_history_employee_clear'),
+
+    # компоненты
+    path('component/<str:component>/<int:pk>', ComponentHistoryListView.as_view(), name='component_history_list'),
 ]
 
