@@ -39,7 +39,14 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_tables2",
+    'crispy_forms',
+    "crispy_bootstrap5",
+    "view_breadcrumbs",
+    'django_filters',
     "catalogs",
+    'components',
+    'equipments',
+    "history",
 ]
 
 MIDDLEWARE = [
@@ -57,7 +64,8 @@ ROOT_URLCONF = "cap.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            BASE_DIR / "templates",],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -106,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "ru-RU"
 
 TIME_ZONE = "UTC"
 
@@ -134,3 +142,8 @@ LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = 'login'
 
 LOGOUT_URL = 'logout'
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap5-responsive.html"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+BREADCRUMBS_HOME_LABEL = "Главная"

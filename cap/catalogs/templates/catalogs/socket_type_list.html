@@ -1,0 +1,6 @@
+{% extends 'catalogs/catalog_list.html' %}
+{% load custom_tags %}
+
+{% block buttons %}
+    <a href="{% url 'catalogs:memorytype_create' %}" class="btn btn-success">Добавить {{model_verbose_name}}</a>
+{% endblock buttons %}

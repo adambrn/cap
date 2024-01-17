@@ -1,0 +1,4 @@
+{% extends 'components/component_list.html' %}
+{% block buttons %}
+    <a href="{% url 'components:motherboard_create' %}" class="btn btn-success">Добавить {{model_verbose_name}}</a>
+{% endblock buttons %}
