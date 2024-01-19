@@ -1,6 +1,6 @@
 ```
 python -m venv .venv
-cd c.\.venv\Scripts\activate
+.\.venv\Scripts\activate
 pip install -r requirements.txt
 cd cap
 python manage.py migrate

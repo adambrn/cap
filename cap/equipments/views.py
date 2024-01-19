@@ -278,7 +278,8 @@ class ComponentRemoveFromComputerView(View):
             }
 
         history_instance = model_class(**fields_to_set)
-        history_instance.save()
+        if history_instance:
+            history_instance.save()
 
         return redirect('equipments:computer_detail', pk=pk)
 

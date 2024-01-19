@@ -18,8 +18,9 @@ from view_breadcrumbs.generic.base import BaseModelBreadcrumbMixin
 from django.utils.functional import cached_property
 from django.views.generic import DetailView
 from django.utils import timezone
-class HistoryView(View):
-    pass
+
+class HistoryView(BaseHistoryMixin,TemplateView):
+    template_name = 'history/history.html'
 
 #Базовые классы справочников
 class BaseHistoryView(BaseModelBreadcrumbMixin, BaseHistoryMixin, SingleTableMixin, FilterView):
