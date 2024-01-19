@@ -11,7 +11,7 @@ _TEMPLATE_CMPONENT_LINK = '''
 #Справочники
 class CatalogsTable(tables.Table):
     row_number = tables.Column(empty_values=(), verbose_name='No.', orderable=False)
-    view_details = tables.TemplateColumn(_TEMPLATE_CMPONENT_LINK, verbose_name='Components')
+    view_details = tables.TemplateColumn(_TEMPLATE_CMPONENT_LINK, verbose_name='Components', orderable=False)
     class Meta:
         fields = ('row_number',
                     'name', 

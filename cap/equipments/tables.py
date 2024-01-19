@@ -5,8 +5,8 @@ from .models import *
 _TEMPLATE_CMPONENT_LINK = '<a href="{{ record.get_absolute_url }}" class="btn btn-link"><i class="fas fa-eye">'
 # Оборудование
 class EquipmentTable(tables.Table):
-    row_number = tables.Column(empty_values=(), verbose_name='No.')
-    view_details = tables.TemplateColumn(_TEMPLATE_CMPONENT_LINK, verbose_name='Детали')
+    row_number = tables.Column(empty_values=(), verbose_name='No.', orderable=False)
+    view_details = tables.TemplateColumn(_TEMPLATE_CMPONENT_LINK, verbose_name='Детали', orderable=False)
     
     class Meta:
         
@@ -60,7 +60,7 @@ class OtherEquipmentTable(EquipmentTable):
 
 class PeripheralsTable(tables.Table):
     row_number = tables.Column(empty_values=(), verbose_name='No.', orderable=False)
-    view_details = tables.TemplateColumn(_TEMPLATE_CMPONENT_LINK, verbose_name='Peripherals')
+    view_details = tables.TemplateColumn(_TEMPLATE_CMPONENT_LINK, verbose_name='Peripherals', orderable=False)
 
     class Meta:
         model = Peripherals

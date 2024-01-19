@@ -7,7 +7,7 @@ _TEMPLATE_COMPONENT_LINK = '<a href="{{ record.get_absolute_url }}" class="btn b
 #Компоненты
 class ComputerComponentsTable(tables.Table):
     row_number = tables.Column(empty_values=(), verbose_name='No.', orderable=False)
-    view_details = tables.TemplateColumn(_TEMPLATE_COMPONENT_LINK, verbose_name='Детали')
+    view_details = tables.TemplateColumn(_TEMPLATE_COMPONENT_LINK, verbose_name='Детали', orderable=False)
     class Meta:
         fields = ('row_number',
                 'name',
@@ -80,7 +80,7 @@ _TEMPLATE_COMPONENT_LINKS = '''
 #Компоненты
 class ComponentsInComputerTable(tables.Table):
     row_number = tables.Column(empty_values=(), verbose_name='No.', orderable=False)
-    view_details = tables.TemplateColumn(_TEMPLATE_COMPONENT_LINKS, verbose_name='Детали')
+    view_details = tables.TemplateColumn(_TEMPLATE_COMPONENT_LINKS, verbose_name='Детали', orderable=False)
     class Meta:
     
         fields = ('row_number',
