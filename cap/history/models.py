@@ -43,7 +43,7 @@ class ComputerComponentHistory(models.Model):
         verbose_name = 'История компонента'
         verbose_name_plural = 'История компонентов'
 
-    computer = models.ForeignKey(Computer, on_delete=models.CASCADE, verbose_name='Компьютер')
+    computer = models.ForeignKey(Computer, null=True, blank=True, on_delete=models.CASCADE, verbose_name='Компьютер')
     at_date = models.DateTimeField(null=True, blank=True, verbose_name='Дата выдачи')
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
 
